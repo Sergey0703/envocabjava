@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_margin="0dp"
+        app:srcCompat="@drawable/english3"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/dashWordsToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="Words today: "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/dashWordsTodayCount"
+        ></TextView>
+
+
+    <TextView
+        android:id="@+id/dashWordsTodayCount"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="0"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        ></TextView>
+
+
+    <TextView
+        android:id="@+id/dashWordsTodayBad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:paddingTop="5dp"
+        android:text="Bad today: "
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsToday"
+        app:layout_constraintLeft_toLeftOf="@id/dashWordsToday" ></TextView>
+
+    <TextView
+        android:id="@+id/dashWordsTodayBadCount"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="0"
+        android:textAlignment="textEnd"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsTodayCount"></TextView>
+
+    <Button
+        android:id="@+id/btnWordStudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:background="@drawable/rounded_corner"
+        android:onClick="onHelloBtnClick"
+        android:text="Study"
+        android:textColor="@color/red"
+        android:textSize="@dimen/buttonTextSize"
+        tools:layout_editor_absoluteX="299dp"
+        tools:layout_editor_absoluteY="478dp"></Button>
+
+    <Button
+        android:id="@+id/btnWordTranslate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:background="@drawable/rounded_corner"
+        android:onClick="onHelloBtnClick"
+        android:text="Show Translate"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/buttonTextSize"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="607dp">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnWordOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="top|right"
+        android:background="@drawable/rounded_corner"
+        android:onClick="onOkBtnClick"
+        android:text="I know"
+        android:textColor="@color/green"
+        android:textSize="@dimen/buttonTextSize"
+        tools:layout_editor_absoluteX="297dp"
+        tools:layout_editor_absoluteY="612dp">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/rounded_corner"
+        android:drawableRight="@android:drawable/ic_media_next"
+        android:onClick="onNextBtnClick"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        tools:layout_editor_absoluteX="276dp"
+        tools:layout_editor_absoluteY="665dp">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:background="@drawable/rounded_corner"
+        android:drawableLeft="@android:drawable/ic_media_previous"
+        android:onClick="onPrevBtnClick"
+        android:text="Prev"
+        android:textColor="@color/white"
+        android:textSize="@dimen/buttonTextSize"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="665dp"></Button>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressCircleInd"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        app:indicatorColor="@color/white"
+        app:indicatorSize="100dp"
+        app:trackColor="@android:color/system_accent1_200"
+        app:trackThickness="4dp"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="311dp" />
+
+
+
+    <ImageButton
+        android:id="@+id/btnSound"
+        android:layout_width="90dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|right"
+        android:background="@drawable/sound_br"
+        android:onClick="onSoundBtnClick"
+
+        tools:layout_editor_absoluteX="307dp"
+        tools:layout_editor_absoluteY="180dp"></ImageButton>
+
+
+    <Button
+        android:id="@+id/btnSpeech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/rounded_corner"
+        android:text="Speech"
+        android:textColor="@color/white"
+        android:textSize="@dimen/buttonTextSize"
+        tools:layout_editor_absoluteX="287dp"
+        tools:layout_editor_absoluteY="316dp"></Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.609" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
