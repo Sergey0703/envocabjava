@@ -3,6 +3,7 @@ package com.example.envocab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +12,11 @@ import android.widget.Button;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG="MainActivity";
     Button btnWordOk;
+    Button btnWordTranslate;
+    Button btnNext;
+    Button btnPrev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,24 +24,89 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d("log","My log!");
         btnWordOk=findViewById(R.id.btnWordOk);
+        btnWordTranslate=findViewById(R.id.btnWordTranslate);
+        btnNext=findViewById(R.id.btnNext);
+        btnPrev=findViewById(R.id.btnPrev);
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {takeWord();}
+        });
+
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {insWord();}
+        });
+
         btnWordOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takeWord();
+                updateWord(true);
+            }
+        });
+        btnWordTranslate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //updateWord();
             }
         });
 
-
         /*   AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "dbname").build();
-
         WordDao wordDao = db.wordDao();
         List<Word> words = wordDao.getAll();
         System.out.println(words);
        */
     }
+    public void insWord() {
+        System.out.println("Ins");
+        Word word=new Word("NewTest!!!", "translate", "transcript");
+        InsertAsyncTask insertAsyncTask=new InsertAsyncTask();
+        insertAsyncTask.execute(word);
+    }
+
+    public void updateWord(Boolean up){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Word word = AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .findById(2);
+                if (word != null) {
+                    word.setTrain1(up);
+
+                    AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .updateWord(word);
+                }
+            }
+        }).start();
+    }
     public void takeWord(){
         System.out.println("Ok");
+        Thread thread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Word> wordList=AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .getAll();
+                Log.d(TAG, "run "+wordList.toString());
 
+            }
+        });
+        thread.start();
+    }
+
+    class InsertAsyncTask extends AsyncTask<Word, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Word... words) {
+            System.out.println("w0="+words[0]);
+            AppDatabase.getInstance(getApplicationContext())
+                    .wordDao()
+                    .insertWord(words[0]);
+            System.out.println("w="+words[0]);
+            return null;
+        }
     }
 }

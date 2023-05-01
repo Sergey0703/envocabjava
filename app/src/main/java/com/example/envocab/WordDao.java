@@ -12,11 +12,11 @@ public interface WordDao {
     @Insert
     void insertWord(Word word);
 
+    @Query("Select * FROM dbwords WHERE id LIKE :id")
+    Word findById(int id);
+
     @Update
     void updateWord(Word word);
-
-    //@Query("Select * FROM word ")
-    //Word findById(int id);
 
     @Query("SELECT * FROM dbwords")
     List<Word> getAll();

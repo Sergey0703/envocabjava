@@ -16,7 +16,10 @@ public class Word {
     private Boolean train1;
     private String transcript;
 
-    public Word(){
+    public Word(String word, String translate, String transcript){
+        this.word=word;
+        this.translate=translate;
+        this.transcript=transcript;
 
     }
 
@@ -52,6 +55,17 @@ public class Word {
 
     public String getWord() {
         return word;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", word='" + word + '\'' +
+                ", translate='" + translate + '\'' +
+                ", train1=" + train1 +
+                ", transcript='" + transcript + '\'' +
+                '}';
     }
 
     public void setWord(String word) {
