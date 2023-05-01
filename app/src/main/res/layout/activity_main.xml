@@ -39,10 +39,8 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         ></TextView>
 
 
@@ -94,8 +92,9 @@
         android:text="Show Translate"
         android:textColor="@color/orange"
         android:textSize="@dimen/buttonTextSize"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="607dp">
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/btnPrev"
+        app:layout_constraintLeft_toLeftOf="parent">
 
     </Button>
 
@@ -110,8 +109,9 @@
         android:text="I know"
         android:textColor="@color/green"
         android:textSize="@dimen/buttonTextSize"
-        tools:layout_editor_absoluteX="297dp"
-        tools:layout_editor_absoluteY="612dp">
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/btnNext"
+        app:layout_constraintRight_toRightOf="parent">
 
     </Button>
 
@@ -126,8 +126,8 @@
         android:text="Next"
         android:textColor="@color/white"
         android:textSize="18dp"
-        tools:layout_editor_absoluteX="276dp"
-        tools:layout_editor_absoluteY="665dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
     </Button>
 
@@ -142,8 +142,9 @@
         android:text="Prev"
         android:textColor="@color/white"
         android:textSize="@dimen/buttonTextSize"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="665dp"></Button>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        ></Button>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressCircleInd"
@@ -193,6 +194,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
-
+         />
+<!-- app:layout_constraintVertical_bias="0.609" -->
 </androidx.constraintlayout.widget.ConstraintLayout>
