@@ -14,6 +14,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
     Button btnWordOk;
+
+    Button btnWordStudy;
     Button btnWordTranslate;
     Button btnNext;
     Button btnPrev;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d("log","My log!");
         btnWordOk=findViewById(R.id.btnWordOk);
+        btnWordStudy=findViewById(R.id.btnWordStudy);
         btnWordTranslate=findViewById(R.id.btnWordTranslate);
         btnNext=findViewById(R.id.btnNext);
         btnPrev=findViewById(R.id.btnPrev);
@@ -42,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateWord(true);
+            }
+        });
+
+        btnWordStudy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateWord(false);
             }
         });
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {

@@ -69,18 +69,64 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashWordsTodayCount"></TextView>
 
+    <TextView
+        android:id="@+id/dashWord"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Word"
+        android:fontFamily="sans-serif"
+        android:textStyle="italic|bold"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.35"
+        >
+        <!-- app:drawableLeftCompat="@drawable/red_circle" -->
+    </TextView>
+    <TextView
+        android:id="@+id/dashTranscript"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:text="transc"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dashWord"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+    <TextView
+        android:id="@+id/dashTrainDate"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:text="date"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dashTranscript"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+
+
+
+
     <Button
         android:id="@+id/btnWordStudy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|right"
         android:background="@drawable/rounded_corner"
         android:onClick="onHelloBtnClick"
         android:text="Study"
         android:textColor="@color/red"
         android:textSize="@dimen/buttonTextSize"
-        tools:layout_editor_absoluteX="299dp"
-        tools:layout_editor_absoluteY="478dp"></Button>
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.75"
+        ></Button>
 
     <Button
         android:id="@+id/btnWordTranslate"
@@ -150,14 +196,17 @@
         android:id="@+id/progressCircleInd"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_gravity="center"
         android:indeterminate="false"
         app:indicatorColor="@color/white"
         app:indicatorSize="100dp"
         app:trackColor="@android:color/system_accent1_200"
         app:trackThickness="4dp"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="311dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
 
 
@@ -169,21 +218,12 @@
         android:background="@drawable/sound_br"
         android:onClick="onSoundBtnClick"
 
-        tools:layout_editor_absoluteX="307dp"
-        tools:layout_editor_absoluteY="180dp"></ImageButton>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.35"
+        ></ImageButton>
 
-
-    <Button
-        android:id="@+id/btnSpeech"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:background="@drawable/rounded_corner"
-        android:text="Speech"
-        android:textColor="@color/white"
-        android:textSize="@dimen/buttonTextSize"
-        tools:layout_editor_absoluteX="287dp"
-        tools:layout_editor_absoluteY="316dp"></Button>
 
     <TextView
         android:layout_width="wrap_content"
