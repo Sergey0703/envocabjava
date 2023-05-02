@@ -206,6 +206,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
          />
 
 
@@ -234,6 +235,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
          />
 <!-- app:layout_constraintVertical_bias="0.609" -->
 </androidx.constraintlayout.widget.ConstraintLayout>

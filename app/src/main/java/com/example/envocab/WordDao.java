@@ -15,6 +15,9 @@ public interface WordDao {
     @Query("Select * FROM dbwords WHERE id LIKE :id")
     Word findById(int id);
 
+    @Query("Select * FROM dbwords ORDER BY trainDate ASC Limit 1")
+    Word findLast();
+
     @Update
     void updateWord(Word word);
 

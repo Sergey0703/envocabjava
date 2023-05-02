@@ -29,6 +29,9 @@ public class Word {
     public void setTrainDate(Date trainDate) {
         this.trainDate = trainDate;
     }
+    public Date getTrainDate() {
+        return trainDate;
+    }
 
     public Boolean getTrain1() {
         return train1;
