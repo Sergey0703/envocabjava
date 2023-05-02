@@ -2,17 +2,19 @@ package com.example.envocab;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.util.Date;
 
 @Entity(tableName = "dbwords")
+@TypeConverters(Converters.class)
 public class Word {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String word;
     private String translate;
-
-    //private Date trainDate;
+    @TypeConverters({Converters.class})
+    public Date trainDate;
     private Boolean train1;
     private String transcript;
 
@@ -20,14 +22,14 @@ public class Word {
         this.word=word;
         this.translate=translate;
         this.transcript=transcript;
-
+        this.train1=false;
     }
 
-    /*
+
     public void setTrainDate(Date trainDate) {
         this.trainDate = trainDate;
     }
-    */
+
     public Boolean getTrain1() {
         return train1;
     }
@@ -65,6 +67,7 @@ public class Word {
                 ", translate='" + translate + '\'' +
                 ", train1=" + train1 +
                 ", transcript='" + transcript + '\'' +
+                ", tranDate='" + trainDate + '\'' +
                 '}';
     }
 

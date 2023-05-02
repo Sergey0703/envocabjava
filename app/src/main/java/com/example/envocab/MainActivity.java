@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import java.util.Calendar;
+import java.util.Date;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
+
+    int uid;
     Button btnWordOk;
 
     Button btnWordStudy;
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {takeWord();}
+            public void onClick(View v) {allWords();}
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
@@ -81,16 +85,32 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Word word = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
-                        .findById(2);
+                        .findById(uid);
                 if (word != null) {
+                    Date currentTime = Calendar.getInstance().getTime();
                     word.setTrain1(up);
-
+                    word.setTrainDate(currentTime);
                     AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .updateWord(word);
                 }
             }
         }).start();
+        takeWord();
+    }
+    public void allWords(){
+        System.out.println("Ok");
+        Thread thread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Word> wordList=AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .getAll();
+                Log.d(TAG, "run "+wordList.toString());
+
+            }
+        });
+        thread.start();
     }
     public void takeWord(){
         System.out.println("Ok");
