@@ -20,7 +20,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
 
-    int uid=1;
+    Date currentTime;
+    int uid;
     Button btnWordOk;
 
     Button btnWordStudy;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("log","My log!");
+        //Log.d("log","My log!");
         btnWordOk=findViewById(R.id.btnWordOk);
         btnWordStudy=findViewById(R.id.btnWordStudy);
         btnWordTranslate=findViewById(R.id.btnWordTranslate);
@@ -45,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         dashWord=findViewById(R.id.dashWord);
         dashTranscript=findViewById(R.id.dashTranscript);
         dashTrainDate=findViewById(R.id.dashTrainDate);
-
-        takeWord();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnWordOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                updateWord(true);
-            }
+            public void onClick(View view) { updateWord(true);}
         });
 
         btnWordStudy.setOnClickListener(new View.OnClickListener() {
@@ -78,18 +75,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        /*   AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "dbname").build();
-        WordDao wordDao = db.wordDao();
-        List<Word> words = wordDao.getAll();
-        System.out.println(words);
-       */
+        takeWord();
     }
     public void insWord() {
         System.out.println("Ins");
-        Word word=new Word("NewTest2", "translate2", "transcript2");
+        Word word=new Word("NewTest3", "translate3", "transcript3");
         InsertAsyncTask insertAsyncTask=new InsertAsyncTask();
         insertAsyncTask.execute(word);
     }
@@ -101,31 +91,24 @@ public class MainActivity extends AppCompatActivity {
                 Word word = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .findById(uid);
+                Log.d(TAG,"findBy="+uid+" word="+word.getWord());
                 if (word != null) {
-                    Date currentTime = Calendar.getInstance().getTime();
+                    currentTime = Calendar.getInstance().getTime();
                     word.setTrain1(up);
                     word.setTrainDate(currentTime);
                     AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .updateWord(word);
-
-//                    Word wordT=AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .findLast();
-//                    uid=wordT.getId();
-//                    dashWord.setText(wordT.getWord());
-//                    dashTranscript.setText(wordT.getTranscript());
-//                    dashTrainDate.setText(wordT.getTrainDate().toString());
-//
-//                    Log.d(TAG, "run "+wordT);
+                Log.d(TAG, "Update word="+word.getWord());
+                takeWord();
                 }
             }
+
         }).start();
-        takeWord();
+
     }
     public void allWords(){
-        System.out.println("Ok");
-        Thread thread =new Thread(new Runnable() {
+         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
                 List<Word> wordList=AppDatabase.getInstance(getApplicationContext())
@@ -138,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
     public void takeWord(){
-        System.out.println("Ok");
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
                 Word word=AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .findLast();
+                Log.d(TAG, "Take Word="+word.getWord());
                 if (word != null) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
@@ -155,11 +138,11 @@ public class MainActivity extends AppCompatActivity {
                             if(word.getTrainDate()!=null) {
                                 dashTrainDate.setText(word.getTrainDate().toString());
                             }
-                            Log.d(TAG, "run " + word);
+                            Log.d(TAG, "Take Word setText " + word.getWord());
                         }
                     });
                 }else{
-                    System.out.println("Empty word");
+                    Log.d(TAG,"Empty word");
                 }
             }
         });
@@ -170,12 +153,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Word... words) {
-            System.out.println("w0="+words[0]);
-            AppDatabase.getInstance(getApplicationContext())
+             AppDatabase.getInstance(getApplicationContext())
                     .wordDao()
                     .insertWord(words[0]);
-            System.out.println("w="+words[0]);
-            return null;
+             return null;
         }
     }
 }
