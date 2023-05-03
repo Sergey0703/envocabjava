@@ -1,5 +1,5 @@
 package com.example.envocab;
-
+import android.speech.tts.TextToSpeech;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -7,23 +7,28 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
-
+    String dateWithoutTime;
     Date currentTime;
     int uid;
+    ImageButton btnSound;
     Button btnWordOk;
-
     Button btnWordStudy;
     Button btnWordTranslate;
     Button btnNext;
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     TextView dashWord;
     TextView dashTranscript;
     TextView dashTrainDate;
+    TextView translate;
+    TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +50,33 @@ public class MainActivity extends AppCompatActivity {
         btnWordTranslate=findViewById(R.id.btnWordTranslate);
         btnNext=findViewById(R.id.btnNext);
         btnPrev=findViewById(R.id.btnPrev);
+        btnSound=findViewById(R.id.btnSound);
         dashWord=findViewById(R.id.dashWord);
         dashTranscript=findViewById(R.id.dashTranscript);
         dashTrainDate=findViewById(R.id.dashTrainDate);
+        translate=findViewById(R.id.dashTranslate);
+        translate.setVisibility(View.INVISIBLE);
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                // if No error is found then only it will run
+                if(i!=TextToSpeech.ERROR){
+                    // To Choose language of speech
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        btnSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("testLogs","Speech");
+                playSpeech();
+
+            }
+        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {allWords();}
@@ -71,14 +101,18 @@ public class MainActivity extends AppCompatActivity {
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //updateWord();
+                translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
+                btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
             }
         });
 
         takeWord();
     }
+    public void playSpeech(){
+        textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH,null);
+    }
     public void insWord() {
-        System.out.println("Ins");
+        //System.out.println("Ins");
         Word word=new Word("NewTest3", "translate3", "transcript3");
         InsertAsyncTask insertAsyncTask=new InsertAsyncTask();
         insertAsyncTask.execute(word);
@@ -134,10 +168,21 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             uid = word.getId();
                             dashWord.setText(word.getWord());
+                            if(word.getTrain1()==true) {
+                                dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+                            }else{
+                                dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+                            }
+
                             dashTranscript.setText(word.getTranscript());
                             if(word.getTrainDate()!=null) {
-                                dashTrainDate.setText(word.getTrainDate().toString());
+                                DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                                dateWithoutTime = sdf.format(word.getTrainDate());
+                                dashTrainDate.setText(dateWithoutTime);
                             }
+                            translate.setVisibility(View.GONE);
+                            btnWordTranslate.setText("SHOW TRANSLATE");
+                            translate.setText(word.getTranslate());
                             Log.d(TAG, "Take Word setText " + word.getWord());
                         }
                     });
