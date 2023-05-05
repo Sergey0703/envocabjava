@@ -23,4 +23,7 @@ public interface WordDao {
 
     @Query("SELECT * FROM dbwords")
     List<Word> getAll();
+
+    @Query("SELECT COUNT(*) FROM dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
+    int countToday(Long startDate,Long endDate, int train);
 }

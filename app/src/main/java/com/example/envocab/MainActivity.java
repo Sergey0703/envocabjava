@@ -1,4 +1,6 @@
 package com.example.envocab;
+import static com.example.envocab.Converters.dateToTimestamp;
+
 import android.speech.tts.TextToSpeech;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -16,6 +18,12 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -39,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     TextView dashTrainDate;
     TextView translate;
     TextToSpeech textToSpeech;
+    TextView dashWordsTodayCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         dashTrainDate=findViewById(R.id.dashTrainDate);
         translate=findViewById(R.id.dashTranslate);
         translate.setVisibility(View.INVISIBLE);
+        dashWordsTodayCount=findViewById(R.id.dashWordsTodayCount);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void insWord() {
         //System.out.println("Ins");
-        Word word=new Word("NewTest3", "translate3", "transcript3");
+        Word word=new Word("NewTest2", "translate2", "transcript2");
         InsertAsyncTask insertAsyncTask=new InsertAsyncTask();
         insertAsyncTask.execute(word);
     }
@@ -128,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"findBy="+uid+" word="+word.getWord());
                 if (word != null) {
                     currentTime = Calendar.getInstance().getTime();
+                    Log.d(TAG, "currentTime="+currentTime);
                     word.setTrain1(up);
                     word.setTrainDate(currentTime);
                     AppDatabase.getInstance(getApplicationContext())
@@ -161,8 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 Word word=AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .findLast();
-                Log.d(TAG, "Take Word="+word.getWord());
+
                 if (word != null) {
+                    Log.d(TAG, "Take Word="+word.getWord());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -178,17 +190,68 @@ public class MainActivity extends AppCompatActivity {
                             if(word.getTrainDate()!=null) {
                                 DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                                 dateWithoutTime = sdf.format(word.getTrainDate());
+                                Log.d(TAG,"dateWithoutTime="+dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
                             }
                             translate.setVisibility(View.GONE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
                             translate.setText(word.getTranslate());
+
                             Log.d(TAG, "Take Word setText " + word.getWord());
+                            Log.d(TAG, "Date " + dateToTimestamp(word.getTrainDate()));
+                            //countWordsToday();
                         }
                     });
+                    countWordsToday();
                 }else{
                     Log.d(TAG,"Empty word");
                 }
+            }
+        });
+        thread.start();
+    }
+
+    public void countWordsToday(){
+        Thread thread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LocalDate today = LocalDate.now() ;
+                LocalDateTime startOfDate = today.atStartOfDay();
+                LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
+                //java.sql.Timestamp.valueOf(startOfDay);
+                //java.sql.Date.valueOf(startOfDay);
+                //Long st=Converters.dateToTimestamp(startOfDay);
+                ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+                ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+                Long startOfDay=zdtStart.toInstant().toEpochMilli();
+                Long endOfDay=zdtEnd.toInstant().toEpochMilli();
+
+//                Date dateFormatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy HH:mm:ss")
+//                LocalDate today2 = LocalDate.now();   // your current date time
+//                LocalDateTime start2= today2.atStartOfDay(); // date time at start of the date
+                //Long start2.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(); // start time to timestamp
+                Log.d(TAG, "start date ="+startOfDay);
+                Log.d(TAG, "End date2 ="+endOfDay);
+
+               // Log.d("Date:", "start date parsed "+startOfDay.format(dateFormatter)}")
+
+                //word.getTrainDate()
+                                           int count=AppDatabase.getInstance(getApplicationContext())
+                                                  .wordDao()
+                                                  .countToday(startOfDay,endOfDay, 1);
+
+                Log.d(TAG, "countToday="+count);
+                //if (count != 0) {
+                   // dashWordsTodayCount.setText(count);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            dashWordsTodayCount.setText(String.valueOf(count));
+                        }
+                    });
+//                }else{
+//                    Log.d(TAG,"Empty Count");
+//                }
             }
         });
         thread.start();
