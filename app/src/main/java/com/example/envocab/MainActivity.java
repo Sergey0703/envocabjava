@@ -32,6 +32,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
+
+    Word word;
     String dateWithoutTime;
     Date currentTime;
     int uid;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     TextView translate;
     TextToSpeech textToSpeech;
     TextView dashWordsTodayCount;
+    TextView dashWordsTodayBadCount;
+
+    Long trainDateLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         translate=findViewById(R.id.dashTranslate);
         translate.setVisibility(View.INVISIBLE);
         dashWordsTodayCount=findViewById(R.id.dashWordsTodayCount);
+        dashWordsTodayBadCount=findViewById(R.id.dashWordsTodayBadCount);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -89,12 +95,15 @@ public class MainActivity extends AppCompatActivity {
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {allWords();}
+            public void onClick(View v) {takeWord("Next");}
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {insWord();}
+            public void onClick(View v) {
+                //insWord();
+                takeWord("Prev");
+            }
         });
 
         btnWordOk.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        takeWord();
+        takeWord("");
     }
     public void playSpeech(){
         textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH,null);
@@ -135,8 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 Word word = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .findById(uid);
-                Log.d(TAG,"findBy="+uid+" word="+word.getWord());
+
                 if (word != null) {
+                    Log.d(TAG,"findBy="+uid+" word="+word.getWord());
                     currentTime = Calendar.getInstance().getTime();
                     Log.d(TAG, "currentTime="+currentTime);
                     word.setTrain1(up);
@@ -145,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             .wordDao()
                             .updateWord(word);
                 Log.d(TAG, "Update word="+word.getWord());
-                takeWord();
+                takeWord("");
                 }
             }
 
@@ -165,20 +175,37 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
     }
-    public void takeWord(){
+    public void takeWord(String nav){
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
-                Word word=AppDatabase.getInstance(getApplicationContext())
-                        .wordDao()
-                        .findLast();
+                word = null;
+                if(nav=="") {
+                    word = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .findLast();
+                }else if(nav=="Next"){
+                    word = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .findNext(trainDateLong);
 
+                }else if(nav=="Prev"){
+                    word = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .findPrev(trainDateLong);
+                }
+                if(word == null){
+                    word = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .findLast();
+                }
                 if (word != null) {
                     Log.d(TAG, "Take Word="+word.getWord());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             uid = word.getId();
+                            trainDateLong= Long.valueOf(0);
                             dashWord.setText(word.getWord());
                             if(word.getTrain1()==true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
@@ -192,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                                 dateWithoutTime = sdf.format(word.getTrainDate());
                                 Log.d(TAG,"dateWithoutTime="+dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
+                                trainDateLong=dateToTimestamp(word.getTrainDate());
                             }
                             translate.setVisibility(View.GONE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
@@ -202,7 +230,8 @@ public class MainActivity extends AppCompatActivity {
                             //countWordsToday();
                         }
                     });
-                    countWordsToday();
+                    countWordsToday(0);
+                    countWordsToday(1);
                 }else{
                     Log.d(TAG,"Empty word");
                 }
@@ -211,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    public void countWordsToday(){
+    public void countWordsToday(int typeWords){
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
@@ -236,9 +265,9 @@ public class MainActivity extends AppCompatActivity {
                // Log.d("Date:", "start date parsed "+startOfDay.format(dateFormatter)}")
 
                 //word.getTrainDate()
-                                           int count=AppDatabase.getInstance(getApplicationContext())
-                                                  .wordDao()
-                                                  .countToday(startOfDay,endOfDay, 1);
+                int count=AppDatabase.getInstance(getApplicationContext())
+                           .wordDao()
+                           .countToday(startOfDay,endOfDay, typeWords);
 
                 Log.d(TAG, "countToday="+count);
                 //if (count != 0) {
@@ -246,7 +275,11 @@ public class MainActivity extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            dashWordsTodayCount.setText(String.valueOf(count));
+                            if(typeWords==0){
+                                dashWordsTodayBadCount.setText(String.valueOf(count));
+                            }else {
+                                dashWordsTodayCount.setText(String.valueOf(count));
+                            }
                         }
                     });
 //                }else{
