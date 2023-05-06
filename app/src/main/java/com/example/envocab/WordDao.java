@@ -18,15 +18,18 @@ public interface WordDao {
     @Query("Select * FROM dbwords ORDER BY trainDate ASC Limit 1")
     Word findLast();
 
-    @Query("Select * FROM dbwords WHERE trainDate < :trainDate ORDER BY trainDate ASC Limit 1")
+    @Query("Select * FROM dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
     Word findNext(Long trainDate);
 
-    @Query("Select * FROM dbwords WHERE trainDate > :trainDate ORDER BY trainDate DESC Limit 1")
+    @Query("Select * FROM dbwords WHERE trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
     Word findPrev(Long trainDate);
+
+    @Query("Select * FROM dbwords ORDER BY trainDate DESC Limit 1")  //
+    Word findPrevAdd();
     @Update
     void updateWord(Word word);
 
-    @Query("SELECT * FROM dbwords")
+    @Query("SELECT * FROM dbwords ORDER BY trainDate ASC")
     List<Word> getAll();
 
     @Query("SELECT COUNT(*) FROM dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")

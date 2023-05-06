@@ -120,8 +120,9 @@ public class MainActivity extends AppCompatActivity {
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
-                btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
+                //translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
+                //btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
+                allWords();
             }
         });
 
@@ -169,7 +170,10 @@ public class MainActivity extends AppCompatActivity {
                 List<Word> wordList=AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .getAll();
-                Log.d(TAG, "run "+wordList.toString());
+                //Log.d(TAG, "run "+wordList.toString());
+                for(Word w: wordList){
+                    Log.d(TAG,w.toString());
+                }
 
             }
         });
@@ -180,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 word = null;
+                Log.d(TAG,"trainDateLong="+trainDateLong);
                 if(nav=="") {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -188,17 +193,26 @@ public class MainActivity extends AppCompatActivity {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .findNext(trainDateLong);
+                    if(word == null){
+                        word = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .findLast();
+                        Log.d(TAG,"nav=");
+                    }
 
                 }else if(nav=="Prev"){
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .findPrev(trainDateLong);
+                    if(word == null){
+                        word = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .findPrevAdd();
+                        Log.d(TAG,"nav=");
+                    }
+                    Log.d(TAG,"nav="+nav);
                 }
-                if(word == null){
-                    word = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .findLast();
-                }
+
                 if (word != null) {
                     Log.d(TAG, "Take Word="+word.getWord());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -206,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             uid = word.getId();
                             trainDateLong= Long.valueOf(0);
-                            dashWord.setText(word.getWord());
+                            dashWord.setText(uid+"-"+word.getWord());
                             if(word.getTrain1()==true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
                             }else{
@@ -220,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG,"dateWithoutTime="+dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
                                 trainDateLong=dateToTimestamp(word.getTrainDate());
+
                             }
                             translate.setVisibility(View.GONE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
