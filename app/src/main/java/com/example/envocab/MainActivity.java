@@ -32,6 +32,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG="MainActivity";
+    DatabaseHelper databaseHelper;
 
     Word word;
     String dateWithoutTime;
@@ -58,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        databaseHelper=new DatabaseHelper(this,"dictdb",1);
+//        try{
+//            databaseHelper.CheckDatabase();
+//        }catch (Exception e){
+//             e.printStackTrace();
+//        }
+//        try{
+//            databaseHelper.OpenDatabase();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+        // создаем базу данных
+        databaseHelper.create_db();
+
         //Log.d("log","My log!");
         btnWordOk=findViewById(R.id.btnWordOk);
         btnWordStudy=findViewById(R.id.btnWordStudy);
