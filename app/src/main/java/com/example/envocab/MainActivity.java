@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                             uid = word.getId();
                             trainDateLong= Long.valueOf(0);
                             dashWord.setText(uid+"-"+word.getWord());
-                            if(word.getTrain1()==true) {
+                            if(word.getTrain1()!=null&&word.getTrain1()==true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
                             }else{
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
