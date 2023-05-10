@@ -137,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
-                //btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
-                allWords();
+                translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
+                btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
+                //allWords();
             }
         });
 
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             uid = word.getId();
                             trainDateLong= Long.valueOf(0);
-                            dashWord.setText(uid+"-"+word.getWord());
+                            dashWord.setText(word.getWord());
                             if(word.getTrain1()!=null&&word.getTrain1()==true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
                             }else{
