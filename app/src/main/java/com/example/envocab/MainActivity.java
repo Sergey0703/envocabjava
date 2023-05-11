@@ -252,6 +252,9 @@ public class MainActivity extends AppCompatActivity {
                                 dashTrainDate.setText(dateWithoutTime);
                                 trainDateLong=dateToTimestamp(word.getTrainDate());
 
+                            }else{
+                                dashTrainDate.setText("");
+
                             }
                             translate.setVisibility(View.GONE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
