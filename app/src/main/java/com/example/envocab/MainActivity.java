@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -54,11 +55,16 @@ public class MainActivity extends AppCompatActivity {
     TextView dashWordsTodayBadCount;
 
     Long trainDateLong;
+    Switch switchSound;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        switchSound = (Switch) findViewById(R.id.switchSound);
 
 //        databaseHelper=new DatabaseHelper(this,"dictdb",1);
 //        try{
@@ -89,6 +95,17 @@ public class MainActivity extends AppCompatActivity {
         translate.setVisibility(View.INVISIBLE);
         dashWordsTodayCount=findViewById(R.id.dashWordsTodayCount);
         dashWordsTodayBadCount=findViewById(R.id.dashWordsTodayBadCount);
+
+//        SwitchLayoutBinding binding = SwitchLayoutBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//
+//        binding.materialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                // The switch is checked.
+//            } else {
+//                // The switch isn't checked.
+//            }
+//        });
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -259,6 +276,10 @@ public class MainActivity extends AppCompatActivity {
                             translate.setVisibility(View.GONE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
                             translate.setText(word.getTranslate());
+
+                            if (switchSound.isChecked()){
+                                playSpeech();
+                            }
 
                             Log.d(TAG, "Take Word setText " + word.getWord());
                             Log.d(TAG, "Date " + dateToTimestamp(word.getTrainDate()));
