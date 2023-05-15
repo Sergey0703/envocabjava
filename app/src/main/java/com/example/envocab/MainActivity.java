@@ -11,9 +11,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     Long trainDateLong;
     Switch switchSound;
-
+    ImageView menuIcon;
 
 
 
@@ -65,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchSound = (Switch) findViewById(R.id.switchSound);
+
+        menuIcon=findViewById(R.id.menu_icon);
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu(v);
+            }
+        });
 
 //        databaseHelper=new DatabaseHelper(this,"dictdb",1);
 //        try{
@@ -161,6 +172,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         takeWord("");
+    }
+
+    public void showMenu(View v){
+        PopupMenu popupMenu=new PopupMenu(MainActivity.this,v);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.one) {
+                    //Log.d(TAG,"menu1");
+                    AboutDialog aboutDialog = new AboutDialog();
+                    aboutDialog.show(getSupportFragmentManager(),"example dialog");
+
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
     }
     public void playSpeech(){
         textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH,null);
