@@ -1,6 +1,7 @@
 package com.example.envocab;
 import static com.example.envocab.Converters.dateToTimestamp;
 
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -184,6 +185,15 @@ public class MainActivity extends AppCompatActivity {
                     //Log.d(TAG,"menu1");
                     AboutDialog aboutDialog = new AboutDialog();
                     aboutDialog.show(getSupportFragmentManager(),"example dialog");
+
+                }else if(item.getItemId()==R.id.soundTraining) {
+
+                    Intent intent=new Intent(MainActivity.this, SoundActivity.class);
+                    startActivity(intent);
+                    //setContentView(R.layout.activity_sound);
+                    //Log.d(TAG,"menu1");
+                    //AboutDialog aboutDialog = new AboutDialog();
+                    //aboutDialog.show(getSupportFragmentManager(),"example dialog");
 
                 }
                 return true;
