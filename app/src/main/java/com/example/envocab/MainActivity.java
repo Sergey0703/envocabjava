@@ -35,7 +35,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+//public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity  {
     private static final String TAG="MainActivity";
     DatabaseHelper databaseHelper;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     Long trainDateLong;
     Switch switchSound;
-    ImageView menuIcon;
+ //   ImageView menuIcon;
 
 
 
@@ -70,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         switchSound = (Switch) findViewById(R.id.switchSound);
 
-        menuIcon=findViewById(R.id.menu_icon);
-        menuIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMenu(v);
-            }
-        });
+//        menuIcon=findViewById(R.id.menu_icon);
+//        menuIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               // showMenu(v);
+//            }
+//        });
 
 //        databaseHelper=new DatabaseHelper(this,"dictdb",1);
 //        try{
@@ -108,16 +109,7 @@ public class MainActivity extends AppCompatActivity {
         dashWordsTodayCount=findViewById(R.id.dashWordsTodayCount);
         dashWordsTodayBadCount=findViewById(R.id.dashWordsTodayBadCount);
 
-//        SwitchLayoutBinding binding = SwitchLayoutBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//
-//        binding.materialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                // The switch is checked.
-//            } else {
-//                // The switch isn't checked.
-//            }
-//        });
+
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -175,32 +167,32 @@ public class MainActivity extends AppCompatActivity {
         takeWord("");
     }
 
-    public void showMenu(View v){
-        PopupMenu popupMenu=new PopupMenu(MainActivity.this,v);
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId()==R.id.one) {
-                    //Log.d(TAG,"menu1");
-                    AboutDialog aboutDialog = new AboutDialog();
-                    aboutDialog.show(getSupportFragmentManager(),"example dialog");
-
-                }else if(item.getItemId()==R.id.soundTraining) {
-
-                    Intent intent=new Intent(MainActivity.this, SoundActivity.class);
-                    startActivity(intent);
-                    //setContentView(R.layout.activity_sound);
-                    //Log.d(TAG,"menu1");
-                    //AboutDialog aboutDialog = new AboutDialog();
-                    //aboutDialog.show(getSupportFragmentManager(),"example dialog");
-
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
+//    public void showMenu(View v){
+//        PopupMenu popupMenu=new PopupMenu(MainActivity.this,v);
+//        popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                if(item.getItemId()==R.id.aboutProgram) {
+//                    //Log.d(TAG,"menu1");
+//                    AboutDialog aboutDialog = new AboutDialog();
+//                    aboutDialog.show(getSupportFragmentManager(),"example dialog");
+//
+//                }else if(item.getItemId()==R.id.soundTraining) {
+//
+//                    Intent intent=new Intent(MainActivity.this, SoundActivity.class);
+//                    startActivity(intent);
+//                    //setContentView(R.layout.activity_sound);
+//                    //Log.d(TAG,"menu1");
+//                    //AboutDialog aboutDialog = new AboutDialog();
+//                    //aboutDialog.show(getSupportFragmentManager(),"example dialog");
+//
+//                }
+//                return true;
+//            }
+//        });
+//        popupMenu.show();
+//    }
     public void playSpeech(){
         textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH,null);
     }

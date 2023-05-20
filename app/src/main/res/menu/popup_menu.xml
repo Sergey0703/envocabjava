@@ -7,5 +7,5 @@
 
     <item
         android:title="About program"
-        android:id="@+id/one"/>
+        android:id="@+id/aboutProgram"/>
 </menu>
