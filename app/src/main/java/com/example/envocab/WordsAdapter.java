@@ -9,14 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHolder>{
     private static int viewHolderCount;
     private int numberItems;
+    private List<Word> wordsList;
 
 
-    public WordsAdapter(int numbersOfItems){
-          numberItems=numbersOfItems;
-          viewHolderCount=0;
+    public WordsAdapter(List<Word> wordsList){
+          //numberItems=numbersOfItems;
+          //viewHolderCount=0;
+        this.wordsList=wordsList;
     }
 
     @NonNull
@@ -28,20 +32,24 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         LayoutInflater inflater=LayoutInflater.from(context);
         View view=inflater.inflate(layoutIdForListItem, parent, false);
         WordViewHolder viewHolder=new WordViewHolder(view);
-        viewHolder.viewHolderIndex.setText("ViewHolder index="+viewHolderCount);
-        viewHolderCount++;
+        //viewHolder.viewHolderIndex.setText("ViewHolder index="+viewHolderCount);
+        //viewHolderCount++;
         return viewHolder;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
-        holder.bind(position);
+        //holder.bind(position);
+        Word word =wordsList.get(position);
+        holder.listItemNumberView.setText(word.getWord());
+        holder.viewHolderIndex.setText(word.getTranslate());
     }
 
     @Override
     public int getItemCount() {
-        return numberItems;
+        return wordsList.size();
+
     }
 
     class WordViewHolder extends RecyclerView.ViewHolder{
@@ -57,9 +65,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
 
         }
 
-        void bind(int listIndex){
-            listItemNumberView.setText(String.valueOf(listIndex));
+        //void bind(int listIndex){
+            //listItemNumberView.setText(String.valueOf(listIndex));
 
-        }
+        //}
     }
 }

@@ -29,9 +29,12 @@ public interface WordDao {
     @Update
     void updateWord(Word word);
 
-    @Query("SELECT * FROM dbwords ORDER BY trainDate ASC")
+    @Query("SELECT * FROM dbwords ORDER BY trainDate ASC ")
     List<Word> getAll();
 
     @Query("SELECT COUNT(*) FROM dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
     int countToday(Long startDate,Long endDate, int train);
+
+    @Query("SELECT * FROM dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
+    List<Word> wordsForList(Long startDate,Long endDate, int train);
 }

@@ -6,6 +6,8 @@ import static android.app.PendingIntent.getActivity;
 //import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +15,20 @@ import android.view.MenuItem;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SoundActivity extends BaseActivity  {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SoundActivity extends BaseActivity {
     //    private static final int MENU3 = 1;
+    private static final String TAG = "SoundActivity";
     private RecyclerView wordsList;
     private WordsAdapter wordsAdapter;
+    private List<Word> listWords;
 
 
     @Override
@@ -24,16 +36,48 @@ public class SoundActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sound);
 
-        wordsList=findViewById(R.id.rv_words);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        wordsList = findViewById(R.id.rv_words);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         wordsList.setLayoutManager(layoutManager);
 
-        wordsList.setHasFixedSize(true);
-        wordsAdapter=new WordsAdapter(100);
-        wordsList.setAdapter(wordsAdapter);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LocalDate today = LocalDate.now() ;
+                LocalDateTime startOfDate = today.atStartOfDay();
+                LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
 
-    }
-    //    @Override
+                ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+                ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+                Long startOfDay=zdtStart.toInstant().toEpochMilli();
+                Long endOfDay=zdtEnd.toInstant().toEpochMilli();
+
+                 listWords = AppDatabase.getInstance(getApplicationContext())
+                         .wordDao()
+                         //.getAll();
+                         .wordsForList(startOfDay,endOfDay, 1);
+                //Log.d(TAG, "run "+wordList.toString());
+                 //for(Word w: listWords){
+                    // Log.d(TAG,w.toString());
+                //}
+
+            }
+        });
+        thread.start();
+        //if (listWords != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (listWords.size() != 0) {
+                    wordsList.setHasFixedSize(true);
+                    wordsAdapter = new WordsAdapter(listWords);
+                    wordsList.setAdapter(wordsAdapter);
+                }
+            }
+            });
+       // }
+        //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
 //        MenuItem menu3 = menu.findItem(MENU3);
 //        if(menu3 == null){
@@ -56,4 +100,5 @@ public class SoundActivity extends BaseActivity  {
 //    }
 //
 //}
+    }
 }
