@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text=""
-        android:fontFamily="sans-serif"
+        android:fontFamily="monospace"
         android:textStyle="italic|bold"
         android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"

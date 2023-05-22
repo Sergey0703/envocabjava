@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -9,16 +9,23 @@
         style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
+        android:layout_centerVertical="true"
         android:fontFamily="monospace"
-        android:textSize="42sp"
+        android:textSize="32sp"
         />
     <TextView
+        android:layout_toRightOf="@id/tv_number_item"
         android:id="@+id/tv_holder_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="textEnd"
+        android:fontFamily="monospace"
+        android:textSize="18sp"
+       android:maxLength="22"
         />
 
 
-</FrameLayout>
+</RelativeLayout>

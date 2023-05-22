@@ -2,9 +2,6 @@ package com.example.envocab;
 
 import static android.app.PendingIntent.getActivity;
 
-//import androidx.appcompat.app.ActionBar;
-//import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -54,9 +51,7 @@ public class SoundActivity extends BaseActivity {
 
                  listWords = AppDatabase.getInstance(getApplicationContext())
                          .wordDao()
-                         //.getAll();
                          .wordsForList(startOfDay,endOfDay, 1);
-                //Log.d(TAG, "run "+wordList.toString());
                  //for(Word w: listWords){
                     // Log.d(TAG,w.toString());
                 //}
@@ -64,7 +59,7 @@ public class SoundActivity extends BaseActivity {
             }
         });
         thread.start();
-        //if (listWords != null) {
+
             new Handler(Looper.getMainLooper()).post(new Runnable() {
 
                 @Override
@@ -76,7 +71,7 @@ public class SoundActivity extends BaseActivity {
                 }
             }
             });
-       // }
+
         //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
 //        MenuItem menu3 = menu.findItem(MENU3);
