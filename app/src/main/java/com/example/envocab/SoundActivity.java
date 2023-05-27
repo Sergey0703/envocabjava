@@ -30,6 +30,8 @@ import java.util.TimerTask;
 
 public class SoundActivity extends BaseActivity {
     //    private static final int MENU3 = 1;
+    Handler handler;
+    Runnable runnable;
     private static final String TAG = "SoundActivity";
     boolean isLoading = false;
     private RecyclerView wordsList;
@@ -37,6 +39,7 @@ public class SoundActivity extends BaseActivity {
     private List<Word> listWords;
     LinearLayoutManager layoutManager;
     ImageButton btnPlaySound;
+    ImageButton btnPlaySound2;
     TextToSpeech textToSpeech;
 
     @Override
@@ -48,12 +51,23 @@ public class SoundActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         wordsList.setLayoutManager(layoutManager);
         btnPlaySound = findViewById(R.id.btnPlaySound);
+        btnPlaySound2 = findViewById(R.id.btnPlaySound2);
 
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("testLogs", "Speech");
-                playAutoSound3();
+                playAutoSound2();
+
+            }
+        });
+        btnPlaySound2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("testLogs", "Stop");
+                //playAutoSound2();
+                handler.removeCallbacks(runnable);
+                handler=null;
 
             }
         });
@@ -100,7 +114,7 @@ public class SoundActivity extends BaseActivity {
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords);
                     wordsList.setAdapter(wordsAdapter);
-                    initScrollListener();
+                   // initScrollListener();
                 }
             }
         });
@@ -112,12 +126,12 @@ public class SoundActivity extends BaseActivity {
                                               super.onScrollStateChanged(recyclerView, newState);
                                              // System.out.println("onScrollStateChanged");
                                               LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                                              View v = layoutManager.findViewByPosition(linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+                                              int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                                              View v = layoutManager.findViewByPosition(top);
                                               TextView textViewName
                                                       = (TextView) v.findViewById(R.id.tv_number_item);
                                               String selectedName = (String) textViewName.getText();
-                                              System.out.println("onScrollStateChanged="+selectedName);
+                                              System.out.println(top+"= onScrollStateChanged="+selectedName);
                                               //R.id.tv_number_item).toString());
                                           }
                                           @Override
@@ -127,11 +141,11 @@ public class SoundActivity extends BaseActivity {
                                               LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                                               if (!isLoading) {
-                                                  System.out.println("onScrolled---222 "+linearLayoutManager.findFirstCompletelyVisibleItemPosition()+" "+linearLayoutManager.findLastCompletelyVisibleItemPosition());
+                                                  //System.out.println("onScrolled---222 "+linearLayoutManager.findFirstCompletelyVisibleItemPosition()+" "+linearLayoutManager.findLastCompletelyVisibleItemPosition());
                                                   if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listWords.size() - 1) {
                                                       // bottom of list!
-                                                      System.out.println("onScrolled222");
-                                                       loadMore();
+                                                     // System.out.println("onScrolled222");
+                                                     //  loadMore();
                                                       isLoading = true;
                                                   }
                                               }
@@ -149,10 +163,10 @@ public class SoundActivity extends BaseActivity {
             public void run() {
               //  listWords.remove(listWords.size() - 1);
                 int scrollPosition = listWords.size();
-                System.out.println("loadMore");
+               // System.out.println("loadMore");
               // wordsAdapter.notifyItemRemoved(scrollPosition);
                 int currentSize = scrollPosition;
-                System.out.println("loadMore1111");
+             //   System.out.println("loadMore1111");
                 // Next load more option is to be shown after every 10 items.
                 int nextLimit = currentSize + 10;
 
@@ -163,7 +177,7 @@ public class SoundActivity extends BaseActivity {
 
                 wordsAdapter.notifyDataSetChanged();
                 isLoading = false;
-                System.out.println("Load more!");
+               // System.out.println("Load more!");
             }
 
         }, 2000);
@@ -194,9 +208,9 @@ public class SoundActivity extends BaseActivity {
         },0,3000);
     }
     public void playAutoSound2(){
-
+        if(handler!=null) return;
         final int speedScroll = 1200;
-        final Handler handler = new Handler();
+        handler = new Handler();
         System.out.println("Before00000");
         View  loc=wordsList.getChildAt(8);
         System.out.println("Before1111"+loc);
@@ -205,7 +219,8 @@ public class SoundActivity extends BaseActivity {
        // TextView txtName = holder.itemView.findViewById(R.id.tv_number_item);
         System.out.println("After");
       //  System.out.println("TTT="+txtName.getText().toString());
-        final Runnable runnable = new Runnable() {
+         //runnable = new Runnable() {
+        runnable = new Runnable() {
             int count = 0;
             boolean flag = true;
 
@@ -218,6 +233,15 @@ public class SoundActivity extends BaseActivity {
                 }else {
                     layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
                 }
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+               // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                int top=layoutManager.findFirstCompletelyVisibleItemPosition();
+                View v = layoutManager.findViewByPosition(top);
+                TextView textViewName
+                        = (TextView) v.findViewById(R.id.tv_number_item);
+                String selectedName = (String) textViewName.getText();
+                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
                 //Log.d("testLogs",String.valueOf(wordsAdapter.));
                 //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
                 //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
