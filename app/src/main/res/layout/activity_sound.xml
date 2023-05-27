@@ -23,7 +23,7 @@
 
         </TextView>
         <ImageButton
-            android:id="@+id/btnPlay"
+            android:id="@+id/btnPlaySound"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
