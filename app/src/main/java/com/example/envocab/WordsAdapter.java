@@ -32,34 +32,40 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     @NonNull
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context= parent.getContext();
-        int layoutIdForListItem=R.layout.word_list_item;
+        Context context = parent.getContext();
+        int layoutIdForListItem = R.layout.word_list_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
+        WordViewHolder viewHolder = new WordViewHolder(view);
 
-        if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_list_item, parent, false);
-            return new WordViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
-            return new WordViewHolder(view);
-
-        }
-
-    }
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem;
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvItem = itemView.findViewById(R.id.tv_number_item);
-        }
+        return viewHolder;
     }
 
-    private class LoadingviewHolder extends RecyclerView.ViewHolder {
-        ProgressBar progressBar;
-        public LoadingviewHolder(@NonNull View itemView) {
-            super(itemView);
-            //progressBar = itemView.findViewById(R.id.progressbar);
-        }
-    }
+//        if (viewType == VIEW_TYPE_ITEM) {
+//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_list_item, parent, false);
+//            return new WordViewHolder(view);
+//        } else {
+//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+//            return new WordViewHolder(view);
+//
+//        }
+
+//    }
+//    public class ItemViewHolder extends RecyclerView.ViewHolder {
+//        TextView tvItem;
+//        public ItemViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            tvItem = itemView.findViewById(R.id.tv_number_item);
+//        }
+//    }
+//
+//    private class LoadingviewHolder extends RecyclerView.ViewHolder {
+//        ProgressBar progressBar;
+//        public LoadingviewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            //progressBar = itemView.findViewById(R.id.progressbar);
+//        }
+//    }
 
     public int getItemViewType(int position) {
         return wordsList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
@@ -92,8 +98,6 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
 
             listItemNumberView=itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex=itemView.findViewById(R.id.tv_holder_number);
-            //Log.d("Tag",String.valueOf(listItemNumberView.getText() ));
-            //int ind=getAdapterPosition();
 
         }
 

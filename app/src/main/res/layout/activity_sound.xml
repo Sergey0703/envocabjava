@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     >
     <!--<include layout="@layout/appbar"/>-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,15 +14,6 @@
         android:padding="1dp"
         android:id="@+id/top_menu"
         >
-
-        <ImageButton
-            android:id="@+id/btnPlaySound2"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="369dp"
-
-            android:background="@drawable/sound_br"></ImageButton>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,14 +24,27 @@
             android:textSize="20sp">
 
         </TextView>
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/btnPlaySound"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/sound_br"
 
-            ></ImageButton>
+            ></ImageButton> -->
+        <Button
+            android:id="@+id/buttonPlaySound"
+
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/play_circle"
+            android:scaleType="fitCenter"
+            android:text=""
+             />
+        <!--app:backgroundTint="@color/green"-->
+
+
     </RelativeLayout>
 
 

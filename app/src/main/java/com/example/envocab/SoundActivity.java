@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +33,7 @@ import java.util.TimerTask;
 
 public class SoundActivity extends BaseActivity {
     //    private static final int MENU3 = 1;
-    Handler handler;
+    Handler handler=null;
     Runnable runnable;
     private static final String TAG = "SoundActivity";
     boolean isLoading = false;
@@ -38,9 +41,11 @@ public class SoundActivity extends BaseActivity {
     private WordsAdapter wordsAdapter;
     private List<Word> listWords;
     LinearLayoutManager layoutManager;
-    ImageButton btnPlaySound;
-    ImageButton btnPlaySound2;
+    Button btnPlaySound;
+    Button btnPlaySound2;
     TextToSpeech textToSpeech;
+    TextToSpeech textToSpeechTr;
+    boolean playSoundOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +55,40 @@ public class SoundActivity extends BaseActivity {
         wordsList = findViewById(R.id.rv_words);
         layoutManager = new LinearLayoutManager(this);
         wordsList.setLayoutManager(layoutManager);
-        btnPlaySound = findViewById(R.id.btnPlaySound);
-        btnPlaySound2 = findViewById(R.id.btnPlaySound2);
+        btnPlaySound = findViewById(R.id.buttonPlaySound);
+        //btnPlaySound2 = findViewById(R.id.btnPlaySound2);
 
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("testLogs", "Speech");
-                playAutoSound2();
-
+                if(!playSoundOn) {
+                    playSoundOn = true;
+                    btnPlaySound.setBackgroundResource(R.drawable.pause_circle);
+                    //btnPlaySound.setBackgroundTint();
+                    ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.red));
+                    playAutoSound2();
+                }else{
+                    if(handler!=null) {
+                        handler.removeCallbacks(runnable);
+                        handler = null;
+                    }
+                    playSoundOn = false;
+                    btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+                    ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+                }
             }
         });
-        btnPlaySound2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("testLogs", "Stop");
-                //playAutoSound2();
-                handler.removeCallbacks(runnable);
-                handler=null;
-
-            }
-        });
+//        btnPlaySound2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("testLogs", "Stop");
+//                //playAutoSound2();
+//                handler.removeCallbacks(runnable);
+//                handler=null;
+//
+//            }
+//        });
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -80,6 +98,18 @@ public class SoundActivity extends BaseActivity {
                 if(i!=TextToSpeech.ERROR){
                     // To Choose language of speech
                     textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+        textToSpeechTr = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                // if No error is found then only it will run
+                if(i!=TextToSpeech.ERROR){
+                    // To Choose language of speech
+                    Locale locRu = new Locale("ru");
+                    textToSpeechTr.setLanguage(locRu);
                 }
             }
         });
@@ -118,6 +148,35 @@ public class SoundActivity extends BaseActivity {
                 }
             }
         });
+    }
+    public void playSpeech(String txtSpeech){
+//        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int i) {
+//
+//                // if No error is found then only it will run
+//                if(i!=TextToSpeech.ERROR){
+//                    // To Choose language of speech
+//                    textToSpeech.setLanguage(Locale.UK);
+//                }
+//            }
+//        });
+        textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
+    }
+    public void playSpeechTr(String txtSpeech){
+//        textToSpeechTr = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int i) {
+//
+//                // if No error is found then only it will run
+//                if(i!=TextToSpeech.ERROR){
+//                    // To Choose language of speech
+//                    Locale locRu = new Locale("ru");
+//                    textToSpeech.setLanguage(locRu);
+//                }
+//            }
+//        });
+        textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
     private void initScrollListener() {
         wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -183,10 +242,6 @@ public class SoundActivity extends BaseActivity {
         }, 2000);
     }
 
-    public void playAutoSound3(){
-
-    }
-
     public void playAutoSound(){
         final Handler handler = new Handler();
         Timer timer=new Timer();
@@ -209,7 +264,7 @@ public class SoundActivity extends BaseActivity {
     }
     public void playAutoSound2(){
         if(handler!=null) return;
-        final int speedScroll = 1200;
+        final int speedScroll = 4000;
         handler = new Handler();
         System.out.println("Before00000");
         View  loc=wordsList.getChildAt(8);
@@ -227,12 +282,7 @@ public class SoundActivity extends BaseActivity {
 
             @Override
             public void run() {
-                if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-                    layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-                    //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-                }else {
-                    layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-                }
+
                 System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
@@ -241,12 +291,48 @@ public class SoundActivity extends BaseActivity {
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
                 String selectedName = (String) textViewName.getText();
-                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                TextView textViewTranscr
+                        = (TextView) v.findViewById(R.id.tv_holder_number);
+                String selectedTranscr = (String) textViewTranscr.getText();
+                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName+" Transcr="+selectedTranscr);
                 //Log.d("testLogs",String.valueOf(wordsAdapter.));
                 //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
                 //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
                 //Log.d("testLogs",title);
-                handler.postDelayed(this,speedScroll);
+
+                playSpeech(selectedName);
+             //   System.out.println(top+"= onScrollStateChanged="+selectedName);
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    public void run() {
+                        // действие будет выполнено через 2с
+                        playSpeechTr(selectedTranscr);
+                 //       System.out.println(top+"= Transl="+selectedTranscr);
+
+
+                    }
+                }, 1000);
+                //handler.postDelayed(this,speedScroll);
+                //playSpeechTr(selectedTranscr);
+                //(new Handler()).postDelayed(this::run, 3000);
+
+                Handler handler3 = new Handler();
+                handler3.postDelayed(new Runnable() {
+                    public void run() {
+
+                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
+                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
+                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
+                        }else {
+                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
+                        }
+
+                    }
+                }, 2000);
+
+                handler.postDelayed(this,4000);
+                System.out.println("=======================================================");
+
 //                if(count < wordsAdapter.getItemCount()){
 //                    if(count==wordsAdapter.getItemCount()-1){
 //                        flag = false;
@@ -262,8 +348,8 @@ public class SoundActivity extends BaseActivity {
 //                }
             }
         };
-
-        handler.postDelayed(runnable,speedScroll);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        handler.postDelayed(runnable,1000);
     }
 
 
