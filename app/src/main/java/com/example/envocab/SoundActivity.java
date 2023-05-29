@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,10 +43,23 @@ public class SoundActivity extends BaseActivity {
     private List<Word> listWords;
     LinearLayoutManager layoutManager;
     Button btnPlaySound;
-    Button btnPlaySound2;
+
     TextToSpeech textToSpeech;
     TextToSpeech textToSpeechTr;
     boolean playSoundOn;
+    Switch speechTranslate;
+    String selectedTranslate;
+
+    int speedScroll = 4000;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(handler!=null) {
+            handler.removeCallbacks(runnable);
+            handler = null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +70,7 @@ public class SoundActivity extends BaseActivity {
         layoutManager = new LinearLayoutManager(this);
         wordsList.setLayoutManager(layoutManager);
         btnPlaySound = findViewById(R.id.buttonPlaySound);
+        speechTranslate = (Switch) findViewById(R.id.speechTranslate);
         //btnPlaySound2 = findViewById(R.id.btnPlaySound2);
 
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +279,7 @@ public class SoundActivity extends BaseActivity {
     }
     public void playAutoSound2(){
         if(handler!=null) return;
-        final int speedScroll = 4000;
+
         handler = new Handler();
         System.out.println("Before00000");
         View  loc=wordsList.getChildAt(8);
@@ -291,10 +306,8 @@ public class SoundActivity extends BaseActivity {
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
                 String selectedName = (String) textViewName.getText();
-                TextView textViewTranscr
-                        = (TextView) v.findViewById(R.id.tv_holder_number);
-                String selectedTranscr = (String) textViewTranscr.getText();
-                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName+" Transcr="+selectedTranscr);
+
+                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
                 //Log.d("testLogs",String.valueOf(wordsAdapter.));
                 //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
                 //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
@@ -302,16 +315,28 @@ public class SoundActivity extends BaseActivity {
 
                 playSpeech(selectedName);
              //   System.out.println(top+"= onScrollStateChanged="+selectedName);
-                Handler handler2 = new Handler();
-                handler2.postDelayed(new Runnable() {
-                    public void run() {
-                        // действие будет выполнено через 2с
-                        playSpeechTr(selectedTranscr);
-                 //       System.out.println(top+"= Transl="+selectedTranscr);
+                if (speechTranslate.isChecked()) {
+                    TextView textViewTranslate
+                            = (TextView) v.findViewById(R.id.tv_holder_number);
+                    selectedTranslate= (String) textViewTranslate.getText();
+                    if(selectedTranslate.length()>32) {
+                        int endOfWord=selectedTranslate.indexOf(" ",32);
 
-
+                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
                     }
-                }, 1000);
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        public void run() {
+                            // действие будет выполнено через 2с
+                            playSpeechTr(selectedTranslate);
+                            //       System.out.println(top+"= Transl="+selectedTranscr);
+
+
+                        }
+                    }, 1000);
+                }else{
+                    speedScroll=2000;
+                }
                 //handler.postDelayed(this,speedScroll);
                 //playSpeechTr(selectedTranscr);
                 //(new Handler()).postDelayed(this::run, 3000);
@@ -330,7 +355,7 @@ public class SoundActivity extends BaseActivity {
                     }
                 }, 2000);
 
-                handler.postDelayed(this,4000);
+                handler.postDelayed(this,speedScroll);
                 System.out.println("=======================================================");
 
 //                if(count < wordsAdapter.getItemCount()){

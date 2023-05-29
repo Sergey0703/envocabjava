@@ -37,11 +37,30 @@
 
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
             android:background="@drawable/play_circle"
             android:scaleType="fitCenter"
             android:text=""
              />
+
+        <Switch
+            android:id="@+id/speechTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Translate"
+
+            android:checked="true"
+            android:fadeScrollbars="true"
+            android:textColor="@color/purple_500"
+            android:textOff="No"
+            android:textOn="Yes"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:thumbTint="@drawable/switch_color"
+            android:trackTint="@color/red"
+
+            android:layout_toRightOf="@id/buttonPlaySound"
+            android:layout_centerVertical="true"/>
         <!--app:backgroundTint="@color/green"-->
 
 
