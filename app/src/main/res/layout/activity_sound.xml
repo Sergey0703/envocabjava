@@ -15,15 +15,7 @@
         android:id="@+id/top_menu"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="20sp">
 
-        </TextView>
         <!--<ImageButton
             android:id="@+id/btnPlaySound"
             android:layout_width="40dp"
@@ -32,6 +24,38 @@
             android:background="@drawable/sound_br"
 
             ></ImageButton> -->
+        <TextView
+            android:id="@+id/textSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple_500"
+            android:text="Only Bad words"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:paddingTop="10dp"
+            android:layout_toLeftOf="@id/buttonPlaySound"
+
+            />
+        <Switch
+            android:id="@+id/speechCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+
+            android:checked="false"
+            android:fadeScrollbars="true"
+            android:textColor="@color/purple_500"
+            android:textOff="No"
+            android:textOn="Yes"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:thumbTint="@drawable/switch_color"
+            android:trackTint="@color/red"
+            android:layout_below="@id/textSwitch"
+            android:layout_toLeftOf="@id/buttonPlaySound"
+            android:paddingEnd="30dp"
+            />
+
         <Button
             android:id="@+id/buttonPlaySound"
 
@@ -42,12 +66,24 @@
             android:scaleType="fitCenter"
             android:text=""
              />
+        <TextView
+            android:id="@+id/textSwitchTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple_500"
+            android:text="Speak translation"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:paddingTop="10dp"
+            android:layout_toRightOf="@id/buttonPlaySound"
+
+            />
 
         <Switch
             android:id="@+id/speechTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Translate"
+            android:text=""
 
             android:checked="true"
             android:fadeScrollbars="true"
@@ -60,7 +96,10 @@
             android:trackTint="@color/red"
 
             android:layout_toRightOf="@id/buttonPlaySound"
-            android:layout_centerVertical="true"/>
+            android:layout_below="@id/textSwitchTranslate"
+
+            android:paddingStart="10dp"
+            />
         <!--app:backgroundTint="@color/green"-->
 
 

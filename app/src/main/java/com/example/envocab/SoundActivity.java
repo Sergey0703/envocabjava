@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class SoundActivity extends BaseActivity {
     //    private static final int MENU3 = 1;
     Handler handler=null;
     Runnable runnable;
+    Handler handlerMain=null;
+    Runnable runnableMain;
     private static final String TAG = "SoundActivity";
     boolean isLoading = false;
     private RecyclerView wordsList;
@@ -48,9 +51,15 @@ public class SoundActivity extends BaseActivity {
     TextToSpeech textToSpeechTr;
     boolean playSoundOn;
     Switch speechTranslate;
+    Switch speechCategory;
     String selectedTranslate;
 
     int speedScroll = 4000;
+    LocalDate today;
+    LocalDateTime startOfDate ;
+    LocalDateTime endOfDate;
+    Long startOfDay;
+    Long endOfDay;
 
     @Override
     protected void onStop() {
@@ -58,6 +67,10 @@ public class SoundActivity extends BaseActivity {
         if(handler!=null) {
             handler.removeCallbacks(runnable);
             handler = null;
+            playSoundOn = false;
+            btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+            ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+
         }
     }
 
@@ -71,8 +84,39 @@ public class SoundActivity extends BaseActivity {
         wordsList.setLayoutManager(layoutManager);
         btnPlaySound = findViewById(R.id.buttonPlaySound);
         speechTranslate = (Switch) findViewById(R.id.speechTranslate);
+        speechCategory = (Switch) findViewById(R.id.speechCategory);
         //btnPlaySound2 = findViewById(R.id.btnPlaySound2);
 
+        today = LocalDate.now();
+        startOfDate = today.atStartOfDay();
+        endOfDate = LocalTime.MAX.atDate(today);
+
+        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+        startOfDay = zdtStart.toInstant().toEpochMilli();
+        endOfDay = zdtEnd.toInstant().toEpochMilli();
+        speechCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                System.out.println("Switch!!!!!!");
+                onStop();
+                if(speechCategory.isChecked()) {
+                    dataToList(true);
+                }else{
+                    dataToList(false);
+                }
+            }
+        });
+        speechTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onStop();
+                if(speechCategory.isChecked()) {
+                    dataToList(true);
+                }else{
+                    dataToList(false);
+                }
+            }
+        });
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,16 +138,6 @@ public class SoundActivity extends BaseActivity {
                 }
             }
         });
-//        btnPlaySound2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("testLogs", "Stop");
-//                //playAutoSound2();
-//                handler.removeCallbacks(runnable);
-//                handler=null;
-//
-//            }
-//        });
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -128,26 +162,34 @@ public class SoundActivity extends BaseActivity {
                 }
             }
         });
+        dataToList(false);
+    }
+    public void dataToList(boolean typeCategory){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                LocalDate today = LocalDate.now();
-                LocalDateTime startOfDate = today.atStartOfDay();
-                LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
-
-                ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-                ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-                Long startOfDay = zdtStart.toInstant().toEpochMilli();
-                Long endOfDay = zdtEnd.toInstant().toEpochMilli();
-
-                listWords = AppDatabase.getInstance(getApplicationContext())
-                        .wordDao()
-                        .wordsForList(startOfDay, endOfDay, 1);
-                //for(Word w: listWords){
-                // Log.d(TAG,w.toString());
-                //}
-
-            }
+//                LocalDate today = LocalDate.now();
+//                LocalDateTime startOfDate = today.atStartOfDay();
+//                LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
+//
+//                ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+//                ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+//                Long startOfDay = zdtStart.toInstant().toEpochMilli();
+//                Long endOfDay = zdtEnd.toInstant().toEpochMilli();
+                if(typeCategory) {
+                    System.out.println("Only Bad!!!!");
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .wordsForList(startOfDay, endOfDay, 0);
+                    System.out.println("Size="+listWords.size());
+                }else{
+                    System.out.println("All word!!!!");
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .wordsForListAll(startOfDay, endOfDay);
+                    System.out.println("Size="+listWords.size());
+                }
+                }
         });
         thread.start();
 
@@ -155,46 +197,25 @@ public class SoundActivity extends BaseActivity {
 
             @Override
             public void run() {
+                System.out.println("Run!!!");
                 if (listWords.size() != 0) {
+                    System.out.println("NewList!!");
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords);
                     wordsList.setAdapter(wordsAdapter);
-                   // initScrollListener();
+                    // initScrollListener();
                 }
             }
         });
     }
     public void playSpeech(String txtSpeech){
-//        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//            @Override
-//            public void onInit(int i) {
-//
-//                // if No error is found then only it will run
-//                if(i!=TextToSpeech.ERROR){
-//                    // To Choose language of speech
-//                    textToSpeech.setLanguage(Locale.UK);
-//                }
-//            }
-//        });
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
     public void playSpeechTr(String txtSpeech){
-//        textToSpeechTr = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-//            @Override
-//            public void onInit(int i) {
-//
-//                // if No error is found then only it will run
-//                if(i!=TextToSpeech.ERROR){
-//                    // To Choose language of speech
-//                    Locale locRu = new Locale("ru");
-//                    textToSpeech.setLanguage(locRu);
-//                }
-//            }
-//        });
         textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
     private void initScrollListener() {
-        wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                                           @Override
                                           public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                                               super.onScrollStateChanged(recyclerView, newState);
@@ -319,8 +340,9 @@ public class SoundActivity extends BaseActivity {
                     TextView textViewTranslate
                             = (TextView) v.findViewById(R.id.tv_holder_number);
                     selectedTranslate= (String) textViewTranslate.getText();
+                    selectedTranslate=selectedTranslate.trim();
                     if(selectedTranslate.length()>32) {
-                        int endOfWord=selectedTranslate.indexOf(" ",32);
+                        int endOfWord=selectedTranslate.indexOf(" ",22);
 
                         selectedTranslate = selectedTranslate.substring(0, endOfWord);
                     }
