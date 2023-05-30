@@ -322,12 +322,14 @@ public class SoundActivity extends BaseActivity {
 
                 View v = layoutManager.findViewByPosition(top);
                 CardView card=(CardView) v.findViewById(R.id.cardWord);
+                System.out.println("Elev="+card.getCardElevation());
+                card.setCardElevation(100f);
                 //v.setBackgroundColor(Color.CYAN);
                 //card.setCardBackgroundColor(Color.BLUE);
 
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
-                textViewName.setAllCaps(true);
+                //textViewName.setAllCaps(true);
                 String selectedName = (String) textViewName.getText();
 
                 System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
@@ -372,7 +374,8 @@ public class SoundActivity extends BaseActivity {
                         }else {
                             layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
                         }
-                        textViewName.setAllCaps(false);
+                        //textViewName.setAllCaps(false);
+                        card.setCardElevation(17.5f);
                     }
                 }, 2000);
 
