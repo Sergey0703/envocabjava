@@ -2,6 +2,7 @@ package com.example.envocab;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -317,9 +319,15 @@ public class SoundActivity extends BaseActivity {
                // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 int top=layoutManager.findFirstCompletelyVisibleItemPosition();
+
                 View v = layoutManager.findViewByPosition(top);
+                CardView card=(CardView) v.findViewById(R.id.cardWord);
+                //v.setBackgroundColor(Color.CYAN);
+                //card.setCardBackgroundColor(Color.BLUE);
+
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
+                textViewName.setAllCaps(true);
                 String selectedName = (String) textViewName.getText();
 
                 System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
@@ -364,7 +372,7 @@ public class SoundActivity extends BaseActivity {
                         }else {
                             layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
                         }
-
+                        textViewName.setAllCaps(false);
                     }
                 }, 2000);
 
