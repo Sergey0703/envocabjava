@@ -40,4 +40,7 @@ public interface WordDao {
 
     @Query("SELECT * FROM dbwords WHERE  trainDate BETWEEN :startDate AND :endDate")
     List<Word> wordsForListAll(Long startDate,Long endDate);
+
+    @Query("SELECT * FROM dbwords ")
+    List<Word> wordsForListAllTest();
 }

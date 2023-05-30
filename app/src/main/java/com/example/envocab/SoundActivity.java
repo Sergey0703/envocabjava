@@ -168,14 +168,7 @@ public class SoundActivity extends BaseActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                LocalDate today = LocalDate.now();
-//                LocalDateTime startOfDate = today.atStartOfDay();
-//                LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
-//
-//                ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-//                ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-//                Long startOfDay = zdtStart.toInstant().toEpochMilli();
-//                Long endOfDay = zdtEnd.toInstant().toEpochMilli();
+
                 if(typeCategory) {
                     System.out.println("Only Bad!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
@@ -187,14 +180,15 @@ public class SoundActivity extends BaseActivity {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForListAll(startOfDay, endOfDay);
-                    System.out.println("Size="+listWords.size());
+                            //.wordsForListAllTest();
+                    System.out.println("Size2="+listWords.size());
                 }
-                }
+            }
         });
         thread.start();
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        //new Handler(thread.postDelayed(new Runnable() {
             @Override
             public void run() {
                 System.out.println("Run!!!");
@@ -206,8 +200,46 @@ public class SoundActivity extends BaseActivity {
                     // initScrollListener();
                 }
             }
-        });
+        },500);
     }
+//    public void dataToList2(boolean typeCategory){
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if(typeCategory) {
+//                    System.out.println("Only Bad!!!!");
+//                    listWords = AppDatabase.getInstance(getApplicationContext())
+//                            .wordDao()
+//                            .wordsForList(startOfDay, endOfDay, 0);
+//                    System.out.println("SizeB="+listWords.size());
+//                }else{
+//                    System.out.println("All word!!!!");
+//                    listWords = AppDatabase.getInstance(getApplicationContext())
+//                            .wordDao()
+//                            //.wordsForListAll(startOfDay, endOfDay);
+//                            .wordsForListAllTest();
+//                    System.out.println("Size2="+listWords.size());
+//                }
+//            }
+//        });
+//        thread.start();
+//
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                System.out.println("Run!!!");
+//                if (listWords.size() != 0) {
+//                    System.out.println("NewList!!");
+//                    wordsList.setHasFixedSize(true);
+//                    wordsAdapter = new WordsAdapter(listWords);
+//                    wordsList.setAdapter(wordsAdapter);
+//                    // initScrollListener();
+//                }
+//            }
+//        });
+//    }
     public void playSpeech(String txtSpeech){
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
@@ -248,35 +280,6 @@ public class SoundActivity extends BaseActivity {
                                       }
         );
     }
-    private void loadMore() {
-      //  listWords.add(null);
-      //  wordsAdapter.notifyItemInserted(listWords.size() - 1);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-              //  listWords.remove(listWords.size() - 1);
-                int scrollPosition = listWords.size();
-               // System.out.println("loadMore");
-              // wordsAdapter.notifyItemRemoved(scrollPosition);
-                int currentSize = scrollPosition;
-             //   System.out.println("loadMore1111");
-                // Next load more option is to be shown after every 10 items.
-                int nextLimit = currentSize + 10;
-
-                while (currentSize - 1 < nextLimit) {
-                    //listWords.add("Item " + currentSize);
-                    currentSize++;
-                }
-
-                wordsAdapter.notifyDataSetChanged();
-                isLoading = false;
-               // System.out.println("Load more!");
-            }
-
-        }, 2000);
-    }
 
     public void playAutoSound(){
         final Handler handler = new Handler();
@@ -302,19 +305,10 @@ public class SoundActivity extends BaseActivity {
         if(handler!=null) return;
 
         handler = new Handler();
-        System.out.println("Before00000");
-        View  loc=wordsList.getChildAt(8);
-        System.out.println("Before1111"+loc);
-       // RecyclerView.ViewHolder holder = wordsList.getChildViewHolder(loc);
-        System.out.println("Before");
-       // TextView txtName = holder.itemView.findViewById(R.id.tv_number_item);
-        System.out.println("After");
-      //  System.out.println("TTT="+txtName.getText().toString());
-         //runnable = new Runnable() {
+
         runnable = new Runnable() {
             int count = 0;
             boolean flag = true;
-
 
             @Override
             public void run() {
@@ -346,8 +340,8 @@ public class SoundActivity extends BaseActivity {
 
                         selectedTranslate = selectedTranslate.substring(0, endOfWord);
                     }
-                    Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
+                   // Handler handler2 = new Handler();
+                    handler.postDelayed(new Runnable() {
                         public void run() {
                             // действие будет выполнено через 2с
                             playSpeechTr(selectedTranslate);
@@ -359,12 +353,9 @@ public class SoundActivity extends BaseActivity {
                 }else{
                     speedScroll=2000;
                 }
-                //handler.postDelayed(this,speedScroll);
-                //playSpeechTr(selectedTranscr);
-                //(new Handler()).postDelayed(this::run, 3000);
 
-                Handler handler3 = new Handler();
-                handler3.postDelayed(new Runnable() {
+
+                handler.postDelayed(new Runnable() {
                     public void run() {
 
                         if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
@@ -377,22 +368,10 @@ public class SoundActivity extends BaseActivity {
                     }
                 }, 2000);
 
-                handler.postDelayed(this,speedScroll);
+                handler.postDelayed(this,3000);
                 System.out.println("=======================================================");
 
-//                if(count < wordsAdapter.getItemCount()){
-//                    if(count==wordsAdapter.getItemCount()-1){
-//                        flag = false;
-//                    }else if(count == 0){
-//                        flag = true;
-//                    }
-//                    if(flag) count++;
-//                    else count--;
-//
-//                    wordsList.smoothScrollToPosition(count);
-//                    Log.d("testLogs", String.valueOf(count));
-//                    handler.postDelayed(this,speedScroll);
-//                }
+
             }
         };
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
