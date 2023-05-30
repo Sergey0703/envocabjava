@@ -246,61 +246,61 @@ public class SoundActivity extends BaseActivity {
     public void playSpeechTr(String txtSpeech){
         textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
-    private void initScrollListener() {
-    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                                          @Override
-                                          public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                                              super.onScrollStateChanged(recyclerView, newState);
-                                             // System.out.println("onScrollStateChanged");
-                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                                              int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                                              View v = layoutManager.findViewByPosition(top);
-                                              TextView textViewName
-                                                      = (TextView) v.findViewById(R.id.tv_number_item);
-                                              String selectedName = (String) textViewName.getText();
-                                              System.out.println(top+"= onScrollStateChanged="+selectedName);
-                                              //R.id.tv_number_item).toString());
-                                          }
-                                          @Override
-                                          public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                                              super.onScrolled(recyclerView, dx, dy);
-                                              //System.out.println("onScrolled1");
-                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//    private void initScrollListener() {
+//    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                                          @Override
+//                                          public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                                              super.onScrollStateChanged(recyclerView, newState);
+//                                             // System.out.println("onScrollStateChanged");
+//                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                                              int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+//                                              View v = layoutManager.findViewByPosition(top);
+//                                              TextView textViewName
+//                                                      = (TextView) v.findViewById(R.id.tv_number_item);
+//                                              String selectedName = (String) textViewName.getText();
+//                                              System.out.println(top+"= onScrollStateChanged="+selectedName);
+//                                              //R.id.tv_number_item).toString());
+//                                          }
+//                                          @Override
+//                                          public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                                              super.onScrolled(recyclerView, dx, dy);
+//                                              //System.out.println("onScrolled1");
+//                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//
+//                                              if (!isLoading) {
+//                                                  //System.out.println("onScrolled---222 "+linearLayoutManager.findFirstCompletelyVisibleItemPosition()+" "+linearLayoutManager.findLastCompletelyVisibleItemPosition());
+//                                                  if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listWords.size() - 1) {
+//                                                      // bottom of list!
+//                                                     // System.out.println("onScrolled222");
+//                                                     //  loadMore();
+//                                                      isLoading = true;
+//                                                  }
+//                                              }
+//                                          }
+//                                      }
+//        );
+//    }
 
-                                              if (!isLoading) {
-                                                  //System.out.println("onScrolled---222 "+linearLayoutManager.findFirstCompletelyVisibleItemPosition()+" "+linearLayoutManager.findLastCompletelyVisibleItemPosition());
-                                                  if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listWords.size() - 1) {
-                                                      // bottom of list!
-                                                     // System.out.println("onScrolled222");
-                                                     //  loadMore();
-                                                      isLoading = true;
-                                                  }
-                                              }
-                                          }
-                                      }
-        );
-    }
-
-    public void playAutoSound(){
-        final Handler handler = new Handler();
-        Timer timer=new Timer();
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-            if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-            }else {
-                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-            }
-            //layoutManager.getFocusedChild().
-            //Log.d("Tag","Pos="+layoutManager.findLastVisibleItemPosition());
-                System.out.println("TagLogsOne");
-            }
-            //int ind=getAdapterPosition();
-        },0,3000);
-    }
+//    public void playAutoSound(){
+//        final Handler handler = new Handler();
+//        Timer timer=new Timer();
+//        timer.schedule(new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//            if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
+//                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
+//            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
+//            }else {
+//                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
+//            }
+//            //layoutManager.getFocusedChild().
+//            //Log.d("Tag","Pos="+layoutManager.findLastVisibleItemPosition());
+//                System.out.println("TagLogsOne");
+//            }
+//            //int ind=getAdapterPosition();
+//        },0,3000);
+//    }
     public void playAutoSound2(){
         if(handler!=null) return;
 
@@ -349,7 +349,7 @@ public class SoundActivity extends BaseActivity {
 
 
                         }
-                    }, 1000);
+                    }, 2000);
                 }else{
                     speedScroll=2000;
                 }
@@ -368,9 +368,9 @@ public class SoundActivity extends BaseActivity {
                     }
                 }, 2000);
 
-                handler.postDelayed(this,3000);
-                System.out.println("=======================================================");
 
+                handler.postDelayed(this,4000);
+                System.out.println("=======================================================");
 
             }
         };

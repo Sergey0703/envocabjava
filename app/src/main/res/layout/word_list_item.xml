@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="0dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardMaxElevation="8dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="10dp"
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/tv_number_item"
@@ -20,17 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="0dp"
             android:layout_below="@id/tv_number_item"
             android:fontFamily="monospace"
-
-
             android:textSize="18sp" />
-            <!--  android:layout_toRightOf="@id/tv_number_item"
-             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textAlignment="textEnd"
-             android:maxLength="22"
-            -->
 
-    </RelativeLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

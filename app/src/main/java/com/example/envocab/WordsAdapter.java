@@ -67,9 +67,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
 //        }
 //    }
 
-    public int getItemViewType(int position) {
-        return wordsList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-    }
+//    public int getItemViewType(int position) {
+//        return wordsList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+//    }
 //    private void populateItemRows(ItemViewHolder viewHolder, int position) {
 //        String item = wordsList.get(position);
 //        viewHolder.tvItem.setText(item);

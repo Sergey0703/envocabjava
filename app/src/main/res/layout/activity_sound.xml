@@ -15,15 +15,6 @@
         android:id="@+id/top_menu"
         >
 
-
-        <!--<ImageButton
-            android:id="@+id/btnPlaySound"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/sound_br"
-
-            ></ImageButton> -->
         <TextView
             android:id="@+id/textSwitch"
             android:layout_width="wrap_content"
@@ -110,6 +101,8 @@
         android:id="@+id/rv_words"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="false"
         android:layout_below="@id/top_menu"
+
         />
 </RelativeLayout>
