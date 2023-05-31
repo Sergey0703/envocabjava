@@ -303,19 +303,21 @@ public class SoundActivity extends BaseActivity {
 //            //int ind=getAdapterPosition();
 //        },0,3000);
 //    }
+    ///////////////////////////////////////////////////////////////
     public void playAutoSound2(){
         if(handler!=null) return;
 
         handler = new Handler();
 
         runnable = new Runnable() {
-            int count = 0;
-            boolean flag = true;
+           // int count = 0;
+          //  boolean flag = true;
 
             @Override
             public void run() {
 
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Log.d(TAG,"run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
                // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 int top=layoutManager.findFirstCompletelyVisibleItemPosition();
@@ -332,7 +334,8 @@ public class SoundActivity extends BaseActivity {
                 //textViewName.setAllCaps(true);
                 String selectedName = (String) textViewName.getText();
 
-                System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                Log.d(TAG,"!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
                 //Log.d("testLogs",String.valueOf(wordsAdapter.));
                 //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
                 //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
@@ -353,12 +356,9 @@ public class SoundActivity extends BaseActivity {
                    // Handler handler2 = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            // действие будет выполнено через 2с
+
                             playSpeechTr(selectedTranslate);
-                            //       System.out.println(top+"= Transl="+selectedTranscr);
-
-
-                        }
+                                                  }
                     }, 2000);
                 }else{
                     speedScroll=2000;
@@ -381,14 +381,16 @@ public class SoundActivity extends BaseActivity {
 
 
                 handler.postDelayed(this,4000);
-                System.out.println("=======================================================");
+                //System.out.println("=======================================================");
+                Log.d(TAG,"after layout =======================================================");
 
             }
         };
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         handler.postDelayed(runnable,1000);
     }
-
+///////////////////////////////////////////////////////////////
 
 
         //    @Override
