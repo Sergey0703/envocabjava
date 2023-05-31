@@ -80,6 +80,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         Word word =wordsList.get(position);
         holder.listItemNumberView.setText(word.getWord());
         holder.viewHolderIndex.setText(word.getTranslate());
+        if(word.getTranslate().trim().length()>0) {
+            holder.viewHolderTranscription.setText("["+word.getTranscript()+"]");
+        }
     }
 
     @Override
@@ -91,6 +94,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     class WordViewHolder extends RecyclerView.ViewHolder{
         TextView listItemNumberView;
         TextView viewHolderIndex;
+        TextView viewHolderTranscription;
 
 
         public WordViewHolder(@NonNull View itemView) {
@@ -98,6 +102,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
 
             listItemNumberView=itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex=itemView.findViewById(R.id.tv_holder_number);
+            viewHolderTranscription=itemView.findViewById(R.id.tv_transcription);
 
         }
 

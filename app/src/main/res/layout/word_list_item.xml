@@ -27,6 +27,14 @@
 
             android:fontFamily="monospace"
             android:textSize="32sp" />
+        <TextView
+            android:id="@+id/tv_transcription"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="monospace"
+            android:textSize="22sp" />
             <!--  android:layout_centerVertical="true" -->
         <TextView
             android:id="@+id/tv_holder_number"

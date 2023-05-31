@@ -10,7 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_words"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
 
         android:layout_marginTop="0dp"
         android:layout_weight="5"
@@ -20,7 +20,8 @@
     <RelativeLayout
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+        android:layout_height="150dp"
         android:layout_weight="1"
         android:background="@color/white"
         android:padding="0dp">

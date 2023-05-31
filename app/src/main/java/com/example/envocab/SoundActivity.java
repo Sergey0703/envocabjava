@@ -2,6 +2,8 @@ package com.example.envocab;
 
 import static android.app.PendingIntent.getActivity;
 
+import static java.lang.System.exit;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,7 +74,7 @@ public class SoundActivity extends BaseActivity {
             playSoundOn = false;
             btnPlaySound.setBackgroundResource(R.drawable.play_circle);
             ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
-
+            //exit(0);
         }
     }
 
@@ -310,6 +312,8 @@ public class SoundActivity extends BaseActivity {
         if(handler!=null) return;
 
         handler = new Handler();
+        //int top=0;
+        //int newTop=0;
         Thread thread = new Thread(new Runnable() {
        // runnable = new Runnable() {
 
@@ -322,7 +326,7 @@ public class SoundActivity extends BaseActivity {
 
                 View v = layoutManager.findViewByPosition(top);
                 CardView card=(CardView) v.findViewById(R.id.cardWord);
-                System.out.println("Elev="+card.getCardElevation());
+               // System.out.println("Elev="+card.getCardElevation());
                 card.setCardElevation(100f);
                 //v.setBackgroundColor(Color.CYAN);
                 //card.setCardBackgroundColor(Color.BLUE);
@@ -333,12 +337,13 @@ public class SoundActivity extends BaseActivity {
                 String selectedName = (String) textViewName.getText();
 
                 //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-                Log.d(TAG,"!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                Log.d(TAG,top+"= onScrollStateChanged="+selectedName);
 
                 //handler.postDelayed(new Runnable() {
+                if(handler==null) return;
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Log.d(TAG,"!!!!!!!!!!"+top+"= Speech="+selectedName);
+                        Log.d(TAG,+top+"= Speech="+selectedName);
 
                         playSpeech(selectedName);
                     }
@@ -356,132 +361,143 @@ public class SoundActivity extends BaseActivity {
                         selectedTranslate = selectedTranslate.substring(0, endOfWord);
                     }
                     // Handler handler2 = new Handler();
+                    if(handler==null) return;
                     handler.postDelayed(new Runnable() {
                         public void run() {
 
                             playSpeechTr(selectedTranslate);
                         }
-                    }, 2000);
+                    }, 1500);
+                    speedScroll=4000;
                 }else{
                     speedScroll=2000;
                 }
 
-
+                if(handler==null) return;
                 handler.postDelayed(new Runnable() {
                     public void run() {
-
-                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-                        }else {
-                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-                        }
+                        //newTop=top+1;
+                        //layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),newTop);
+                        layoutManager.scrollToPositionWithOffset(top+1, 0);
+                        //layoutManager.
+                        //RecyclerView.SmoothScroller.setTargetPosition(snapTarget);
+                        //layoutManager.startSmoothScroll(newTop);
+                        Log.d(TAG,"NewTop "+String.valueOf(top+1));
+//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
+//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
+//                            Log.d(TAG,"PositionL="+layoutManager.findLastVisibleItemPosition());
+//                        }else {
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
+//                            Log.d(TAG,"Position="+0);
+//                        }
                         //textViewName.setAllCaps(false);
                         card.setCardElevation(17.5f);
+
                     }
-                }, 4000);
+                }, speedScroll-1000); //3000
+                if(handler==null) return;
+                handler.postDelayed(this,speedScroll); //4000
 
-
-                handler.postDelayed(this,4000);
                 //System.out.println("=======================================================");
-                Log.d(TAG,"after layout =======================================================");
+                //Log.d(TAG,"after layout =======================================================");
 
             }
         });
         thread.start();
         //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        handler.postDelayed(runnable,1000);
+        //handler.postDelayed(runnable,1000);
     }
     ///////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////
-    public void playAutoSound2(){
-        if(handler!=null) return;
-
-        handler = new Handler();
-
-        runnable = new Runnable() {
-           // int count = 0;
-          //  boolean flag = true;
-
-            @Override
-            public void run() {
-
-                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Log.d(TAG,"run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
-               // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                int top=layoutManager.findFirstCompletelyVisibleItemPosition();
-
-                View v = layoutManager.findViewByPosition(top);
-                CardView card=(CardView) v.findViewById(R.id.cardWord);
-                System.out.println("Elev="+card.getCardElevation());
-                card.setCardElevation(100f);
-                //v.setBackgroundColor(Color.CYAN);
-                //card.setCardBackgroundColor(Color.BLUE);
-
-                TextView textViewName
-                        = (TextView) v.findViewById(R.id.tv_number_item);
-                //textViewName.setAllCaps(true);
-                String selectedName = (String) textViewName.getText();
-
-                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-                Log.d(TAG,"!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-                //Log.d("testLogs",String.valueOf(wordsAdapter.));
-                //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
-                //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
-                //Log.d("testLogs",title);
-
-                playSpeech(selectedName);
-             //   System.out.println(top+"= onScrollStateChanged="+selectedName);
-                if (speechTranslate.isChecked()) {
-                    TextView textViewTranslate
-                            = (TextView) v.findViewById(R.id.tv_holder_number);
-                    selectedTranslate= (String) textViewTranslate.getText();
-                    selectedTranslate=selectedTranslate.trim();
-                    if(selectedTranslate.length()>32) {
-                        int endOfWord=selectedTranslate.indexOf(" ",22);
-
-                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
-                    }
-                   // Handler handler2 = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-
-                            playSpeechTr(selectedTranslate);
-                                                  }
-                    }, 2000);
-                }else{
-                    speedScroll=2000;
-                }
-
-
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-
-                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-                        }else {
-                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-                        }
-                        //textViewName.setAllCaps(false);
-                        card.setCardElevation(17.5f);
-                    }
-                }, 2000);
-
-
-                handler.postDelayed(this,4000);
-                //System.out.println("=======================================================");
-                Log.d(TAG,"after layout =======================================================");
-
-            }
-        };
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        handler.postDelayed(runnable,1000);
-    }
-///////////////////////////////////////////////////////////////
+//    public void playAutoSound2(){
+//        if(handler!=null) return;
+//
+//        handler = new Handler();
+//
+//        runnable = new Runnable() {
+//           // int count = 0;
+//          //  boolean flag = true;
+//
+//            @Override
+//            public void run() {
+//
+//                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                Log.d(TAG,"run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
+//               // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+//                int top=layoutManager.findFirstCompletelyVisibleItemPosition();
+//
+//                View v = layoutManager.findViewByPosition(top);
+//                CardView card=(CardView) v.findViewById(R.id.cardWord);
+//                System.out.println("Elev="+card.getCardElevation());
+//                card.setCardElevation(100f);
+//                //v.setBackgroundColor(Color.CYAN);
+//                //card.setCardBackgroundColor(Color.BLUE);
+//
+//                TextView textViewName
+//                        = (TextView) v.findViewById(R.id.tv_number_item);
+//                //textViewName.setAllCaps(true);
+//                String selectedName = (String) textViewName.getText();
+//
+//                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+//                Log.d(TAG,"!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+//                //Log.d("testLogs",String.valueOf(wordsAdapter.));
+//                //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
+//                //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
+//                //Log.d("testLogs",title);
+//
+//                playSpeech(selectedName);
+//             //   System.out.println(top+"= onScrollStateChanged="+selectedName);
+//                if (speechTranslate.isChecked()) {
+//                    TextView textViewTranslate
+//                            = (TextView) v.findViewById(R.id.tv_holder_number);
+//                    selectedTranslate= (String) textViewTranslate.getText();
+//                    selectedTranslate=selectedTranslate.trim();
+//                    if(selectedTranslate.length()>32) {
+//                        int endOfWord=selectedTranslate.indexOf(" ",22);
+//
+//                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
+//                    }
+//                   // Handler handler2 = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        public void run() {
+//
+//                            playSpeechTr(selectedTranslate);
+//                                                  }
+//                    }, 2000);
+//                }else{
+//                    speedScroll=2000;
+//                }
+//
+//
+//                handler.postDelayed(new Runnable() {
+//                    public void run() {
+//
+//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
+//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
+//                        }else {
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
+//                        }
+//                        //textViewName.setAllCaps(false);
+//                        card.setCardElevation(17.5f);
+//                    }
+//                }, 2000);
+//
+//
+//                handler.postDelayed(this,4000);
+//                //System.out.println("=======================================================");
+//                Log.d(TAG,"after layout =======================================================");
+//
+//            }
+//        };
+//        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        handler.postDelayed(runnable,1000);
+//    }
+/////////////////////////////////////////////////////////////////
 
 
         //    @Override
