@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
 
     >
     <!--<include layout="@layout/appbar"/>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_words"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+        android:layout_marginTop="0dp"
+        android:layout_weight="5"
+
+        />
 
     <RelativeLayout
+        android:id="@+id/top_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:background="@color/white"
-        android:padding="1dp"
-        android:id="@+id/top_menu"
-        >
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/textSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/purple_500"
+            android:layout_toLeftOf="@id/buttonPlaySound"
+            android:paddingTop="10dp"
             android:text="Only Bad words"
+            android:textColor="@color/purple_500"
             android:textSize="20sp"
             android:textStyle="bold|italic"
-            android:paddingTop="10dp"
-            android:layout_toLeftOf="@id/buttonPlaySound"
 
             />
+
         <Switch
             android:id="@+id/speechCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:layout_below="@id/textSwitch"
 
+            android:layout_toLeftOf="@id/buttonPlaySound"
             android:checked="false"
             android:fadeScrollbars="true"
+            android:paddingEnd="30dp"
+            android:text=""
             android:textColor="@color/purple_500"
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="20sp"
             android:textStyle="bold|italic"
             android:thumbTint="@drawable/switch_color"
-            android:trackTint="@color/red"
-            android:layout_below="@id/textSwitch"
-            android:layout_toLeftOf="@id/buttonPlaySound"
-            android:paddingEnd="30dp"
-            />
+            android:trackTint="@color/red" />
 
         <Button
             android:id="@+id/buttonPlaySound"
@@ -55,18 +65,18 @@
             android:layout_centerInParent="true"
             android:background="@drawable/play_circle"
             android:scaleType="fitCenter"
-            android:text=""
-             />
+            android:text="" />
+
         <TextView
             android:id="@+id/textSwitchTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/purple_500"
+            android:layout_toRightOf="@id/buttonPlaySound"
+            android:paddingTop="10dp"
             android:text="Speak translation"
+            android:textColor="@color/purple_500"
             android:textSize="20sp"
             android:textStyle="bold|italic"
-            android:paddingTop="10dp"
-            android:layout_toRightOf="@id/buttonPlaySound"
 
             />
 
@@ -74,35 +84,27 @@
             android:id="@+id/speechTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:layout_below="@id/textSwitchTranslate"
 
+            android:layout_toRightOf="@id/buttonPlaySound"
             android:checked="true"
             android:fadeScrollbars="true"
+            android:paddingStart="10dp"
+            android:text=""
             android:textColor="@color/purple_500"
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="20sp"
+
             android:textStyle="bold|italic"
             android:thumbTint="@drawable/switch_color"
-            android:trackTint="@color/red"
 
-            android:layout_toRightOf="@id/buttonPlaySound"
-            android:layout_below="@id/textSwitchTranslate"
-
-            android:paddingStart="10dp"
-            />
+            android:trackTint="@color/red" />
         <!--app:backgroundTint="@color/green"-->
 
 
     </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_words"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="false"
-        android:layout_below="@id/top_menu"
-
-        />
-</RelativeLayout>
+    <!--android:layout_below="@id/top_menu"-->
+</LinearLayout>

@@ -84,7 +84,7 @@
         android:layout_height="50dp"
         android:text=""
         android:fontFamily="monospace"
-        android:textStyle="italic|bold"
+        android:textStyle="bold"
         android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
