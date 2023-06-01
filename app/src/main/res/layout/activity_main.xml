@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
 
         android:paddingTop="5dp"
-        android:text="Bad today: "
+        android:text="Study today: "
         android:textColor="@color/red"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/dashWordsToday"

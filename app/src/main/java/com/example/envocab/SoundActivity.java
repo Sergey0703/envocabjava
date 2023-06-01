@@ -49,7 +49,7 @@ public class SoundActivity extends BaseActivity {
     boolean isLoading = false;
     private RecyclerView wordsList;
     private WordsAdapter wordsAdapter;
-    private List<Word> listWords;
+    private List<Word> listWords, listWordsForAdd;
     LinearLayoutManager layoutManager;
     Button btnPlaySound;
 
@@ -66,6 +66,8 @@ public class SoundActivity extends BaseActivity {
     LocalDateTime endOfDate;
     Long startOfDay;
     Long endOfDay;
+
+    boolean loading = true;
 
     @Override
     protected void onStop() {
@@ -104,7 +106,7 @@ public class SoundActivity extends BaseActivity {
         speechCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                System.out.println("Switch!!!!!!");
+                //System.out.println("Switch!!!!!!");
                 onStop();
                 if(speechCategory.isChecked()) {
                     dataToList(true);
@@ -189,6 +191,7 @@ public class SoundActivity extends BaseActivity {
                             //.wordsForListAllTest();
                     System.out.println("Size2="+listWords.size());
                 }
+                listWordsForAdd=listWords;
             }
         });
         thread.start();
@@ -203,7 +206,7 @@ public class SoundActivity extends BaseActivity {
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords);
                     wordsList.setAdapter(wordsAdapter);
-                    // initScrollListener();
+                    initScrollListener();
                 }
             }
         },500);
@@ -252,7 +255,31 @@ public class SoundActivity extends BaseActivity {
     public void playSpeechTr(String txtSpeech){
         textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
     }
-//    private void initScrollListener() {
+    private void initScrollListener() {
+        Log.d(TAG,"INIT");
+        //int pastVisiblesItems, visibleItemCount, totalItemCount;
+        wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            Log.d(TAG,"INIT2 "+dy+" "+dx);
+            if (dy >= 0) { //check for scroll down
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                Log.d(TAG, "visibleItemCount="+visibleItemCount+" totalItemCount="+totalItemCount+" pastVisiblesItems="+pastVisiblesItems);
+                if (loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        loading = false;
+                        Log.d(TAG, "Last Item Wow !");
+                        // Do pagination.. i.e. fetch new data
+                        listWords.addAll(listWordsForAdd);
+                        loading = true;
+                    }
+                }
+            }
+        }
+    });
+
 //    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                                          @Override
 //                                          public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -285,7 +312,7 @@ public class SoundActivity extends BaseActivity {
 //                                          }
 //                                      }
 //        );
-//    }
+    }
 
 //    public void playAutoSound(){
 //        final Handler handler = new Handler();
@@ -412,6 +439,28 @@ public class SoundActivity extends BaseActivity {
         //handler.postDelayed(runnable,1000);
     }
     ///////////////////////////////////////////////////////////////
+//    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//        @Override
+//        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//            if (dy > 0) { //check for scroll down
+//                visibleItemCount = mLayoutManager.getChildCount();
+//                totalItemCount = mLayoutManager.getItemCount();
+//                pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+//
+//                if (loading) {
+//                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+//                        loading = false;
+//                        Log.v("...", "Last Item Wow !");
+//                        // Do pagination.. i.e. fetch new data
+//
+//                        loading = true;
+//                    }
+//                }
+//            }
+//        }
+//    });
+
+    ////////////////////////////////////////////////////////////////
     public void startRepeating(View view){
         //mHandler.postDelayed(mToastRunnable,5000);
         mToastRunnable.run();
