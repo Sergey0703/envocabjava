@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -39,10 +40,11 @@ import java.util.TimerTask;
 
 public class SoundActivity extends BaseActivity {
     //    private static final int MENU3 = 1;
-    Handler handler=null;
-    Runnable runnable;
-    Handler handlerMain=null;
-    Runnable runnableMain;
+    private Handler handler=null;
+    private Handler mHandler=new Handler();
+    private Runnable runnable;
+//    Handler handlerMain=null;
+//    Runnable runnableMain;
     private static final String TAG = "SoundActivity";
     boolean isLoading = false;
     private RecyclerView wordsList;
@@ -395,7 +397,7 @@ public class SoundActivity extends BaseActivity {
                         card.setCardElevation(17.5f);
 
                     }
-                }, speedScroll-1000); //3000
+                }, speedScroll-1000); //3000 & 1000
                 if(handler==null) return;
                 handler.postDelayed(this,speedScroll); //4000
 
@@ -410,6 +412,21 @@ public class SoundActivity extends BaseActivity {
         //handler.postDelayed(runnable,1000);
     }
     ///////////////////////////////////////////////////////////////
+    public void startRepeating(View view){
+        //mHandler.postDelayed(mToastRunnable,5000);
+        mToastRunnable.run();
+    }
+
+    public void StopRepeating(View view){
+            mHandler.removeCallbacks(mToastRunnable);
+    }
+    private Runnable mToastRunnable=new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(SoundActivity.this,"This is delayed toast", Toast.LENGTH_SHORT).show();
+            mHandler.postDelayed(this,5000);
+        }
+    };
     ///////////////////////////////////////////////////////////////
 //    public void playAutoSound2(){
 //        if(handler!=null) return;

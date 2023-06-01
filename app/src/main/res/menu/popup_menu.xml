@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-    android:title="Listening"
-    android:id="@+id/soundTraining"/>
+        android:id="@+id/soundTraining"
+        android:icon="@drawable/icon_headphone"
+        android:title="Listening"
+        app:showAsAction="always"
 
+        />
     <item
+        android:id="@+id/soundTraining2"
+        android:icon="@drawable/icon_headphones_blue"
+        android:title="Listening"
+        app:showAsAction="withText"
+
+        />
+    <item
+        android:id="@+id/aboutProgram"
+        android:icon="@drawable/icon_copyright"
         android:title="About program"
-        android:id="@+id/aboutProgram"/>
+        />
 </menu>

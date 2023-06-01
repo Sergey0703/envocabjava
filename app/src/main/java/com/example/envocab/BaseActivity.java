@@ -2,7 +2,9 @@ package com.example.envocab;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,14 @@ import android.widget.Toast;
 
 public class BaseActivity extends AppCompatActivity {
     ImageView menuIcon;
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //if (menu == MenuBuilder) (menu as MenuBuilder).setOptionalIconsVisible(true)
+        if (menu instanceof MenuBuilder) {
+            ((MenuBuilder) menu).setOptionalIconsVisible(true);
+        }
+
     getMenuInflater().inflate(R.menu.popup_menu, menu);
     return true;
     }
@@ -29,6 +37,10 @@ public class BaseActivity extends AppCompatActivity {
         case R.id.soundTraining:
             Intent intent=new Intent(BaseActivity.this, SoundActivity.class);
             startActivity(intent);
+            return true;
+        case R.id.soundTraining2:
+            Intent intent2=new Intent(BaseActivity.this, SoundActivity.class);
+            startActivity(intent2);
             return true;
 
         case R.id.aboutProgram:
