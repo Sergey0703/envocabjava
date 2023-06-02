@@ -42,6 +42,7 @@ import java.util.TimerTask;
 public class SoundActivity extends BaseActivity implements WordListInterface{
     //    private static final int MENU3 = 1;
     private Handler handler=null;
+    private Handler ihandler=null;
     private Handler mHandler=new Handler();
     private Runnable runnable;
     private Context context;
@@ -336,7 +337,64 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
 //            //int ind=getAdapterPosition();
 //        },0,3000);
 //    }
+///////////////////////////////////////////////////////////////
+public void playAutoSound4(){
+    if(handler!=null) return;
 
+    handler = new Handler();
+    //int top=0;
+    //int newTop=0;
+    Thread thread = new Thread(new Runnable() {
+        // runnable = new Runnable() {
+
+        @Override
+        public void run() {
+            int top=layoutManager.findFirstCompletelyVisibleItemPosition();
+            onItemClick2(top);
+
+//                speedScroll=4000;
+//            }else{
+//                speedScroll=2000;
+//            }
+
+            if(handler==null) return;
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    //int top=layoutManager.findFirstCompletelyVisibleItemPosition();
+                    //newTop=top+1;
+                    //layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),newTop);
+                    layoutManager.scrollToPositionWithOffset(top+1, 0);
+                    //layoutManager.
+                    //RecyclerView.SmoothScroller.setTargetPosition(snapTarget);
+                    //layoutManager.startSmoothScroll(newTop);
+                    Log.d(TAG,"NewTop "+String.valueOf(top+1));
+//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
+//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
+//                            Log.d(TAG,"PositionL="+layoutManager.findLastVisibleItemPosition());
+//                        }else {
+//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
+//                            Log.d(TAG,"Position="+0);
+//                        }
+                    //textViewName.setAllCaps(false);
+                    //card.setCardElevation(17.5f);
+
+                }
+            }, speedScroll-1000); //3000 & 1000
+            if(handler==null) return;
+            handler.postDelayed(this,speedScroll); //4000
+
+            //System.out.println("=======================================================");
+            //Log.d(TAG,"after layout =======================================================");
+
+        }
+    });
+    thread.start();
+    //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    //handler.postDelayed(runnable,1000);
+}
+    ///////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////
     public void playAutoSound3(){
@@ -478,6 +536,85 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             mHandler.postDelayed(this,5000);
         }
     };
+    /////////////////////////////////////////////////////////////////////////
+
+    public void onItemClick2(int position) {
+        int top = position;
+        Log.d(TAG, "position0=" + top);
+        ihandler = new Handler();
+        //int top=0;
+        //int newTop=0;
+//        Thread thread = new Thread(new Runnable() {
+//            // runnable = new Runnable() {
+//
+//            @Override
+//            public void run() {
+
+
+                Log.d(TAG, "position=" + top);
+                View v = layoutManager.findViewByPosition(top);
+                CardView card = (CardView) v.findViewById(R.id.cardWord);
+                // System.out.println("Elev="+card.getCardElevation());
+                card.setCardElevation(100f);
+                TextView textViewName
+                        = (TextView) v.findViewById(R.id.tv_number_item);
+                //textViewName.setAllCaps(true);
+                String selectedName = (String) textViewName.getText();
+
+                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
+
+                //handler.postDelayed(new Runnable() {
+                if (ihandler == null) return;
+                ihandler.postDelayed(new Runnable() {
+                    public void run() {
+                        Log.d(TAG, +top + "= Speech=" + selectedName);
+
+                        playSpeech(selectedName);
+                    }
+                }, 1);
+
+                //   System.out.println(top+"= onScrollStateChanged="+selectedName);
+                if (speechTranslate.isChecked()) {
+                    TextView textViewTranslate
+                            = (TextView) v.findViewById(R.id.tv_holder_number);
+                    selectedTranslate = (String) textViewTranslate.getText();
+                    selectedTranslate = selectedTranslate.trim();
+                    if (selectedTranslate.length() > 32) {
+                        int endOfWord = selectedTranslate.indexOf(" ", 22);
+
+                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
+                    }
+                    // Handler handler2 = new Handler();
+                    if (ihandler == null) return;
+                    ihandler.postDelayed(new Runnable() {
+                        public void run() {
+
+                            playSpeechTr(selectedTranslate);
+
+                        }
+                    }, 1500);
+                    if (ihandler == null) return;
+                    ihandler.postDelayed(new Runnable() {
+                        public void run() {
+
+                            card.setCardElevation(17.5f);
+
+                            ihandler.removeCallbacks(runnable);
+                            ihandler = null;
+                        }
+                    }, 3000);
+
+
+                }
+           // }
+//        });
+//        thread.start();
+
+
+    }
+    ///////////////////////////////////////////////////////////////
+//
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onItemClick(int position) {
