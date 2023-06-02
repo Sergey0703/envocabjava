@@ -478,7 +478,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             mHandler.postDelayed(this,5000);
         }
     };
-
+/////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onItemClick(int position) {
         int top = position;
@@ -541,6 +541,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
                         public void run() {
 
                            card.setCardElevation(17.5f);
+                            handler.removeCallbacks(runnable);
+                            handler = null;
                         }
                     }, 3000);
 
@@ -549,6 +551,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             }
         });
         thread.start();
+
+
     }
     ///////////////////////////////////////////////////////////////
 //    public void playAutoSound2(){
