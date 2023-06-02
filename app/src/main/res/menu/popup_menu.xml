@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/soundTraining0"
+        android:icon="@drawable/icon_ear_white"
+        android:title="Listening"
+        app:showAsAction="always"
+
+        />
+
+    <item
         android:id="@+id/soundTraining"
         android:icon="@drawable/icon_headphone"
         android:title="Listening"

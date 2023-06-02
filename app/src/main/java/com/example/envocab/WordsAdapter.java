@@ -14,17 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHolder>{
-    private final int VIEW_TYPE_ITEM = 0;
+    private final WordListInterface wordListInterface;
+    //private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private static int viewHolderCount;
     private int numberItems;
     private List<Word> wordsList;
 
 
-    public WordsAdapter(List<Word> wordsList){
+    public WordsAdapter(List<Word> wordsList, WordListInterface wordListInterface){
           //numberItems=numbersOfItems;
           //viewHolderCount=0;
         this.wordsList=wordsList;
+        this.wordListInterface=wordListInterface;
     }
 
 
@@ -36,9 +38,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         int layoutIdForListItem = R.layout.word_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
-        WordViewHolder viewHolder = new WordViewHolder(view);
+        //WordViewHolder viewHolder = new WordViewHolder(view);
 
-        return viewHolder;
+        return new WordViewHolder(view, wordListInterface);
     }
 
 //        if (viewType == VIEW_TYPE_ITEM) {
@@ -97,12 +99,24 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         TextView viewHolderTranscription;
 
 
-        public WordViewHolder(@NonNull View itemView) {
+        public WordViewHolder(@NonNull View itemView, WordListInterface wordListInterface) {
             super(itemView);
 
             listItemNumberView=itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex=itemView.findViewById(R.id.tv_holder_number);
             viewHolderTranscription=itemView.findViewById(R.id.tv_transcription);
+
+            itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                      if(wordListInterface!=null){
+                          int pos=getAdapterPosition();
+                          if(pos!=RecyclerView.NO_POSITION){
+                                    wordListInterface.onItemClick(pos);
+                          }
+                      }
+                }
+            });
 
         }
 

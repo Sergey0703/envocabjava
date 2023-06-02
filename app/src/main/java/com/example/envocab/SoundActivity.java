@@ -4,6 +4,7 @@ import static android.app.PendingIntent.getActivity;
 
 import static java.lang.System.exit;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,11 +39,12 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SoundActivity extends BaseActivity {
+public class SoundActivity extends BaseActivity implements WordListInterface{
     //    private static final int MENU3 = 1;
     private Handler handler=null;
     private Handler mHandler=new Handler();
     private Runnable runnable;
+    private Context context;
 //    Handler handlerMain=null;
 //    Runnable runnableMain;
     private static final String TAG = "SoundActivity";
@@ -204,7 +206,7 @@ public class SoundActivity extends BaseActivity {
                 if (listWords.size() != 0) {
                     System.out.println("NewList!!");
                     wordsList.setHasFixedSize(true);
-                    wordsAdapter = new WordsAdapter(listWords);
+                    wordsAdapter = new WordsAdapter(listWords, SoundActivity.this  );
                     wordsList.setAdapter(wordsAdapter);
                     initScrollListener();
                 }
@@ -476,6 +478,78 @@ public class SoundActivity extends BaseActivity {
             mHandler.postDelayed(this,5000);
         }
     };
+
+    @Override
+    public void onItemClick(int position) {
+        int top = position;
+        Log.d(TAG, "position0=" + top);
+        handler = new Handler();
+        //int top=0;
+        //int newTop=0;
+        Thread thread = new Thread(new Runnable() {
+            // runnable = new Runnable() {
+
+            @Override
+            public void run() {
+
+
+                Log.d(TAG, "position=" + top);
+                View v = layoutManager.findViewByPosition(top);
+                CardView card = (CardView) v.findViewById(R.id.cardWord);
+                // System.out.println("Elev="+card.getCardElevation());
+                card.setCardElevation(100f);
+                TextView textViewName
+                        = (TextView) v.findViewById(R.id.tv_number_item);
+                //textViewName.setAllCaps(true);
+                String selectedName = (String) textViewName.getText();
+
+                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
+
+                //handler.postDelayed(new Runnable() {
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        Log.d(TAG, +top + "= Speech=" + selectedName);
+
+                        playSpeech(selectedName);
+                    }
+                }, 1);
+
+                //   System.out.println(top+"= onScrollStateChanged="+selectedName);
+                if (speechTranslate.isChecked()) {
+                    TextView textViewTranslate
+                            = (TextView) v.findViewById(R.id.tv_holder_number);
+                    selectedTranslate = (String) textViewTranslate.getText();
+                    selectedTranslate = selectedTranslate.trim();
+                    if (selectedTranslate.length() > 32) {
+                        int endOfWord = selectedTranslate.indexOf(" ", 22);
+
+                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
+                    }
+                    // Handler handler2 = new Handler();
+                    if (handler == null) return;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+
+                            playSpeechTr(selectedTranslate);
+
+                        }
+                    }, 1500);
+                    if (handler == null) return;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+
+                           card.setCardElevation(17.5f);
+                        }
+                    }, 3000);
+
+
+                }
+            }
+        });
+        thread.start();
+    }
     ///////////////////////////////////////////////////////////////
 //    public void playAutoSound2(){
 //        if(handler!=null) return;

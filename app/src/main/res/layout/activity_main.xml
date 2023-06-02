@@ -237,7 +237,6 @@
         android:layout_height="100dp"
         android:layout_gravity="top|right"
         android:background="@drawable/sound_br"
-        android:onClick="onSoundBtnClick"
 
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
