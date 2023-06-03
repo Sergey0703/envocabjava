@@ -105,6 +105,38 @@
             android:trackTint="@color/red" />
         <!--app:backgroundTint="@color/green"-->
 
+        <Button
+            android:id="@+id/btnPrevDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+
+            android:background="@drawable/rounded_corner"
+            android:drawableLeft="@android:drawable/ic_media_previous"
+            android:text="-Day"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            ></Button>
+
+        <Button
+            android:id="@+id/btnNextDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/rounded_corner"
+            android:drawableRight="@android:drawable/ic_media_next"
+            android:text="+Day"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            ></Button>
 
     </RelativeLayout>
 

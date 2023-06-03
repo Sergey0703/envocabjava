@@ -55,6 +55,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
     private List<Word> listWords, listWordsForAdd;
     LinearLayoutManager layoutManager;
     Button btnPlaySound;
+    Button btnPrevDay;
+    Button btnNextDay;
+
 
     TextToSpeech textToSpeech;
     TextToSpeech textToSpeechTr;
@@ -73,8 +76,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
     boolean loading = true;
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         if(handler!=null) {
             handler.removeCallbacks(runnable);
             handler = null;
@@ -96,36 +99,37 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         btnPlaySound = findViewById(R.id.buttonPlaySound);
         speechTranslate = (Switch) findViewById(R.id.speechTranslate);
         speechCategory = (Switch) findViewById(R.id.speechCategory);
-        //btnPlaySound2 = findViewById(R.id.btnPlaySound2);
+        btnPrevDay = findViewById(R.id.btnPrevDay);
+        btnNextDay = findViewById(R.id.btnNextDay);
 
-        today = LocalDate.now();
-        startOfDate = today.atStartOfDay();
-        endOfDate = LocalTime.MAX.atDate(today);
 
-        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-        startOfDay = zdtStart.toInstant().toEpochMilli();
-        endOfDay = zdtEnd.toInstant().toEpochMilli();
         speechCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 //System.out.println("Switch!!!!!!");
                 onStop();
-                if(speechCategory.isChecked()) {
-                    dataToList(true);
-                }else{
-                    dataToList(false);
-                }
+                //if(speechCategory.isChecked()) {
+                //    dataToList(true);
+                //}else{
+                    dataToList("");
+                //}
             }
         });
         speechTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 onStop();
-                if(speechCategory.isChecked()) {
-                    dataToList(true);
-                }else{
-                    dataToList(false);
-                }
+                //if(speechCategory.isChecked()) {
+                    dataToList("");
+                //}else{
+                //    dataToList(false);
+               // }
+            }
+        });
+
+        btnPrevDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataToList("prev");
             }
         });
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
@@ -173,14 +177,22 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
                 }
             }
         });
-        dataToList(false);
+        dataToList("");
     }
-    public void dataToList(boolean typeCategory){
+    public void dataToList(String nav){
+        today = LocalDate.now().minusDays(1);
+        startOfDate = today.atStartOfDay();
+        endOfDate = LocalTime.MAX.atDate(today);
+
+        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+        startOfDay = zdtStart.toInstant().toEpochMilli();
+        endOfDay = zdtEnd.toInstant().toEpochMilli();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-
-                if(typeCategory) {
+                if(speechCategory.isChecked()) {
+                //if(typeCategory) {
                     System.out.println("Only Bad!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -678,7 +690,9 @@ public void playAutoSound4(){
                         public void run() {
 
                            card.setCardElevation(17.5f);
-                            handler.removeCallbacks(runnable);
+                           if(runnable!=null) {
+                               handler.removeCallbacks(runnable);
+                           }
                             handler = null;
                         }
                     }, 3000);

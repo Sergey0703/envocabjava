@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/soundTraining0"
-        android:icon="@drawable/icon_ear_white"
-        android:title="Listening"
+        android:id="@+id/wordsTraining"
+        android:icon="@drawable/icon_home_blue"
+        android:title="Repeat words"
+        app:showAsAction="withText"
+
+        />
+    <item
+        android:id="@+id/wordsTraining2"
+        android:icon="@drawable/icon_home_white"
+        android:title="Repeat words"
         app:showAsAction="always"
 
         />

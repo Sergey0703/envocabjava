@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:text="Words today: "
+        android:text="Repeated today: "
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
 
         android:paddingTop="5dp"
-        android:text="Study today: "
+        android:text="To study today: "
         android:textColor="@color/red"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/dashWordsToday"
