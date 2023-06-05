@@ -39,15 +39,13 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SoundActivity extends BaseActivity implements WordListInterface{
-    //    private static final int MENU3 = 1;
-    private Handler handler=null;
-    private Handler ihandler=null;
-    private Handler mHandler=new Handler();
+public class SoundActivity extends BaseActivity implements WordListInterface {
+
+    private Handler handler = null;
+    private Handler ihandler = null;
+    private Handler mHandler = new Handler();
     private Runnable runnable;
     private Context context;
-//    Handler handlerMain=null;
-//    Runnable runnableMain;
     private static final String TAG = "SoundActivity";
     boolean isLoading = false;
     private RecyclerView wordsList;
@@ -69,41 +67,31 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
 
     int speedScroll = 4000;
     LocalDate today, dateList;
-    LocalDateTime startOfDate ;
+    LocalDateTime startOfDate;
     LocalDateTime endOfDate;
     Long startOfDay;
     Long endOfDay;
-
     boolean loading = true;
-
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG,"onPause");
-//        if(handler!=null) {
-//            handler.removeCallbacks(runnable);
-//            handler = null;
-//            playSoundOn = false;
-//            btnPlaySound.setBackgroundResource(R.drawable.play_circle);
-//            ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
-//            //exit(0);
-//        }
+        Log.d(TAG, "onPause");
     }
 
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop");
         if (handler != null) {
-            if(runnable!=null) {
+            if (runnable != null) {
                 handler.removeCallbacks(runnable);
             }
-                        handler = null;
-                        playSoundOn = false;
-                        btnPlaySound.setBackgroundResource(R.drawable.play_circle);
-                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+            handler = null;
+            playSoundOn = false;
+            btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+            ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
 
-                    }
+        }
 
     }
 
@@ -120,23 +108,22 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         speechCategory = (Switch) findViewById(R.id.speechCategory);
         btnPrevDay = findViewById(R.id.btnPrevDay);
         btnNextDay = findViewById(R.id.btnNextDay);
-        allStudyWords=findViewById(R.id.allStudyWords);
+        allStudyWords = findViewById(R.id.allStudyWords);
 
         today = LocalDate.now();
-        dateList=today;
+        dateList = today;
 
 
         allStudyWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                //System.out.println("Switch!!!!!!");
                 onStop();
-                if(allStudyWords.isChecked()) {
+                if (allStudyWords.isChecked()) {
                     allStudyWords.setText("Words only by date");
-                    Log.d(TAG,"Words only by date" );
-                }else{
+                    Log.d(TAG, "Words only by date");
+                } else {
                     allStudyWords.setText("Only studying words");
-                    Log.d(TAG,"All words for study" );
+                    Log.d(TAG, "All words for study");
                 }
                 dataToList("");
             }
@@ -146,28 +133,28 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
 
                 //System.out.println("Switch!!!!!!");
                 onStop();
-                if(speechCategory.isChecked()) {
-                speechCategory.setText("Words by date");
-                Log.d(TAG,"All words by date" );
-                }else{
+                if (speechCategory.isChecked()) {
+                    speechCategory.setText("Words by date");
+                    Log.d(TAG, "All words by date");
+                } else {
                     speechCategory.setText("Only studying words");
-                    Log.d(TAG,"Only studying words" );
+                    Log.d(TAG, "Only studying words");
                 }
-                    dataToList("");
+                dataToList("");
             }
         });
         speechTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 onStop();
-                if(speechTranslate.isChecked()) {
+                if (speechTranslate.isChecked()) {
                     speechTranslate.setText("Speak translation ON");
-                    Log.d(TAG,"Speak translation ON" );
-                }else{
+                    Log.d(TAG, "Speak translation ON");
+                } else {
                     speechTranslate.setText("Speak translation OFF");
-                    Log.d(TAG,"Speak translation OFF" );
+                    Log.d(TAG, "Speak translation OFF");
                 }
 
-                    dataToList("");
+                dataToList("");
 
             }
         });
@@ -189,14 +176,14 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             @Override
             public void onClick(View view) {
                 Log.d("testLogs", "Speech");
-                if(!playSoundOn) {
+                if (!playSoundOn) {
                     playSoundOn = true;
                     btnPlaySound.setBackgroundResource(R.drawable.pause_circle);
                     //btnPlaySound.setBackgroundTint();
                     ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.red));
                     playAutoSound3();
-                }else{
-                    if(handler!=null) {
+                } else {
+                    if (handler != null) {
                         handler.removeCallbacks(runnable);
                         handler = null;
                     }
@@ -212,7 +199,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             public void onInit(int i) {
 
                 // if No error is found then only it will run
-                if(i!=TextToSpeech.ERROR){
+                if (i != TextToSpeech.ERROR) {
                     // To Choose language of speech
                     textToSpeech.setLanguage(Locale.UK);
                 }
@@ -223,7 +210,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             public void onInit(int i) {
 
                 // if No error is found then only it will run
-                if(i!=TextToSpeech.ERROR){
+                if (i != TextToSpeech.ERROR) {
                     // To Choose language of speech
                     Locale locRu = new Locale("ru");
                     textToSpeechTr.setLanguage(locRu);
@@ -232,14 +219,15 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         });
         dataToList("");
     }
-    public void dataToList(String nav){
-        Log.d(TAG,"today="+String.valueOf(today)+" dateList="+String.valueOf(dateList));
-        if(nav=="prev") {
+
+    public void dataToList(String nav) {
+        Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
+        if (nav == "prev") {
             dateList = dateList.minusDays(1);
-        }else if(nav=="next"){
-            if(!dateList.isEqual(today)) dateList = dateList.plusDays(1);
+        } else if (nav == "next") {
+            if (!dateList.isEqual(today)) dateList = dateList.plusDays(1);
         }
-        Log.d(TAG,"dateList="+String.valueOf(dateList));
+        Log.d(TAG, "dateList=" + String.valueOf(dateList));
         startOfDate = dateList.atStartOfDay();
         endOfDate = LocalTime.MAX.atDate(dateList);
 
@@ -250,30 +238,28 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(!allStudyWords.isChecked()){
-                    Log.d(TAG,"All BAD!!!!");
+                if (!allStudyWords.isChecked()) {
+                    Log.d(TAG, "All BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForListAll(0);
-                    System.out.println("Size="+listWords.size());
-                }
-                else if(speechCategory.isChecked()) {
-                //if(typeCategory) {
-                   Log.d(TAG,"All word!!!!");
+                    System.out.println("Size=" + listWords.size());
+                } else if (speechCategory.isChecked()) {
+                    Log.d(TAG, "All word!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .wordsForListAll(startOfDay, endOfDay );
-                    System.out.println("Size="+listWords.size());
-                }else {
-                    Log.d(TAG,"Only BAD!!!!");
+                            .wordsForListAll(startOfDay, endOfDay);
+                    System.out.println("Size=" + listWords.size());
+                } else {
+                    Log.d(TAG, "Only BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForList(startOfDay, endOfDay, 0);
-                            //.wordsForListAllTest();
-                    System.out.println("Size2="+listWords.size());
+                    //.wordsForListAllTest();
+                    System.out.println("Size2=" + listWords.size());
                 }
-                listWordsForAdd=listWords;
-                if(listWords.size()<4){
+                listWordsForAdd = listWords;
+                if (listWords.size() < 4) {
                     listWords.addAll(listWordsForAdd);
                 }
             }
@@ -281,370 +267,67 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         thread.start();
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-        //new Handler(thread.postDelayed(new Runnable() {
             @Override
             public void run() {
                 System.out.println("Run!!!");
                 if (listWords.size() != 0) {
                     System.out.println("NewList!!");
                     wordsList.setHasFixedSize(true);
-                    wordsAdapter = new WordsAdapter(listWords, SoundActivity.this  );
+                    wordsAdapter = new WordsAdapter(listWords, SoundActivity.this);
                     wordsList.setAdapter(wordsAdapter);
                     initScrollListener();
                 }
             }
-        },500);
+        }, 500);
     }
-//    public void dataToList2(boolean typeCategory){
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                if(typeCategory) {
-//                    System.out.println("Only Bad!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .wordsForList(startOfDay, endOfDay, 0);
-//                    System.out.println("SizeB="+listWords.size());
-//                }else{
-//                    System.out.println("All word!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            //.wordsForListAll(startOfDay, endOfDay);
-//                            .wordsForListAllTest();
-//                    System.out.println("Size2="+listWords.size());
-//                }
-//            }
-//        });
-//        thread.start();
-//
-//        new Handler(Looper.getMainLooper()).post(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                System.out.println("Run!!!");
-//                if (listWords.size() != 0) {
-//                    System.out.println("NewList!!");
-//                    wordsList.setHasFixedSize(true);
-//                    wordsAdapter = new WordsAdapter(listWords);
-//                    wordsList.setAdapter(wordsAdapter);
-//                    // initScrollListener();
-//                }
-//            }
-//        });
-//    }
-    public void playSpeech(String txtSpeech){
-        textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
+
+    public void playSpeech(String txtSpeech) {
+        textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
-    public void playSpeechTr(String txtSpeech){
-        textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH,null);
+
+    public void playSpeechTr(String txtSpeech) {
+        textToSpeechTr.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
+
     private void initScrollListener() {
-        Log.d(TAG,"INIT");
-        //int pastVisiblesItems, visibleItemCount, totalItemCount;
-        wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            Log.d(TAG,"INIT2 "+dy+" "+dx);
-            if (dy >= 0) { //check for scroll down
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
-                Log.d(TAG, "visibleItemCount="+visibleItemCount+" totalItemCount="+totalItemCount+" pastVisiblesItems="+pastVisiblesItems);
-                if (loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        loading = false;
-                        Log.d(TAG, "Last Item Wow !");
-                        // Do pagination.. i.e. fetch new data
-                        listWords.addAll(listWordsForAdd);
-                        loading = true;
-                    }
-                }
-            }
-        }
-    });
-
-//    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                                          @Override
-//                                          public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                                              super.onScrollStateChanged(recyclerView, newState);
-//                                             // System.out.println("onScrollStateChanged");
-//                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                                              int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-//                                              View v = layoutManager.findViewByPosition(top);
-//                                              TextView textViewName
-//                                                      = (TextView) v.findViewById(R.id.tv_number_item);
-//                                              String selectedName = (String) textViewName.getText();
-//                                              System.out.println(top+"= onScrollStateChanged="+selectedName);
-//                                              //R.id.tv_number_item).toString());
-//                                          }
-//                                          @Override
-//                                          public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                                              super.onScrolled(recyclerView, dx, dy);
-//                                              //System.out.println("onScrolled1");
-//                                              LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//
-//                                              if (!isLoading) {
-//                                                  //System.out.println("onScrolled---222 "+linearLayoutManager.findFirstCompletelyVisibleItemPosition()+" "+linearLayoutManager.findLastCompletelyVisibleItemPosition());
-//                                                  if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listWords.size() - 1) {
-//                                                      // bottom of list!
-//                                                     // System.out.println("onScrolled222");
-//                                                     //  loadMore();
-//                                                      isLoading = true;
-//                                                  }
-//                                              }
-//                                          }
-//                                      }
-//        );
-    }
-
-//    public void playAutoSound(){
-//        final Handler handler = new Handler();
-//        Timer timer=new Timer();
-//        timer.schedule(new TimerTask() {
-//
-//            @Override
-//            public void run() {
-//            if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-//                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-//            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-//            }else {
-//                layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-//            }
-//            //layoutManager.getFocusedChild().
-//            //Log.d("Tag","Pos="+layoutManager.findLastVisibleItemPosition());
-//                System.out.println("TagLogsOne");
-//            }
-//            //int ind=getAdapterPosition();
-//        },0,3000);
-//    }
-///////////////////////////////////////////////////////////////
-public void playAutoSound4(){
-    if(handler!=null) return;
-
-    handler = new Handler();
-    //int top=0;
-    //int newTop=0;
-    Thread thread = new Thread(new Runnable() {
-        // runnable = new Runnable() {
-
-        @Override
-        public void run() {
-            int top=layoutManager.findFirstCompletelyVisibleItemPosition();
-            onItemClick2(top);
-
-//                speedScroll=4000;
-//            }else{
-//                speedScroll=2000;
-//            }
-
-            if(handler==null) return;
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    //int top=layoutManager.findFirstCompletelyVisibleItemPosition();
-                    //newTop=top+1;
-                    //layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),newTop);
-                    layoutManager.scrollToPositionWithOffset(top+1, 0);
-                    //layoutManager.
-                    //RecyclerView.SmoothScroller.setTargetPosition(snapTarget);
-                    //layoutManager.startSmoothScroll(newTop);
-                    Log.d(TAG,"NewTop "+String.valueOf(top+1));
-//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-//                            Log.d(TAG,"PositionL="+layoutManager.findLastVisibleItemPosition());
-//                        }else {
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-//                            Log.d(TAG,"Position="+0);
-//                        }
-                    //textViewName.setAllCaps(false);
-                    //card.setCardElevation(17.5f);
-
-                }
-            }, speedScroll-1000); //3000 & 1000
-            if(handler==null) return;
-            handler.postDelayed(this,speedScroll); //4000
-
-            //System.out.println("=======================================================");
-            //Log.d(TAG,"after layout =======================================================");
-
-        }
-    });
-    thread.start();
-    //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    //handler.postDelayed(runnable,1000);
-}
-    ///////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////////
-    public void playAutoSound3(){
-        if(handler!=null) return;
-
-        handler = new Handler();
-        //int top=0;
-        //int newTop=0;
-        Thread thread = new Thread(new Runnable() {
-       // runnable = new Runnable() {
-
+        Log.d(TAG, "INIT");
+       wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void run() {
-
-                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Log.d(TAG,"run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
-                int top=layoutManager.findFirstCompletelyVisibleItemPosition();
-
-                View v = layoutManager.findViewByPosition(top);
-                CardView card=(CardView) v.findViewById(R.id.cardWord);
-               // System.out.println("Elev="+card.getCardElevation());
-                card.setCardElevation(100f);
-                //v.setBackgroundColor(Color.CYAN);
-                //card.setCardBackgroundColor(Color.BLUE);
-
-                TextView textViewName
-                        = (TextView) v.findViewById(R.id.tv_number_item);
-                //textViewName.setAllCaps(true);
-                String selectedName = (String) textViewName.getText();
-
-                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-                Log.d(TAG,top+"= onScrollStateChanged="+selectedName);
-
-                //handler.postDelayed(new Runnable() {
-                if(handler==null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        Log.d(TAG,+top+"= Speech="+selectedName);
-
-                        playSpeech(selectedName);
-                    }
-                }, 1);
-
-                //   System.out.println(top+"= onScrollStateChanged="+selectedName);
-                if (speechTranslate.isChecked()) {
-                    TextView textViewTranslate
-                            = (TextView) v.findViewById(R.id.tv_holder_number);
-                    selectedTranslate= (String) textViewTranslate.getText();
-                    selectedTranslate=selectedTranslate.trim();
-                    if(selectedTranslate.length()>32) {
-                        int endOfWord=selectedTranslate.indexOf(" ",22);
-
-                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
-                    }
-                    // Handler handler2 = new Handler();
-                    if(handler==null) return;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-
-                            playSpeechTr(selectedTranslate);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                Log.d(TAG, "INIT2 " + dy + " " + dx);
+                if (dy >= 0) { //check for scroll down
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+                    Log.d(TAG, "visibleItemCount=" + visibleItemCount + " totalItemCount=" + totalItemCount + " pastVisiblesItems=" + pastVisiblesItems);
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            loading = false;
+                            Log.d(TAG, "Last Item Wow !");
+                            // Do pagination.. i.e. fetch new data
+                            listWords.addAll(listWordsForAdd);
+                            loading = true;
                         }
-                    }, 1500);
-                    speedScroll=4000;
-                }else{
-                    speedScroll=2000;
-                }
-
-                if(handler==null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        //newTop=top+1;
-                        //layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),newTop);
-                        layoutManager.scrollToPositionWithOffset(top+1, 0);
-                        //layoutManager.
-                        //RecyclerView.SmoothScroller.setTargetPosition(snapTarget);
-                        //layoutManager.startSmoothScroll(newTop);
-                        Log.d(TAG,"NewTop "+String.valueOf(top+1));
-//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-//                            Log.d(TAG,"PositionL="+layoutManager.findLastVisibleItemPosition());
-//                        }else {
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-//                            Log.d(TAG,"Position="+0);
-//                        }
-                        //textViewName.setAllCaps(false);
-                        card.setCardElevation(17.5f);
-
                     }
-                }, speedScroll-1000); //3000 & 1000
-                if(handler==null) return;
-                handler.postDelayed(this,speedScroll); //4000
-//                if(!getClass().getName().trim().contains("SoundActivity")) {
-//                    Log.d(TAG,"STOP!!!!!!!!!!!1");
-//                    //onPause();
-//                    if (handler != null) {
-//                        handler.removeCallbacks(runnable);
-//                        handler = null;
-//                        playSoundOn = false;
-//                        btnPlaySound.setBackgroundResource(R.drawable.play_circle);
-//                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
-//
-//                    }
-//                }
-                Log.d(TAG, "Act="+getClass().getName().trim());
-                //System.out.println("=======================================================");
-                //Log.d(TAG,"after layout =======================================================");
-
+                }
             }
         });
-        thread.start();
-        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        //handler.postDelayed(runnable,1000);
-    }
-    ///////////////////////////////////////////////////////////////
-//    wordsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//        @Override
-//        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//            if (dy > 0) { //check for scroll down
-//                visibleItemCount = mLayoutManager.getChildCount();
-//                totalItemCount = mLayoutManager.getItemCount();
-//                pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-//
-//                if (loading) {
-//                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-//                        loading = false;
-//                        Log.v("...", "Last Item Wow !");
-//                        // Do pagination.. i.e. fetch new data
-//
-//                        loading = true;
-//                    }
-//                }
-//            }
-//        }
-//    });
-
-    ////////////////////////////////////////////////////////////////
-    public void startRepeating(View view){
-        //mHandler.postDelayed(mToastRunnable,5000);
-        mToastRunnable.run();
     }
 
-    public void StopRepeating(View view){
-            mHandler.removeCallbacks(mToastRunnable);
-    }
-    private Runnable mToastRunnable=new Runnable() {
-        @Override
-        public void run() {
-            Toast.makeText(SoundActivity.this,"This is delayed toast", Toast.LENGTH_SHORT).show();
-            mHandler.postDelayed(this,5000);
-        }
-    };
-    /////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-    public void onItemClick2(int position) {
-        int top = position;
-        Log.d(TAG, "position0=" + top);
-        ihandler = new Handler();
-        //int top=0;
-        //int newTop=0;
-//        Thread thread = new Thread(new Runnable() {
-//            // runnable = new Runnable() {
-//
-//            @Override
-//            public void run() {
+    public void playAutoSound3() {
+        if (handler != null) return;
 
+        handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            // runnable = new Runnable() {
+            @Override
+            public void run() {
+                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Log.d(TAG, "run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                int top = layoutManager.findFirstCompletelyVisibleItemPosition();
 
-                Log.d(TAG, "position=" + top);
                 View v = layoutManager.findViewByPosition(top);
                 CardView card = (CardView) v.findViewById(R.id.cardWord);
                 // System.out.println("Elev="+card.getCardElevation());
@@ -658,8 +341,8 @@ public void playAutoSound4(){
                 Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
 
                 //handler.postDelayed(new Runnable() {
-                if (ihandler == null) return;
-                ihandler.postDelayed(new Runnable() {
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
                     public void run() {
                         Log.d(TAG, +top + "= Speech=" + selectedName);
 
@@ -667,7 +350,6 @@ public void playAutoSound4(){
                     }
                 }, 1);
 
-                //   System.out.println(top+"= onScrollStateChanged="+selectedName);
                 if (speechTranslate.isChecked()) {
                     TextView textViewTranslate
                             = (TextView) v.findViewById(R.id.tv_holder_number);
@@ -679,51 +361,65 @@ public void playAutoSound4(){
                         selectedTranslate = selectedTranslate.substring(0, endOfWord);
                     }
                     // Handler handler2 = new Handler();
-                    if (ihandler == null) return;
-                    ihandler.postDelayed(new Runnable() {
+                    if (handler == null) return;
+                    handler.postDelayed(new Runnable() {
                         public void run() {
 
                             playSpeechTr(selectedTranslate);
-
                         }
                     }, 1500);
-                    if (ihandler == null) return;
-                    ihandler.postDelayed(new Runnable() {
-                        public void run() {
-
-                            card.setCardElevation(17.5f);
-
-                            ihandler.removeCallbacks(runnable);
-                            ihandler = null;
-                        }
-                    }, 3000);
-
-
+                    speedScroll = 4000;
+                } else {
+                    speedScroll = 2000;
                 }
-           // }
-//        });
-//        thread.start();
 
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        layoutManager.scrollToPositionWithOffset(top + 1, 0);
+                        Log.d(TAG, "NewTop " + String.valueOf(top + 1));
+                        card.setCardElevation(17.5f);
+
+                    }
+                }, speedScroll - 1000); //3000 & 1000
+                if (handler == null) return;
+                handler.postDelayed(this, speedScroll); //4000
+                Log.d(TAG, "Act=" + getClass().getName().trim());
+            }
+        });
+        thread.start();
+        Log.d(TAG, "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
     }
-    ///////////////////////////////////////////////////////////////
-//
+    ////////////////////////////////////////////////////////////////
+    public void startRepeating(View view) {
+         mToastRunnable.run();
+    }
+
+    public void StopRepeating(View view) {
+        mHandler.removeCallbacks(mToastRunnable);
+    }
+
+    private Runnable mToastRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(SoundActivity.this, "This is delayed toast", Toast.LENGTH_SHORT).show();
+            mHandler.postDelayed(this, 5000);
+        }
+    };
+/////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onItemClick(int position) {
-        if(handler!=null) return;
+        if (handler != null) return;
         int top = position;
         Log.d(TAG, "position0=" + top);
         handler = new Handler();
-        //int top=0;
-        //int newTop=0;
         Thread thread = new Thread(new Runnable() {
-            // runnable = new Runnable() {
 
             @Override
             public void run() {
-
-
                 Log.d(TAG, "position=" + top);
                 View v = layoutManager.findViewByPosition(top);
                 CardView card = (CardView) v.findViewById(R.id.cardWord);
@@ -768,117 +464,25 @@ public void playAutoSound4(){
                         }
                     }, 1500);
                 }
-                    if (handler == null) return;
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
+                    public void run() {
 
-                           card.setCardElevation(17.5f);
-                           if(runnable!=null) {
-                               handler.removeCallbacks(runnable);
-                           }
-                            handler = null;
+                        card.setCardElevation(17.5f);
+                        if (runnable != null) {
+                            handler.removeCallbacks(runnable);
                         }
-                    }, 2000);
-
-
-                }
+                        handler = null;
+                    }
+                }, 2000);
+            }
 
         });
         thread.start();
-
-
     }
-    ///////////////////////////////////////////////////////////////
-//    public void playAutoSound2(){
-//        if(handler!=null) return;
-//
-//        handler = new Handler();
-//
-//        runnable = new Runnable() {
-//           // int count = 0;
-//          //  boolean flag = true;
-//
-//            @Override
-//            public void run() {
-//
-//                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                Log.d(TAG,"run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" );
-//               // LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                //int top=linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-//                int top=layoutManager.findFirstCompletelyVisibleItemPosition();
-//
-//                View v = layoutManager.findViewByPosition(top);
-//                CardView card=(CardView) v.findViewById(R.id.cardWord);
-//                System.out.println("Elev="+card.getCardElevation());
-//                card.setCardElevation(100f);
-//                //v.setBackgroundColor(Color.CYAN);
-//                //card.setCardBackgroundColor(Color.BLUE);
-//
-//                TextView textViewName
-//                        = (TextView) v.findViewById(R.id.tv_number_item);
-//                //textViewName.setAllCaps(true);
-//                String selectedName = (String) textViewName.getText();
-//
-//                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-//                Log.d(TAG,"!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
-//                //Log.d("testLogs",String.valueOf(wordsAdapter.));
-//                //String title = ((TextView) wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.tv_number_item)).getText().toString();
-//                //wordsList.findViewHolderForAdapterPosition(0).itemView.findViewById()
-//                //Log.d("testLogs",title);
-//
-//                playSpeech(selectedName);
-//             //   System.out.println(top+"= onScrollStateChanged="+selectedName);
-//                if (speechTranslate.isChecked()) {
-//                    TextView textViewTranslate
-//                            = (TextView) v.findViewById(R.id.tv_holder_number);
-//                    selectedTranslate= (String) textViewTranslate.getText();
-//                    selectedTranslate=selectedTranslate.trim();
-//                    if(selectedTranslate.length()>32) {
-//                        int endOfWord=selectedTranslate.indexOf(" ",22);
-//
-//                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
-//                    }
-//                   // Handler handler2 = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        public void run() {
-//
-//                            playSpeechTr(selectedTranslate);
-//                                                  }
-//                    }, 2000);
-//                }else{
-//                    speedScroll=2000;
-//                }
-//
-//
-//                handler.postDelayed(new Runnable() {
-//                    public void run() {
-//
-//                        if(layoutManager.findLastVisibleItemPosition()<(wordsAdapter.getItemCount()-1)){
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),layoutManager.findLastCompletelyVisibleItemPosition()+1);
-//                            //}else if(layoutManager.findLastVisibleItemPosition()==(wordsAdapter.getItemCount()-1)){
-//                        }else {
-//                            layoutManager.smoothScrollToPosition(wordsList,new RecyclerView.State(),0);
-//                        }
-//                        //textViewName.setAllCaps(false);
-//                        card.setCardElevation(17.5f);
-//                    }
-//                }, 2000);
-//
-//
-//                handler.postDelayed(this,4000);
-//                //System.out.println("=======================================================");
-//                Log.d(TAG,"after layout =======================================================");
-//
-//            }
-//        };
-//        //System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//        Log.d(TAG,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//        handler.postDelayed(runnable,1000);
-//    }
-/////////////////////////////////////////////////////////////////
 
 
-        //    @Override
+//    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
 //        MenuItem menu3 = menu.findItem(MENU3);
 //        if(menu3 == null){

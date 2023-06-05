@@ -1,8 +1,10 @@
 package com.example.envocab;
+
 import static com.example.envocab.Converters.dateToTimestamp;
 
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -36,8 +38,8 @@ import java.util.List;
 import java.util.Locale;
 
 //public class MainActivity extends AppCompatActivity {
-public class MainActivity extends BaseActivity  {
-    private static final String TAG="MainActivity";
+public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
     DatabaseHelper databaseHelper;
 
     Word word;
@@ -61,8 +63,7 @@ public class MainActivity extends BaseActivity  {
 
     Long trainDateLong;
     Switch switchSound;
- //   ImageView menuIcon;
-
+    //   ImageView menuIcon;
 
 
     @Override
@@ -95,20 +96,19 @@ public class MainActivity extends BaseActivity  {
         databaseHelper.create_db();
 
         //Log.d("log","My log!");
-        btnWordOk=findViewById(R.id.btnWordOk);
-        btnWordStudy=findViewById(R.id.btnWordStudy);
-        btnWordTranslate=findViewById(R.id.btnWordTranslate);
-        btnNext=findViewById(R.id.btnNext);
-        btnPrev=findViewById(R.id.btnPrev);
-        btnSound=findViewById(R.id.btnSound);
-        dashWord=findViewById(R.id.dashWord);
-        dashTranscript=findViewById(R.id.dashTranscript);
-        dashTrainDate=findViewById(R.id.dashTrainDate);
-        translate=findViewById(R.id.dashTranslate);
+        btnWordOk = findViewById(R.id.btnWordOk);
+        btnWordStudy = findViewById(R.id.btnWordStudy);
+        btnWordTranslate = findViewById(R.id.btnWordTranslate);
+        btnNext = findViewById(R.id.btnNext);
+        btnPrev = findViewById(R.id.btnPrev);
+        btnSound = findViewById(R.id.btnSound);
+        dashWord = findViewById(R.id.dashWord);
+        dashTranscript = findViewById(R.id.dashTranscript);
+        dashTrainDate = findViewById(R.id.dashTrainDate);
+        translate = findViewById(R.id.dashTranslate);
         translate.setVisibility(View.INVISIBLE);
-        dashWordsTodayCount=findViewById(R.id.dashWordsTodayCount);
-        dashWordsTodayBadCount=findViewById(R.id.dashWordsTodayBadCount);
-
+        dashWordsTodayCount = findViewById(R.id.dashWordsTodayCount);
+        dashWordsTodayBadCount = findViewById(R.id.dashWordsTodayBadCount);
 
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity  {
             public void onInit(int i) {
 
                 // if No error is found then only it will run
-                if(i!=TextToSpeech.ERROR){
+                if (i != TextToSpeech.ERROR) {
                     // To Choose language of speech
                     textToSpeech.setLanguage(Locale.UK);
                 }
@@ -126,14 +126,16 @@ public class MainActivity extends BaseActivity  {
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("testLogs","Speech");
+                Log.d("testLogs", "Speech");
                 playSpeech();
 
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {takeWord("Next");}
+            public void onClick(View v) {
+                takeWord("Next");
+            }
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +148,9 @@ public class MainActivity extends BaseActivity  {
 
         btnWordOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { updateWord(true);}
+            public void onClick(View view) {
+                updateWord(true);
+            }
         });
 
         btnWordStudy.setOnClickListener(new View.OnClickListener() {
@@ -158,8 +162,8 @@ public class MainActivity extends BaseActivity  {
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                translate.setVisibility(translate.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
-                btnWordTranslate.setText(translate.getVisibility()==View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
+                translate.setVisibility(translate.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                btnWordTranslate.setText(translate.getVisibility() == View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
                 //allWords();
             }
         });
@@ -167,7 +171,7 @@ public class MainActivity extends BaseActivity  {
         takeWord("");
     }
 
-//    public void showMenu(View v){
+    //    public void showMenu(View v){
 //        PopupMenu popupMenu=new PopupMenu(MainActivity.this,v);
 //        popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
 //        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -193,17 +197,18 @@ public class MainActivity extends BaseActivity  {
 //        });
 //        popupMenu.show();
 //    }
-    public void playSpeech(){
-        textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH,null);
+    public void playSpeech() {
+        textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH, null);
     }
+
     public void insWord() {
         //System.out.println("Ins");
-        Word word=new Word("NewTest2", "translate2", "transcript2");
-        InsertAsyncTask insertAsyncTask=new InsertAsyncTask();
+        Word word = new Word("NewTest2", "translate2", "transcript2");
+        InsertAsyncTask insertAsyncTask = new InsertAsyncTask();
         insertAsyncTask.execute(word);
     }
 
-    public void updateWord(Boolean up){
+    public void updateWord(Boolean up) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -212,95 +217,97 @@ public class MainActivity extends BaseActivity  {
                         .findById(uid);
 
                 if (word != null) {
-                    Log.d(TAG,"findBy="+uid+" word="+word.getWord());
+                    Log.d(TAG, "findBy=" + uid + " word=" + word.getWord());
                     currentTime = Calendar.getInstance().getTime();
-                    Log.d(TAG, "currentTime="+currentTime);
+                    Log.d(TAG, "currentTime=" + currentTime);
                     word.setTrain1(up);
                     word.setTrainDate(currentTime);
                     AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .updateWord(word);
-                Log.d(TAG, "Update word="+word.getWord());
-                takeWord("");
+                    Log.d(TAG, "Update word=" + word.getWord());
+                    takeWord("");
                 }
             }
 
         }).start();
 
     }
-    public void allWords(){
-         Thread thread =new Thread(new Runnable() {
+
+    public void allWords() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Word> wordList=AppDatabase.getInstance(getApplicationContext())
+                List<Word> wordList = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .getAll();
                 //Log.d(TAG, "run "+wordList.toString());
-                for(Word w: wordList){
-                    Log.d(TAG,w.toString());
+                for (Word w : wordList) {
+                    Log.d(TAG, w.toString());
                 }
 
             }
         });
         thread.start();
     }
-    public void takeWord(String nav){
-        Thread thread =new Thread(new Runnable() {
+
+    public void takeWord(String nav) {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 word = null;
-                Log.d(TAG,"trainDateLong="+trainDateLong);
-                if(nav=="") {
+                Log.d(TAG, "trainDateLong=" + trainDateLong);
+                if (nav == "") {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .findLast();
-                }else if(nav=="Next"){
+                } else if (nav == "Next") {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .findNext(trainDateLong);
-                    if(word == null){
+                    if (word == null) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .findLast();
-                        Log.d(TAG,"nav=");
+                        Log.d(TAG, "nav=");
                     }
 
-                }else if(nav=="Prev"){
+                } else if (nav == "Prev") {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .findPrev(trainDateLong);
-                    if(word == null){
+                    if (word == null) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .findPrevAdd();
-                        Log.d(TAG,"nav=");
+                        Log.d(TAG, "nav=");
                     }
-                    Log.d(TAG,"nav="+nav);
+                    Log.d(TAG, "nav=" + nav);
                 }
 
                 if (word != null) {
-                    Log.d(TAG, "Take Word="+word.getWord());
+                    Log.d(TAG, "Take Word=" + word.getWord());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             uid = word.getId();
-                            trainDateLong= Long.valueOf(0);
+                            trainDateLong = Long.valueOf(0);
                             dashWord.setText(word.getWord());
-                            if(word.getTrain1()!=null&&word.getTrain1()==true) {
+                            if (word.getTrain1() != null && word.getTrain1() == true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
-                            }else{
+                            } else {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
                             }
 
-                            dashTranscript.setText("["+word.getTranscript()+"]");
-                            if(word.getTrainDate()!=null) {
+                            dashTranscript.setText("[" + word.getTranscript() + "]");
+                            if (word.getTrainDate() != null) {
                                 DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                                 dateWithoutTime = sdf.format(word.getTrainDate());
-                                Log.d(TAG,"dateWithoutTime="+dateWithoutTime);
+                                Log.d(TAG, "dateWithoutTime=" + dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
-                                trainDateLong=dateToTimestamp(word.getTrainDate());
+                                trainDateLong = dateToTimestamp(word.getTrainDate());
 
-                            }else{
+                            } else {
                                 dashTrainDate.setText("");
 
                             }
@@ -308,7 +315,7 @@ public class MainActivity extends BaseActivity  {
                             btnWordTranslate.setText("SHOW TRANSLATE");
                             translate.setText(word.getTranslate());
 
-                            if (switchSound.isChecked()){
+                            if (switchSound.isChecked()) {
                                 playSpeech();
                             }
 
@@ -319,19 +326,19 @@ public class MainActivity extends BaseActivity  {
                     });
                     countWordsToday(0);
                     countWordsToday(1);
-                }else{
-                    Log.d(TAG,"Empty word");
+                } else {
+                    Log.d(TAG, "Empty word");
                 }
             }
         });
         thread.start();
     }
 
-    public void countWordsToday(int typeWords){
-        Thread thread =new Thread(new Runnable() {
+    public void countWordsToday(int typeWords) {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                LocalDate today = LocalDate.now() ;
+                LocalDate today = LocalDate.now();
                 LocalDateTime startOfDate = today.atStartOfDay();
                 LocalDateTime endOfDate = LocalTime.MAX.atDate(today);
                 //java.sql.Timestamp.valueOf(startOfDay);
@@ -339,36 +346,36 @@ public class MainActivity extends BaseActivity  {
                 //Long st=Converters.dateToTimestamp(startOfDay);
                 ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
                 ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-                Long startOfDay=zdtStart.toInstant().toEpochMilli();
-                Long endOfDay=zdtEnd.toInstant().toEpochMilli();
+                Long startOfDay = zdtStart.toInstant().toEpochMilli();
+                Long endOfDay = zdtEnd.toInstant().toEpochMilli();
 
 //                Date dateFormatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy HH:mm:ss")
 //                LocalDate today2 = LocalDate.now();   // your current date time
 //                LocalDateTime start2= today2.atStartOfDay(); // date time at start of the date
                 //Long start2.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(); // start time to timestamp
-                Log.d(TAG, "start date ="+startOfDay);
-                Log.d(TAG, "End date2 ="+endOfDay);
+                Log.d(TAG, "start date =" + startOfDay);
+                Log.d(TAG, "End date2 =" + endOfDay);
 
-               // Log.d("Date:", "start date parsed "+startOfDay.format(dateFormatter)}")
+                // Log.d("Date:", "start date parsed "+startOfDay.format(dateFormatter)}")
 
                 //word.getTrainDate()
-                int count=AppDatabase.getInstance(getApplicationContext())
-                           .wordDao()
-                           .countToday(startOfDay,endOfDay, typeWords);
+                int count = AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .countToday(startOfDay, endOfDay, typeWords);
 
-                Log.d(TAG, "countToday="+count);
+                Log.d(TAG, "countToday=" + count);
                 //if (count != 0) {
-                   // dashWordsTodayCount.setText(count);
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(typeWords==0){
-                                dashWordsTodayBadCount.setText(String.valueOf(count));
-                            }else {
-                                dashWordsTodayCount.setText(String.valueOf(count));
-                            }
+                // dashWordsTodayCount.setText(count);
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (typeWords == 0) {
+                            dashWordsTodayBadCount.setText(String.valueOf(count));
+                        } else {
+                            dashWordsTodayCount.setText(String.valueOf(count));
                         }
-                    });
+                    }
+                });
 //                }else{
 //                    Log.d(TAG,"Empty Count");
 //                }
@@ -377,14 +384,14 @@ public class MainActivity extends BaseActivity  {
         thread.start();
     }
 
-    class InsertAsyncTask extends AsyncTask<Word, Void, Void>{
+    class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
 
         @Override
         protected Void doInBackground(Word... words) {
-             AppDatabase.getInstance(getApplicationContext())
+            AppDatabase.getInstance(getApplicationContext())
                     .wordDao()
                     .insertWord(words[0]);
-             return null;
+            return null;
         }
     }
 }
