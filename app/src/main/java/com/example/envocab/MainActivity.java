@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -393,5 +394,24 @@ public class MainActivity extends BaseActivity {
                     .insertWord(words[0]);
             return null;
         }
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
+        if(menuWordsTraining != null){
+            menuWordsTraining.setEnabled(false);
+            menuWordsTraining.getIcon().setAlpha(130);
+        }
+        MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
+        if(menuWordsTraining2 != null){
+            menuWordsTraining2.setEnabled(false);
+            menuWordsTraining2.getIcon().setAlpha(130);
+        }
+        MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
+        if(menuSoundTraining != null){
+           // menuWordsTraining.setEnabled(false);
+            menuSoundTraining.getIcon().setAlpha(255);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 }

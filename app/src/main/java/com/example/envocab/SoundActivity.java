@@ -423,14 +423,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 Log.d(TAG, "position=" + top);
                 View v = layoutManager.findViewByPosition(top);
                 CardView card = (CardView) v.findViewById(R.id.cardWord);
-                // System.out.println("Elev="+card.getCardElevation());
                 card.setCardElevation(100f);
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
-                //textViewName.setAllCaps(true);
-                String selectedName = (String) textViewName.getText();
 
-                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
+                String selectedName = (String) textViewName.getText();
                 Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
 
                 //handler.postDelayed(new Runnable() {
@@ -443,7 +440,6 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     }
                 }, 1);
 
-                //   System.out.println(top+"= onScrollStateChanged="+selectedName);
                 if (speechTranslate.isChecked()) {
                     TextView textViewTranslate
                             = (TextView) v.findViewById(R.id.tv_holder_number);
@@ -458,9 +454,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     if (handler == null) return;
                     handler.postDelayed(new Runnable() {
                         public void run() {
-
                             playSpeechTr(selectedTranslate);
-
                         }
                     }, 1500);
                 }
@@ -481,15 +475,20 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         thread.start();
     }
 
-
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem menu3 = menu.findItem(MENU3);
-//        if(menu3 == null){
-//            menu3 = menu.add(Menu.NONE, MENU3, 3, "Menu No. 3");
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
+        if(menuSoundTraining != null){
+            menuSoundTraining.setEnabled(false);
+            menuSoundTraining.getIcon().setAlpha(130);
+        }
+        MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
+        if(menuSoundTraining2 != null){
+            menuSoundTraining2.setEnabled(false);
+            menuSoundTraining2.getIcon().setAlpha(130);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 //@Override
 //public boolean onOptionsItemSelected(MenuItem item) {
 //
