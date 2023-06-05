@@ -19,7 +19,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     private final int VIEW_TYPE_LOADING = 1;
     private static int viewHolderCount;
     private int numberItems;
+    private boolean firstLoading=true;
     private List<Word> wordsList;
+    private int height;
 
 
     public WordsAdapter(List<Word> wordsList, WordListInterface wordListInterface){
@@ -39,6 +41,16 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //WordViewHolder viewHolder = new WordViewHolder(view);
+        //int height ;
+        //height = parent.getHeight()/2;
+
+//        }else{
+//            height = parent.getHeight();
+//        }
+        //int width = parent.getMeasuredWidth();
+        //int h = parent.getMeasuredHeight();
+        //Log.d("VH=","Parent="+parent+" height="+height+" h="+h+" width="+width );
+        //  view.setLayoutParams(new RecyclerView.LayoutParams(width, height));
 
         return new WordViewHolder(view, wordListInterface);
     }
@@ -81,6 +93,11 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         //holder.bind(position);
         Word word =wordsList.get(position);
         holder.listItemNumberView.setText(word.getWord());
+        if(word.getTrain1()!=null&&word.getTrain1()==true) {
+            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+        }else{
+            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+        }
         holder.viewHolderIndex.setText(word.getTranslate());
         if(word.getTranslate().trim().length()>0) {
             holder.viewHolderTranscription.setText("["+word.getTranscript()+"]");

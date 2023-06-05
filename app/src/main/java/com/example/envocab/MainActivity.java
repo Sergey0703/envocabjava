@@ -292,7 +292,7 @@ public class MainActivity extends BaseActivity  {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
                             }
 
-                            dashTranscript.setText(word.getTranscript());
+                            dashTranscript.setText("["+word.getTranscript()+"]");
                             if(word.getTrainDate()!=null) {
                                 DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                                 dateWithoutTime = sdf.format(word.getTrainDate());

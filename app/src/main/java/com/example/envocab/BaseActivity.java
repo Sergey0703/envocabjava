@@ -34,13 +34,21 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
     switch (item.getItemId()) {
+        case R.id.wordsTraining:
+            Intent intent1=new Intent(BaseActivity.this, MainActivity.class);
+            startActivity(intent1);
+            return true;
+        case R.id.wordsTraining2:
+            Intent intent2=new Intent(BaseActivity.this, MainActivity.class);
+            startActivity(intent2);
+            return true;
         case R.id.soundTraining:
-            Intent intent=new Intent(BaseActivity.this, SoundActivity.class);
-            startActivity(intent);
+            Intent intent3=new Intent(BaseActivity.this, SoundActivity.class);
+            startActivity(intent3);
             return true;
         case R.id.soundTraining2:
-            Intent intent2=new Intent(BaseActivity.this, SoundActivity.class);
-            startActivity(intent2);
+            Intent intent4=new Intent(BaseActivity.this, SoundActivity.class);
+            startActivity(intent4);
             return true;
 
         case R.id.aboutProgram:

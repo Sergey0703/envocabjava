@@ -64,10 +64,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
     boolean playSoundOn;
     Switch speechTranslate;
     Switch speechCategory;
+    Switch allStudyWords;
     String selectedTranslate;
 
     int speedScroll = 4000;
-    LocalDate today;
+    LocalDate today, dateList;
     LocalDateTime startOfDate ;
     LocalDateTime endOfDate;
     Long startOfDay;
@@ -75,17 +76,35 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
 
     boolean loading = true;
 
+
     @Override
     protected void onPause() {
         super.onPause();
-        if(handler!=null) {
-            handler.removeCallbacks(runnable);
-            handler = null;
-            playSoundOn = false;
-            btnPlaySound.setBackgroundResource(R.drawable.play_circle);
-            ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
-            //exit(0);
-        }
+        Log.d(TAG,"onPause");
+//        if(handler!=null) {
+//            handler.removeCallbacks(runnable);
+//            handler = null;
+//            playSoundOn = false;
+//            btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+//            ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+//            //exit(0);
+//        }
+    }
+
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+        if (handler != null) {
+            if(runnable!=null) {
+                handler.removeCallbacks(runnable);
+            }
+                        handler = null;
+                        playSoundOn = false;
+                        btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+
+                    }
+
     }
 
     @Override
@@ -101,28 +120,55 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         speechCategory = (Switch) findViewById(R.id.speechCategory);
         btnPrevDay = findViewById(R.id.btnPrevDay);
         btnNextDay = findViewById(R.id.btnNextDay);
+        allStudyWords=findViewById(R.id.allStudyWords);
+
+        today = LocalDate.now();
+        dateList=today;
 
 
+        allStudyWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //System.out.println("Switch!!!!!!");
+                onStop();
+                if(allStudyWords.isChecked()) {
+                    allStudyWords.setText("Words only by date");
+                    Log.d(TAG,"Words only by date" );
+                }else{
+                    allStudyWords.setText("Only studying words");
+                    Log.d(TAG,"All words for study" );
+                }
+                dataToList("");
+            }
+        });
         speechCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 //System.out.println("Switch!!!!!!");
                 onStop();
-                //if(speechCategory.isChecked()) {
-                //    dataToList(true);
-                //}else{
+                if(speechCategory.isChecked()) {
+                speechCategory.setText("Words by date");
+                Log.d(TAG,"All words by date" );
+                }else{
+                    speechCategory.setText("Only studying words");
+                    Log.d(TAG,"Only studying words" );
+                }
                     dataToList("");
-                //}
             }
         });
         speechTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 onStop();
-                //if(speechCategory.isChecked()) {
+                if(speechTranslate.isChecked()) {
+                    speechTranslate.setText("Speak translation ON");
+                    Log.d(TAG,"Speak translation ON" );
+                }else{
+                    speechTranslate.setText("Speak translation OFF");
+                    Log.d(TAG,"Speak translation OFF" );
+                }
+
                     dataToList("");
-                //}else{
-                //    dataToList(false);
-               // }
+
             }
         });
 
@@ -130,6 +176,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
             @Override
             public void onClick(View v) {
                 dataToList("prev");
+            }
+        });
+
+        btnNextDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataToList("next");
             }
         });
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
@@ -180,9 +233,15 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         dataToList("");
     }
     public void dataToList(String nav){
-        today = LocalDate.now().minusDays(1);
-        startOfDate = today.atStartOfDay();
-        endOfDate = LocalTime.MAX.atDate(today);
+        Log.d(TAG,"today="+String.valueOf(today)+" dateList="+String.valueOf(dateList));
+        if(nav=="prev") {
+            dateList = dateList.minusDays(1);
+        }else if(nav=="next"){
+            if(!dateList.isEqual(today)) dateList = dateList.plusDays(1);
+        }
+        Log.d(TAG,"dateList="+String.valueOf(dateList));
+        startOfDate = dateList.atStartOfDay();
+        endOfDate = LocalTime.MAX.atDate(dateList);
 
         ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
         ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
@@ -191,22 +250,32 @@ public class SoundActivity extends BaseActivity implements WordListInterface{
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(speechCategory.isChecked()) {
+                if(!allStudyWords.isChecked()){
+                    Log.d(TAG,"All BAD!!!!");
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .wordsForListAll(0);
+                    System.out.println("Size="+listWords.size());
+                }
+                else if(speechCategory.isChecked()) {
                 //if(typeCategory) {
-                    System.out.println("Only Bad!!!!");
+                   Log.d(TAG,"All word!!!!");
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .wordsForListAll(startOfDay, endOfDay );
+                    System.out.println("Size="+listWords.size());
+                }else {
+                    Log.d(TAG,"Only BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForList(startOfDay, endOfDay, 0);
-                    System.out.println("Size="+listWords.size());
-                }else{
-                    System.out.println("All word!!!!");
-                    listWords = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .wordsForListAll(startOfDay, endOfDay);
                             //.wordsForListAllTest();
                     System.out.println("Size2="+listWords.size());
                 }
                 listWordsForAdd=listWords;
+                if(listWords.size()<4){
+                    listWords.addAll(listWordsForAdd);
+                }
             }
         });
         thread.start();
@@ -499,7 +568,19 @@ public void playAutoSound4(){
                 }, speedScroll-1000); //3000 & 1000
                 if(handler==null) return;
                 handler.postDelayed(this,speedScroll); //4000
-
+//                if(!getClass().getName().trim().contains("SoundActivity")) {
+//                    Log.d(TAG,"STOP!!!!!!!!!!!1");
+//                    //onPause();
+//                    if (handler != null) {
+//                        handler.removeCallbacks(runnable);
+//                        handler = null;
+//                        playSoundOn = false;
+//                        btnPlaySound.setBackgroundResource(R.drawable.play_circle);
+//                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+//
+//                    }
+//                }
+                Log.d(TAG, "Act="+getClass().getName().trim());
                 //System.out.println("=======================================================");
                 //Log.d(TAG,"after layout =======================================================");
 
@@ -630,6 +711,7 @@ public void playAutoSound4(){
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onItemClick(int position) {
+        if(handler!=null) return;
         int top = position;
         Log.d(TAG, "position0=" + top);
         handler = new Handler();
@@ -685,6 +767,7 @@ public void playAutoSound4(){
 
                         }
                     }, 1500);
+                }
                     if (handler == null) return;
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -695,11 +778,11 @@ public void playAutoSound4(){
                            }
                             handler = null;
                         }
-                    }, 3000);
+                    }, 2000);
 
 
                 }
-            }
+
         });
         thread.start();
 
