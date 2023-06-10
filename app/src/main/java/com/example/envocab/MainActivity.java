@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity {
     TextView dashTrainDate;
     TextView translate;
     TextToSpeech textToSpeech;
+    TextView dashWordsInVocabCount;
     TextView dashWordsTodayCount;
     TextView dashWordsTodayBadCount;
 
@@ -72,14 +73,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         switchSound = (Switch) findViewById(R.id.switchSound);
-
-//        menuIcon=findViewById(R.id.menu_icon);
-//        menuIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               // showMenu(v);
-//            }
-//        });
 
 //        databaseHelper=new DatabaseHelper(this,"dictdb",1);
 //        try{
@@ -108,6 +101,7 @@ public class MainActivity extends BaseActivity {
         dashTrainDate = findViewById(R.id.dashTrainDate);
         translate = findViewById(R.id.dashTranslate);
         translate.setVisibility(View.INVISIBLE);
+        dashWordsInVocabCount = findViewById(R.id.dashWordsInVocabCount);
         dashWordsTodayCount = findViewById(R.id.dashWordsTodayCount);
         dashWordsTodayBadCount = findViewById(R.id.dashWordsTodayBadCount);
 
@@ -325,6 +319,7 @@ public class MainActivity extends BaseActivity {
                             //countWordsToday();
                         }
                     });
+                    countWordsInVocab();
                     countWordsToday(0);
                     countWordsToday(1);
                 } else {
@@ -385,6 +380,27 @@ public class MainActivity extends BaseActivity {
         thread.start();
     }
 
+    public void countWordsInVocab() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                int count = AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .countAll();
+
+                Log.d(TAG, "countAll=" + count);
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                         dashWordsInVocabCount.setText(String.valueOf(count));
+                   }
+                });
+            }
+        });
+        thread.start();
+    }
+
     class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
 
         @Override
@@ -409,7 +425,7 @@ public class MainActivity extends BaseActivity {
         }
         MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
         if(menuSoundTraining != null){
-           // menuWordsTraining.setEnabled(false);
+            menuSoundTraining.setEnabled(true);
             menuSoundTraining.getIcon().setAlpha(255);
         }
         return super.onPrepareOptionsMenu(menu);

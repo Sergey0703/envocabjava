@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <!--<include layout="@layout/toolbar"/>-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+    <!--android:background="@drawable/green_background2"
+    <include layout="@layout/toolbar"/>-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="10dp"
-
     tools:context=".MainActivity">
-
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -26,6 +25,39 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
+        android:id="@+id/dashWordsInVocabCount"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="9999"
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        ></TextView>
+
+    <TextView
+        android:id="@+id/dashWordsInVocab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:text="Total words in vocab: "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintLeft_toLeftOf="@id/dashWordsTodayBad"
+        ></TextView>
+
+
+
+
+
+    <TextView
         android:id="@+id/dashWordsToday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,8 +65,8 @@
         android:text="Words repeated today: "
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/dashWordsTodayCount"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsInVocab"
+        app:layout_constraintLeft_toLeftOf="@id/dashWordsTodayBad"
         ></TextView>
 
 
@@ -48,7 +80,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic|bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsInVocabCount"
         app:layout_constraintRight_toRightOf="parent"
         ></TextView>
 
@@ -59,11 +91,12 @@
         android:layout_height="wrap_content"
 
         android:paddingTop="5dp"
+        android:layout_marginRight="0dp"
         android:text="Marked for study today: "
         android:textColor="@color/red"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/dashWordsToday"
-        app:layout_constraintLeft_toLeftOf="@id/dashWordsToday" ></TextView>
+        app:layout_constraintRight_toLeftOf="@id/dashWordsTodayBadCount" ></TextView>
 
     <TextView
         android:id="@+id/dashWordsTodayBadCount"
@@ -283,6 +316,8 @@
         android:trackTint="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashWordsTodayBadCount" />
+
+
     <!-- app:layout_constraintVertical_bias="0.609" -->
 </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

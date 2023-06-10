@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -64,7 +65,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     Switch speechCategory;
     Switch allStudyWords;
     String selectedTranslate;
-
+    TextView textCaution;
     int speedScroll = 4000;
     LocalDate today, dateList;
     LocalDateTime startOfDate;
@@ -109,7 +110,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnPrevDay = findViewById(R.id.btnPrevDay);
         btnNextDay = findViewById(R.id.btnNextDay);
         allStudyWords = findViewById(R.id.allStudyWords);
-
+        textCaution=findViewById(R.id.caution);
         today = LocalDate.now();
         dateList = today;
 
@@ -119,10 +120,10 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                 onStop();
                 if (allStudyWords.isChecked()) {
-                    allStudyWords.setText("Words only by date");
+                   // allStudyWords.setText("Words only by date");
                     Log.d(TAG, "Words only by date");
                 } else {
-                    allStudyWords.setText("Only studying words");
+                  //  allStudyWords.setText("Only studying words");
                     Log.d(TAG, "All words for study");
                 }
                 dataToList("");
@@ -134,11 +135,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 //System.out.println("Switch!!!!!!");
                 onStop();
                 if (speechCategory.isChecked()) {
-                    speechCategory.setText("Words by date");
-                    Log.d(TAG, "All words by date");
+                    speechCategory.setText("Words for a date");
+                    Log.d(TAG, "Words by date");
                 } else {
-                    speechCategory.setText("Only studying words");
-                    Log.d(TAG, "Only studying words");
+                    speechCategory.setText("Marked words");
+                    Log.d(TAG, "Marked words by date");
                 }
                 dataToList("");
             }
@@ -182,11 +183,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     //btnPlaySound.setBackgroundTint();
                     ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.red));
                     playAutoSound3();
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 } else {
                     if (handler != null) {
                         handler.removeCallbacks(runnable);
                         handler = null;
                     }
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     playSoundOn = false;
                     btnPlaySound.setBackgroundResource(R.drawable.play_circle);
                     ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
@@ -238,7 +241,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (!allStudyWords.isChecked()) {
+                if (allStudyWords.isChecked()) {
                     Log.d(TAG, "All BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -249,14 +252,14 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForListAll(startOfDay, endOfDay);
-                    System.out.println("Size=" + listWords.size());
+
                 } else {
                     Log.d(TAG, "Only BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForList(startOfDay, endOfDay, 0);
                     //.wordsForListAllTest();
-                    System.out.println("Size2=" + listWords.size());
+
                 }
                 listWordsForAdd = listWords;
                 if (listWords.size() < 4) {
@@ -269,14 +272,18 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Run!!!");
-                if (listWords.size() != 0) {
-                    System.out.println("NewList!!");
+                 if (listWords.size() != 0) {
+                     //listWords.add();
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords, SoundActivity.this);
                     wordsList.setAdapter(wordsAdapter);
+                    if(wordsList.getVisibility()==View.INVISIBLE)   wordsList.setVisibility(View.VISIBLE);
                     initScrollListener();
-                }
+                }else{
+                     wordsList.setAdapter(null);
+                     wordsList.setVisibility(View.INVISIBLE);
+                     textCaution.setVisibility(View.VISIBLE);
+                 }
             }
         }, 500);
     }
@@ -486,6 +493,16 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         if(menuSoundTraining2 != null){
             menuSoundTraining2.setEnabled(false);
             menuSoundTraining2.getIcon().setAlpha(130);
+        }
+        MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
+        if(menuWordsTraining != null){
+            menuWordsTraining.setEnabled(true);
+            menuWordsTraining.getIcon().setAlpha(255);
+        }
+        MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
+        if(menuWordsTraining2 != null){
+            menuWordsTraining2.setEnabled(true);
+            menuWordsTraining2.getIcon().setAlpha(255);
         }
         return super.onPrepareOptionsMenu(menu);
     }
