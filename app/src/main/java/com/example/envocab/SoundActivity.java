@@ -176,6 +176,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(listWords.size()==0) return;
                 Log.d("testLogs", "Speech");
                 if (!playSoundOn) {
                     playSoundOn = true;
@@ -332,7 +333,6 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             // runnable = new Runnable() {
             @Override
             public void run() {
-                //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 Log.d(TAG, "run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 int top = layoutManager.findFirstCompletelyVisibleItemPosition();
 
@@ -344,8 +344,6 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         = (TextView) v.findViewById(R.id.tv_number_item);
                 //textViewName.setAllCaps(true);
                 String selectedName = (String) textViewName.getText();
-
-                //System.out.println("!!!!!!!!!!"+top+"= onScrollStateChanged="+selectedName);
                 Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
 
                 //handler.postDelayed(new Runnable() {
