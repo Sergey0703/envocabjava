@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -104,7 +106,7 @@ public class MainActivity extends BaseActivity {
         dashWordsInVocabCount = findViewById(R.id.dashWordsInVocabCount);
         dashWordsTodayCount = findViewById(R.id.dashWordsTodayCount);
         dashWordsTodayBadCount = findViewById(R.id.dashWordsTodayBadCount);
-
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -122,21 +124,23 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("testLogs", "Speech");
+                view.startAnimation(animAlpha);
                 playSpeech();
 
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 takeWord("Next");
             }
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //insWord();
+            public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 takeWord("Prev");
             }
         });
@@ -144,6 +148,7 @@ public class MainActivity extends BaseActivity {
         btnWordOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 updateWord(true);
             }
         });
@@ -151,15 +156,17 @@ public class MainActivity extends BaseActivity {
         btnWordStudy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 updateWord(false);
             }
         });
         btnWordTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 translate.setVisibility(translate.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 btnWordTranslate.setText(translate.getVisibility() == View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
-                //allWords();
+
             }
         });
 

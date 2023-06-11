@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
 
     private boolean firstLoading = true;
     private List<Word> wordsList;
-
+    Animation animAlpha;
 
     public WordsAdapter(List<Word> wordsList, WordListInterface wordListInterface) {
         this.wordsList = wordsList;
@@ -33,6 +35,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         int layoutIdForListItem = R.layout.word_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
+        animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);
 
         return new WordViewHolder(view, wordListInterface);
     }
@@ -77,6 +80,8 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
                     if (wordListInterface != null) {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
+
+                            v.startAnimation(animAlpha);
                             wordListInterface.onItemClick(pos);
                         }
                     }

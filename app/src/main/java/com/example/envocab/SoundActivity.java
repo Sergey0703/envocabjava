@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -73,6 +75,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     Long startOfDay;
     Long endOfDay;
     boolean loading = true;
+    Animation animAlpha;
 
     @Override
     protected void onPause() {
@@ -113,7 +116,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         textCaution=findViewById(R.id.caution);
         today = LocalDate.now();
         dateList = today;
-
+        animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
 
         allStudyWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -162,14 +165,16 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
         btnPrevDay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 dataToList("prev");
             }
         });
 
         btnNextDay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                view.startAnimation(animAlpha);
                 dataToList("next");
             }
         });
@@ -179,6 +184,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 if(listWords.size()==0) return;
                 Log.d("testLogs", "Speech");
                 if (!playSoundOn) {
+                    view.startAnimation(animAlpha);
                     playSoundOn = true;
                     btnPlaySound.setBackgroundResource(R.drawable.pause_circle);
                     //btnPlaySound.setBackgroundTint();
@@ -419,6 +425,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     @Override
     public void onItemClick(int position) {
         if (handler != null) return;
+        //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         int top = position;
         Log.d(TAG, "position0=" + top);
         handler = new Handler();
@@ -428,6 +435,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             public void run() {
                 Log.d(TAG, "position=" + top);
                 View v = layoutManager.findViewByPosition(top);
+                //v.startAnimation(animAlpha);
                 CardView card = (CardView) v.findViewById(R.id.cardWord);
                 card.setCardElevation(100f);
                 TextView textViewName
