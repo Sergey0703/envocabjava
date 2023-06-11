@@ -277,11 +277,12 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords, SoundActivity.this);
                     wordsList.setAdapter(wordsAdapter);
-                    if(wordsList.getVisibility()==View.INVISIBLE)   wordsList.setVisibility(View.VISIBLE);
+                    if(wordsList.getVisibility()==View.GONE)   wordsList.setVisibility(View.VISIBLE);
+                     textCaution.setVisibility(View.GONE);
                     initScrollListener();
                 }else{
                      wordsList.setAdapter(null);
-                     wordsList.setVisibility(View.INVISIBLE);
+                     wordsList.setVisibility(View.GONE);
                      textCaution.setVisibility(View.VISIBLE);
                  }
             }
