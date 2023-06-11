@@ -65,7 +65,7 @@
         android:text="Words repeated today: "
         android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/dashWordsInVocab"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsInVocabCount"
         app:layout_constraintLeft_toLeftOf="@id/dashWordsTodayBad"
         ></TextView>
 
@@ -95,7 +95,7 @@
         android:text="Marked for study today: "
         android:textColor="@color/red"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/dashWordsToday"
+        app:layout_constraintTop_toBottomOf="@id/dashWordsTodayCount"
         app:layout_constraintRight_toLeftOf="@id/dashWordsTodayBadCount" ></TextView>
 
     <TextView
