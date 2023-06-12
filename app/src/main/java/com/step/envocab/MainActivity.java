@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
         //databaseHelper.createDataBase();
 
         DataBaseHelper databaseHelper = new DataBaseHelper(this);
-       // databaseHelper = new DataBaseHelper(this);
+        databaseHelper = new DataBaseHelper(this);
 
         try {
             databaseHelper.createDataBase();

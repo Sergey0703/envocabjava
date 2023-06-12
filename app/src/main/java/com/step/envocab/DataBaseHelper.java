@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,10 +58,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
     private boolean checkDataBase(){
         SQLiteDatabase checkDB = null;
-
+        //File file = new File(DB_PATH);
         try{
             String myPath = DB_PATH + DB_NAME;
+            File file = new File(myPath);
+
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+
         }catch(SQLiteException e){
             //база еще не существует
         }
@@ -75,6 +79,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Выполняется путем копирования потока байтов.
      * */
     private void copyDataBase() throws IOException {
+        Log.d("DataBaseHelper","StartCopyDataBase");
         //Открываем локальную БД как входящий поток
         InputStream myInput = mContext.getAssets().open(DB_NAME);
 
