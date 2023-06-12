@@ -1,5 +1,6 @@
 package com.step.envocab;
 
+import android.database.SQLException;
 import android.speech.tts.TextToSpeech;
 
 import android.os.AsyncTask;
@@ -17,8 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.step.envocab.R;
-
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -35,7 +35,7 @@ import java.util.Locale;
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
-    DatabaseHelper databaseHelper;
+    //DataBaseHelper databaseHelper;
     Word word;
     String dateWithoutTime;
     Date currentTime;
@@ -78,9 +78,24 @@ public class MainActivity extends BaseActivity {
 //        }catch(Exception e){
 //            e.printStackTrace();
 //        }
-        databaseHelper = new DatabaseHelper(getApplicationContext());
+        //databaseHelper = new DataBaseHelper(getApplicationContext());
         // создаем базу данных
-        databaseHelper.create_db();
+        //databaseHelper.createDataBase();
+
+        DataBaseHelper databaseHelper = new DataBaseHelper(this);
+       // databaseHelper = new DataBaseHelper(this);
+
+        try {
+            databaseHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+
+//        try {
+//            databaseHelper.openDataBase();
+//        }catch(SQLException sqle){
+//            throw sqle;
+//        }
 
         //Log.d("log","My log!");
         btnWordOk = findViewById(R.id.btnWordOk);

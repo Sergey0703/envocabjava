@@ -7,6 +7,7 @@ import androidx.room.TypeConverters;
 import java.util.Date;
 
 @Entity(tableName = "dbwords")
+
 @TypeConverters(Converters.class)
 public class Word {
     @PrimaryKey(autoGenerate = true)

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper2 extends SQLiteOpenHelper {
     private static final String TAG="MainActivity";
 //    private static DatabaseHelper sInstance;
 //    public static DatabaseHelper getInstance(Context context,String name, int version) {
@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        dbName="dictdb";
 //        dbPath="/data/data/"+context.getPackageName()+"/databases/";
 //    }
-    DatabaseHelper(Context context) {
+    DatabaseHelper2(Context context) {
         super(context, DB_NAME, null, SCHEMA);
         this.context=context;
         //DB_PATH =context.getFilesDir().getPath() + DB_NAME;
@@ -92,10 +92,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     void create_db(){
 
         File file = new File(DB_PATH);
+        Log.d("DatabaseHelper", DB_PATH);
         if (!file.exists()) {
             //получаем локальную бд как поток
             try(InputStream myInput = context.getAssets().open(DB_NAME);
+                //this.getReadableDatabase();
                 // Открываем пустую бд
+                //myInput = myContext.getAssets().open(DB_NAME);
                 OutputStream myOutput = new FileOutputStream(DB_PATH)) {
 
                 // побайтово копируем данные
