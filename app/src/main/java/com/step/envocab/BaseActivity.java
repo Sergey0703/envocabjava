@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.step.envocab.R;
 
@@ -50,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
         case R.id.aboutProgram:
             AboutDialog aboutDialog = new AboutDialog();
             aboutDialog.show(getSupportFragmentManager(),"example dialog");
+            //Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
             return true;
 
         //case R.id.submenu2:
