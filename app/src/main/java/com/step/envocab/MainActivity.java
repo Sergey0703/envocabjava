@@ -441,6 +441,11 @@ public class MainActivity extends BaseActivity {
             menuSoundTraining.setEnabled(true);
             menuSoundTraining.getIcon().setAlpha(255);
         }
+        MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
+        if(menuSoundTraining2 != null){
+            menuSoundTraining2.setEnabled(true);
+            menuSoundTraining2.getIcon().setAlpha(255);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 }
