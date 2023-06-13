@@ -4,15 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+
 import android.widget.Toast;
 
 import com.step.envocab.R;
 
 public class BaseActivity extends AppCompatActivity {
+    Activity activity;
+    //Context context;
     ImageView menuIcon;
     @SuppressLint("RestrictedApi")
     @Override
@@ -26,6 +31,11 @@ public class BaseActivity extends AppCompatActivity {
     return true;
     }
 
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        this.activity=activity;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -49,9 +59,10 @@ public class BaseActivity extends AppCompatActivity {
             return true;
 
         case R.id.aboutProgram:
-            AboutDialog aboutDialog = new AboutDialog();
-            aboutDialog.show(getSupportFragmentManager(),"example dialog");
-            //Toast.makeText(this, "Info", Toast.LENGTH_SHORT).show();
+//            AboutDialog aboutDialog = new AboutDialog();
+//            aboutDialog.show(getSupportFragmentManager(),"example dialog");
+            ViewDialog alert = new ViewDialog();
+            alert.showDialog(BaseActivity.this, "Error de conexión al servidor");
             return true;
 
         //case R.id.submenu2:
