@@ -97,9 +97,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sound);
+        today = LocalDate.now();
+        dateList = today;
 
-        wordsList = findViewById(R.id.rv_words);
         layoutManager = new LinearLayoutManager(this);
+        wordsList = findViewById(R.id.rv_words);
         wordsList.setLayoutManager(layoutManager);
         btnPlaySound = findViewById(R.id.buttonPlaySound);
         speechTranslate = (Switch) findViewById(R.id.speechTranslate);
@@ -108,21 +110,20 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnNextDay = findViewById(R.id.btnNextDay);
         allStudyWords = findViewById(R.id.allStudyWords);
         textCaution=findViewById(R.id.caution);
-        today = LocalDate.now();
-        dateList = today;
+
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
 
         allStudyWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 onStop();
-                if (allStudyWords.isChecked()) {
-                   // allStudyWords.setText("Words only by date");
-                    Log.d(TAG, "Words only by date");
-                } else {
-                  //  allStudyWords.setText("Only studying words");
-                    Log.d(TAG, "All words for study");
-                }
+//                if (allStudyWords.isChecked()) {
+//                   // allStudyWords.setText("Words only by date");
+//                    Log.d(TAG, "Words only by date");
+//                } else {
+//                  //  allStudyWords.setText("Only studying words");
+//                    Log.d(TAG, "All words for study");
+//                }
                 dataToList("");
             }
         });
@@ -273,16 +274,21 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+
                  if (listWords.size() != 0) {
-                     //listWords.add();
+//                     LinearLayoutManager manager = new LinearLayoutManager(getParent());
+//                     wordsList.setLayoutManager(manager);
+//                     //listWords.add();
                     wordsList.setHasFixedSize(true);
                     wordsAdapter = new WordsAdapter(listWords, SoundActivity.this);
                     wordsList.setAdapter(wordsAdapter);
-                    if(wordsList.getVisibility()==View.GONE)   wordsList.setVisibility(View.VISIBLE);
+                    if(wordsList.getVisibility()==View.GONE){
+                        wordsList.setVisibility(View.VISIBLE);
+                    }
                      textCaution.setVisibility(View.GONE);
                     initScrollListener();
-                }else{
-                     wordsList.setAdapter(null);
+                     }else{
+                     //wordsList.setAdapter(null);
                      wordsList.setVisibility(View.GONE);
                      textCaution.setVisibility(View.VISIBLE);
                  }
@@ -335,11 +341,18 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             public void run() {
                 Log.d(TAG, "run!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 int top = layoutManager.findFirstCompletelyVisibleItemPosition();
-
+                if(top<0) return;
                 View v = layoutManager.findViewByPosition(top);
-                CardView card = (CardView) v.findViewById(R.id.cardWord);
-                // System.out.println("Elev="+card.getCardElevation());
-                card.setCardElevation(100f);
+//                int pos = wordsAdapter.getAdapterPosition();
+//                if (pos != RecyclerView.NO_POSITION) {
+
+
+                    CardView card = (CardView) v.findViewById(R.id.cardWord);
+                    // System.out.println("Elev="+card.getCardElevation());
+                    card.setCardElevation(100f);
+                //}else{
+                  //  return;
+                //}
                 TextView textViewName
                         = (TextView) v.findViewById(R.id.tv_number_item);
                 //textViewName.setAllCaps(true);

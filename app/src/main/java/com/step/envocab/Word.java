@@ -10,7 +10,9 @@ import java.util.Date;
 
 @TypeConverters(Converters.class)
 public class Word {
+
     @PrimaryKey(autoGenerate = true)
+    //type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='undefined'
     private int id;
     private String word;
     private String translate;

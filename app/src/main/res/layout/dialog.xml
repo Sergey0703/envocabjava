@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#ffffffff">
+
+    <TextView
+        android:id="@+id/title_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/purple_500"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="About Program"
+        android:layout_toRightOf="@id/text_dialog"
+
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TEXTO"
+        android:layout_below="@+id/title_dialog"
+        android:text="\u00A9 2023 Serhii Baliasnyi "
         android:id="@+id/text_dialog"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginBottom="20dp"
+        android:padding="0dp"
         android:textSize="18sp"
         android:textColor="#ff000000"
         android:layout_centerHorizontal="true"
@@ -20,14 +40,15 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="OK"
         android:id="@+id/btn_dialog"
         android:gravity="center_vertical|center_horizontal"
         android:layout_below="@+id/text_dialog"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/icon_headphones_blue"
+
         android:layout_centerHorizontal="true"
         android:textColor="#ffffffff" />
+    <!--android:background="@drawable/icon_headphones_blue">-->
 
 </RelativeLayout>
