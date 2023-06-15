@@ -133,7 +133,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 //System.out.println("Switch!!!!!!");
                 onStop();
                 if (speechCategory.isChecked()) {
-                    speechCategory.setText("Words for a date");
+                    speechCategory.setText("On the date");
                     Log.d(TAG, "Words by date");
                 } else {
                     speechCategory.setText("Marked words");

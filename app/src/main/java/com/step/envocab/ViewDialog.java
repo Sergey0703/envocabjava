@@ -2,11 +2,8 @@ package com.step.envocab;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class ViewDialog {
     public void showDialog(Activity activity, String msg){
@@ -17,7 +14,7 @@ public class ViewDialog {
         //dialog.wind
         //dialog.setTitle("About program");
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog2);
+        dialog.setContentView(R.layout.dialog);
 
         //TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
         //text.setText(msg);

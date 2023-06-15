@@ -76,7 +76,7 @@
             android:layout_alignParentRight="true"
             android:checked="true"
             android:fadeScrollbars="true"
-            android:text="Words for a date"
+            android:text="On the date"
             android:textColor="@color/purple_500"
             android:textOff="No"
             android:textOn="Yes"

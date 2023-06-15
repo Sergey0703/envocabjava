@@ -1,5 +1,7 @@
 package com.step.envocab;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -10,10 +12,12 @@ import java.util.Date;
 
 @TypeConverters(Converters.class)
 public class Word {
-
+    //defaultValue="undefined"
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name="id")
+    @NonNull
     //type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='undefined'
-    private int id;
+    private Integer id;
     private String word;
     private String translate;
     @TypeConverters({Converters.class})
@@ -53,11 +57,11 @@ public class Word {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
