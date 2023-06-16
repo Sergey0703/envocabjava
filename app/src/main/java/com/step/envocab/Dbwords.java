@@ -2,8 +2,10 @@ package com.step.envocab;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Database;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import java.util.Date;
@@ -11,7 +13,7 @@ import java.util.Date;
 @Entity(tableName = "dbwords")
 
 @TypeConverters(Converters.class)
-public class Word {
+public class Dbwords {
     //defaultValue="undefined"
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
@@ -25,7 +27,7 @@ public class Word {
     private Boolean train1;
     private String transcript;
 
-    public Word(String word, String translate, String transcript){
+    public Dbwords(String word, String translate, String transcript){
         this.word=word;
         this.translate=translate;
         this.transcript=transcript;

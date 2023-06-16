@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:contentDescription="Speech word"
-            android:background="@drawable/sound_br"
+            android:background="@drawable/sound_br4"
 
             ></ImageButton>
 

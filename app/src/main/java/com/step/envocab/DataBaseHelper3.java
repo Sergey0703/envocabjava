@@ -13,12 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper3 extends SQLiteOpenHelper {
     // путь к базе данных вашего приложения
 
     private SQLiteDatabase myDataBase;
-    private final Context mContext;
+    private  Context context;
     private static String DB_PATH;
+    private static final int SCHEMA = 1; // версия базы данных
     private static String DB_NAME = "dictdb";
 
     /**
@@ -26,9 +27,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
      * @param context
      */
-    public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, 1);
-        this.mContext = context;
+    public DataBaseHelper3(Context context) {
+        super(context, DB_NAME, null, SCHEMA);
+        this.context = context;
         DB_PATH = "/data/data/"+context.getPackageName()+"/databases/";
     }
 
@@ -81,7 +82,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private void copyDataBase() throws IOException {
         Log.d("DataBaseHelper","StartCopyDataBase");
         //Открываем локальную БД как входящий поток
-        InputStream myInput = mContext.getAssets().open(DB_NAME);
+        InputStream myInput = context.getAssets().open(DB_NAME);
 
         //Путь ко вновь созданной БД
         String outFileName = DB_PATH + DB_NAME;

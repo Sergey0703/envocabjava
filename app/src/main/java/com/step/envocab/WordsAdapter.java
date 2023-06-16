@@ -11,18 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.step.envocab.R;
-
 import java.util.List;
 
 public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHolder> {
     private final WordListInterface wordListInterface;
 
     private boolean firstLoading = true;
-    private List<Word> wordsList;
+    private List<Dbwords> wordsList;
     Animation animAlpha;
 
-    public WordsAdapter(List<Word> wordsList, WordListInterface wordListInterface) {
+    public WordsAdapter(List<Dbwords> wordsList, WordListInterface wordListInterface) {
         this.wordsList = wordsList;
         this.wordListInterface = wordListInterface;
     }
@@ -42,7 +40,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
         //holder.bind(position);
-        Word word = wordsList.get(position);
+        Dbwords word = wordsList.get(position);
         holder.listItemNumberView.setText(word.getWord());
         if (word.getTrain1() != null && word.getTrain1() == true) {
             holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);

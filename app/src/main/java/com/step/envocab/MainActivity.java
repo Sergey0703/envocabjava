@@ -1,6 +1,5 @@
 package com.step.envocab;
 
-import android.database.SQLException;
 import android.speech.tts.TextToSpeech;
 
 import android.os.AsyncTask;
@@ -36,7 +35,8 @@ import java.util.Locale;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     //DataBaseHelper databaseHelper;
-    Word word;
+    DatabaseHelper db;
+    Dbwords word;
     String dateWithoutTime;
     Date currentTime;
     int uid;
@@ -82,14 +82,24 @@ public class MainActivity extends BaseActivity {
         // создаем базу данных
         //databaseHelper.createDataBase();
 
-        DataBaseHelper databaseHelper = new DataBaseHelper(this);
-        databaseHelper = new DataBaseHelper(this);
+//        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+//        databaseHelper = new DatabaseHelper(this);
+//
+//        try {
+//            databaseHelper.createDataBase();
+//        } catch (IOException ioe) {
+//            throw new Error("Unable to create database");
+//        }
 
-        try {
-            databaseHelper.createDataBase();
-        } catch (IOException ioe) {
-            throw new Error("Unable to create database");
-        }
+//        db = new DatabaseHelper(this);
+//        db = new DatabaseHelper(this);
+//        try {
+//            db.createDataBase();
+//            db.openDataBase();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        try {
 //            databaseHelper.openDataBase();
@@ -148,6 +158,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 view.startAnimation(animAlpha);
                 takeWord("Prev");
+                //insWord();
             }
         });
 
@@ -211,7 +222,7 @@ public class MainActivity extends BaseActivity {
 
     public void insWord() {
         //System.out.println("Ins");
-        Word word = new Word("NewTest2", "translate2", "transcript2");
+        Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
         InsertAsyncTask insertAsyncTask = new InsertAsyncTask();
         insertAsyncTask.execute(word);
     }
@@ -220,7 +231,7 @@ public class MainActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Word word = AppDatabase.getInstance(getApplicationContext())
+                Dbwords word = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .findById(uid);
 
@@ -246,11 +257,11 @@ public class MainActivity extends BaseActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<Word> wordList = AppDatabase.getInstance(getApplicationContext())
+                List<Dbwords> wordList = AppDatabase.getInstance(getApplicationContext())
                         .wordDao()
                         .getAll();
                 //Log.d(TAG, "run "+wordList.toString());
-                for (Word w : wordList) {
+                for (Dbwords w : wordList) {
                     Log.d(TAG, w.toString());
                 }
 
@@ -313,7 +324,7 @@ public class MainActivity extends BaseActivity {
                                 dateWithoutTime = sdf.format(word.getTrainDate());
                                 Log.d(TAG, "dateWithoutTime=" + dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
-                                trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
+                               // trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
 
                             } else {
                                 dashTrainDate.setText("");
@@ -328,7 +339,7 @@ public class MainActivity extends BaseActivity {
                             }
 
                             Log.d(TAG, "Take Word setText " + word.getWord());
-                            Log.d(TAG, "Date " + Converters.dateToTimestamp(word.getTrainDate()));
+                           // Log.d(TAG, "Date " + Converters.dateToTimestamp(word.getTrainDate()));
                             //countWordsToday();
                         }
                     });
@@ -414,10 +425,10 @@ public class MainActivity extends BaseActivity {
         thread.start();
     }
 
-    class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
+    class InsertAsyncTask extends AsyncTask<Dbwords, Void, Void> {
 
         @Override
-        protected Void doInBackground(Word... words) {
+        protected Void doInBackground(Dbwords... words) {
             AppDatabase.getInstance(getApplicationContext())
                     .wordDao()
                     .insertWord(words[0]);

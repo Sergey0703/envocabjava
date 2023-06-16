@@ -26,8 +26,6 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.step.envocab.R;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -47,7 +45,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     boolean isLoading = false;
     private RecyclerView wordsList;
     private WordsAdapter wordsAdapter;
-    private List<Word> listWords, listWordsForAdd;
+    private List<Dbwords> listWords, listWordsForAdd;
     LinearLayoutManager layoutManager;
     Button btnPlaySound;
     Button btnPrevDay;
