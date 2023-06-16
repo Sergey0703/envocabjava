@@ -7,7 +7,9 @@
     app:cardElevation="5dp"
     app:cardCornerRadius="10dp"
     android:layout_marginTop="0dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/yellow"
+    android:outlineAmbientShadowColor="@color/yellow"
+    android:outlineSpotShadowColor="@color/yellow"
     app:cardMaxElevation="8dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="vertical"
-
+        android:background="@color/main_green"
         >
         <ImageButton
             android:id="@+id/btnSoundItem"
@@ -35,30 +37,36 @@
 
         <TextView
             android:id="@+id/tv_number_item"
-            style="@style/TextAppearance.Material3.TitleLarge"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:fontFamily="monospace"
+            android:textColor="@color/white"
+            android:fontFamily="@font/school_book_new"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:textSize="32sp" />
+            <!-- style="@style/TextAppearance.Material3.TitleLarge" -->
         <TextView
             android:id="@+id/tv_transcription"
             style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_number_item"
+            android:layout_centerHorizontal="true"
             android:fontFamily="monospace"
+            android:textColor="@color/white"
             android:textSize="22sp" />
             <!--  android:layout_centerVertical="true" -->
         <TextView
             android:id="@+id/tv_holder_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:textColor="@color/white"
             android:layout_below="@id/tv_transcription"
-            android:fontFamily="monospace"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/plainot"
             android:textSize="18sp" />
-
+        <!--android:fontFamily="@font/plainot"-->
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -38,15 +38,15 @@
             android:fadeScrollbars="true"
 
             android:text="Speak translation ON"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/white"
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="20sp"
 
             android:textStyle="bold|italic"
-            android:thumbTint="@drawable/switch_color"
+            android:thumbTint="@color/yellow"
 
-            android:trackTint="@color/red" />
+            android:trackTint="@color/white" />
 
         <Switch
             android:id="@+id/allStudyWords"
@@ -57,13 +57,13 @@
             android:checked="false"
             android:fadeScrollbars="true"
             android:text="All marked words"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/white"
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="18sp"
             android:layout_marginLeft="5dp"
             android:textStyle="bold|italic"
-            android:thumbTint="@drawable/switch_color"
+            android:thumbTint="@color/yellow"
             android:trackTint="@color/red" />
 
 
@@ -78,7 +78,7 @@
             android:checked="true"
             android:fadeScrollbars="true"
             android:text="On the date"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/white"
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="18sp"
@@ -110,7 +110,8 @@
         android:textAlignment="center"
         android:visibility="gone"
         android:textSize="30sp"
-        android:text="No words to display, \n go back and select today's words or try 'All marked words' switch above."
+        android:textColor="@color/white"
+        android:text="No words to display, \n go back and mark today's words or try 'All marked words' switch above."
         />
     <RelativeLayout
         android:id="@+id/bottom_menu"

@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -246,7 +247,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForListAll(0);
-                    System.out.println("Size=" + listWords.size());
+                    //System.out.println("Size=" + listWords.size());
                 } else if (speechCategory.isChecked()) {
                     Log.d(TAG, "All word!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
@@ -348,6 +349,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     CardView card = (CardView) v.findViewById(R.id.cardWord);
                     // System.out.println("Elev="+card.getCardElevation());
                     card.setCardElevation(100f);
+                ImageButton btnSoundItem
+                        = (ImageButton) v.findViewById(R.id.btnSoundItem);
+                    btnSoundItem.startAnimation(animAlpha);
                 //}else{
                   //  return;
                 //}
