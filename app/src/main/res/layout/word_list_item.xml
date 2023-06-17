@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardWord"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<com.google.android.material.card.MaterialCardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardWord"
+    android:layout_height="wrap_content"
+
+    android:layout_width="match_parent"
     app:cardElevation="5dp"
     app:cardCornerRadius="10dp"
     android:layout_marginTop="0dp"
-
+    app:strokeColor="@color/white"
+    app:strokeWidth="1dp"
     android:outlineAmbientShadowColor="@color/yellow"
     android:outlineSpotShadowColor="@color/yellow"
     app:cardMaxElevation="8dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
-   app:layout_constraintHeight_max="150dp"
-   app:layout_constraintHeight_min="150dp"
-    >
+    app:layout_constraintHeight_max="150dp"
+    app:layout_constraintHeight_min="150dp"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <!--app:cardBackgroundColor="@color/yellow"-->
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -69,4 +72,8 @@
         <!--android:fontFamily="@font/plainot"-->
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
+    <!--
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    -->
+<!--</androidx.cardview.widget.CardView>-->
