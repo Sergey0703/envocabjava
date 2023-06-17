@@ -18,10 +18,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:layout_margin="0dp"
-        app:srcCompat="@drawable/title_green"
+        app:srcCompat="@drawable/title_green2"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 

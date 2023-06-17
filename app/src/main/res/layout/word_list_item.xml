@@ -7,7 +7,7 @@
     app:cardElevation="5dp"
     app:cardCornerRadius="10dp"
     android:layout_marginTop="0dp"
-    app:cardBackgroundColor="@color/yellow"
+
     android:outlineAmbientShadowColor="@color/yellow"
     android:outlineSpotShadowColor="@color/yellow"
     app:cardMaxElevation="8dp"
@@ -16,13 +16,13 @@
    app:layout_constraintHeight_max="150dp"
    app:layout_constraintHeight_min="150dp"
     >
-
+    <!--app:cardBackgroundColor="@color/yellow"-->
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="vertical"
-        android:background="@color/main_green"
+        android:background="@drawable/green_background_small"
         >
         <ImageButton
             android:id="@+id/btnSoundItem"

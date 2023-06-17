@@ -68,7 +68,6 @@
 
 
 
-
         <Switch
             android:id="@+id/speechCategory"
             android:layout_width="wrap_content"
@@ -84,7 +83,7 @@
             android:textSize="18sp"
             android:layout_marginRight="5dp"
             android:textStyle="bold|italic"
-            android:thumbTint="@drawable/switch_color"
+            android:thumbTint="@color/yellow"
             android:trackTint="@color/red" />
 
         <!--app:backgroundTint="@color/green"-->
@@ -99,9 +98,10 @@
 
         android:layout_marginTop="0dp"
         android:layout_weight="8"
-        android:background="@drawable/green_background2"
-        />
 
+        />
+    <!--android:background="@color/main_green"
+android:background="@drawable/green_background2"-->
     <TextView
         android:id="@+id/caution"
         android:layout_width="match_parent"
@@ -122,9 +122,9 @@
 
         android:padding="0dp"
         android:elevation="2dp"
-        android:background="@drawable/green_background2"
-        >
 
+        >
+        <!--android:background="@drawable/green_background2"-->
         <Button
             android:id="@+id/buttonPlaySound"
 
