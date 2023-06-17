@@ -348,7 +348,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                     CardView card = (CardView) v.findViewById(R.id.cardWord);
                     // System.out.println("Elev="+card.getCardElevation());
-                    card.setCardElevation(100f);
+                    card.setCardElevation(150f);
                 ImageButton btnSoundItem
                         = (ImageButton) v.findViewById(R.id.btnSoundItem);
                     btnSoundItem.startAnimation(animAlpha);
