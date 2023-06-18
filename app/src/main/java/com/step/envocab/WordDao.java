@@ -1,5 +1,7 @@
 package com.step.envocab;
 
+import android.util.Log;
+
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -45,4 +47,10 @@ public interface WordDao {
 
     @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train")
     List<Dbwords> wordsForListAll(int train);
+
+    // Dao query with filter
+    @Query("SELECT * from Dbwords WHERE word LIKE :filter ORDER BY word")
+    List<Dbwords> getItemsFiltered(String filter);
+
+    //fun getItemsFiltered(filter: String): LiveData<List<MyItem>>
 }

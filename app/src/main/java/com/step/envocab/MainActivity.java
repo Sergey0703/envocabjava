@@ -71,12 +71,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
-        // using toolbar as ActionBar
         setSupportActionBar(toolbar);
 
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         switchSound = (Switch) findViewById(R.id.switchSound);
 

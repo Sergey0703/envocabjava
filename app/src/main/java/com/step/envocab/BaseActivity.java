@@ -47,12 +47,6 @@ public class BaseActivity extends AppCompatActivity {
     return true;
     }
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        this.activity=activity;
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -73,12 +67,16 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent4=new Intent(BaseActivity.this, SoundActivity.class);
             startActivity(intent4);
             return true;
+        case R.id.dict:
+            Intent intent5=new Intent(BaseActivity.this, DictActivity.class);
+            startActivity(intent5);
+            return true;
 
         case R.id.aboutProgram:
 //            AboutDialog aboutDialog = new AboutDialog();
 //            aboutDialog.show(getSupportFragmentManager(),"example dialog");
             ViewDialog alert = new ViewDialog();
-            alert.showDialog(BaseActivity.this, "Error de conexión al servidor");
+            alert.showDialog(BaseActivity.this, "Window");
             return true;
 
         //case R.id.submenu2:
