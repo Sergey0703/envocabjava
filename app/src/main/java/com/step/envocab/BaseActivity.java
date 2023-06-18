@@ -1,12 +1,17 @@
 package com.step.envocab;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -19,6 +24,17 @@ public class BaseActivity extends AppCompatActivity {
     Activity activity;
     //Context context;
     ImageView menuIcon;
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+//        super.onCreate(savedInstanceState, persistentState);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
+//        // using toolbar as ActionBar
+//        setSupportActionBar(toolbar);
+////        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+////        getSupportActionBar().setCustomView(R.layout.toolbar);
+//    }
+
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -21,6 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
@@ -96,6 +97,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sound);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         today = LocalDate.now();
         dateList = today;
 

@@ -8,8 +8,8 @@
     android:background="@drawable/green_background2"
 
     >
-    <!--android:background="@drawable/green_background2"
-    <include layout="@layout/toolbar"/>-->
+    <!--android:background="@drawable/green_background2"-->
+    <include layout="@layout/toolbar"/>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"

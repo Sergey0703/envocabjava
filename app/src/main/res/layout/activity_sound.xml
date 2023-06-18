@@ -9,7 +9,7 @@
     >
     <!-- android:keepScreenOn="true" -->
     <!--<include layout="@layout/appbar"/>-->
-
+    <include layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:id="@+id/top_menu"

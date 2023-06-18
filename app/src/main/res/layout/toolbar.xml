@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/purple_500"
+    android:id="@+id/action_toolbar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/main_green"
 
- >
+    >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <TextView
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="EnVocab"
-            android:textColor="@color/white"
-            android:textSize="20sp">
+            android:orientation="horizontal"
+            android:layout_centerVertical="true">
 
-        </TextView>
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:text="English Vocab"
+                android:textColor="#fff"
+                />
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
 
+                />
+        </LinearLayout>
     </RelativeLayout>
-
-
-</RelativeLayout>
+</androidx.appcompat.widget.Toolbar>

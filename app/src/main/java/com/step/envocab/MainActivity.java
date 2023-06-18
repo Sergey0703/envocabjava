@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBar;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -34,6 +37,7 @@ import java.util.Locale;
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
+    //final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
     //DataBaseHelper databaseHelper;
     DatabaseHelper db;
     Dbwords word;
@@ -65,6 +69,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
+        // using toolbar as ActionBar
+        setSupportActionBar(toolbar);
+
+
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.toolbar);
+
         switchSound = (Switch) findViewById(R.id.switchSound);
 
 //        databaseHelper=new DatabaseHelper(this,"dictdb",1);
@@ -217,6 +230,8 @@ public class MainActivity extends BaseActivity {
 //        popupMenu.show();
 //    }
     public void playSpeech() {
+        //final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        //btnSound.startAnimation(animAlpha);
         textToSpeech.speak((String) dashWord.getText(), TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -335,6 +350,7 @@ public class MainActivity extends BaseActivity {
                             translate.setText(word.getTranslate());
 
                             if (switchSound.isChecked()) {
+                                //btnSound.startAnimation(animAlpha);
                                 playSpeech();
                             }
 
