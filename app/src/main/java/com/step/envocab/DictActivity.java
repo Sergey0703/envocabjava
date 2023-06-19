@@ -2,6 +2,7 @@ package com.step.envocab;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,15 +14,20 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 
 public class DictActivity extends BaseActivity implements WordListInterface{
     EditText wordFilter;
     private List<Dbwords> listSearchWords;
+    private Dbwords searchWord;
     LinearLayoutManager layoutManager;
     private RecyclerView searchRecycler;
-    private WordsAdapter wordsSearchAdapter;
+    private WordsRosterAdapter wordsRosterAdapter;
+
+    private String TAG= "DictActivity";
+    private Handler handler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +65,13 @@ public class DictActivity extends BaseActivity implements WordListInterface{
                 String searchString=s.toString();
 
                 if(searchString.trim().length()==0) {
-                    searchRecycler.setHasFixedSize(true);
-                    int size = listSearchWords.size();
-                    listSearchWords.clear();
-                    wordsSearchAdapter = new WordsAdapter(listSearchWords, DictActivity.this);
-                    searchRecycler.setAdapter(wordsSearchAdapter);
+
+//                    searchRecycler.setHasFixedSize(true);
+//                    int size = listSearchWords.size();
+//                    listSearchWords.clear();
+//                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
+//                    searchRecycler.setAdapter(wordsRosterAdapter);
+                    searchRecycler.setVisibility(View.GONE);
                     return;
                 }else {
                     searchString = searchString + '%';
@@ -98,26 +106,91 @@ public class DictActivity extends BaseActivity implements WordListInterface{
             public void run() {
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
                 if (listSearchWords!=null && listSearchWords.size() != 0) {
+
                     Log.d("DICT","listSearchWords3="+ listSearchWords.size());
+                    searchRecycler.setVisibility(View.VISIBLE);
                     //                    LinearLayoutManager manager = new LinearLayoutManager(getParent());
 //                     wordsList.setLayoutManager(manager);
 //                     //listWords.add();
 
                     searchRecycler.setHasFixedSize(true);
-                    wordsSearchAdapter = new WordsAdapter(listSearchWords, DictActivity.this);
-                    searchRecycler.setAdapter(wordsSearchAdapter);
+                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
+                    searchRecycler.setAdapter(wordsRosterAdapter);
 
                 }else{
-                    Log.d("DICT","listSearchWords2=NULLLLL");
-                    searchRecycler.setHasFixedSize(true);
-                    wordsSearchAdapter = new WordsAdapter(null, DictActivity.this);
-                    searchRecycler.setAdapter(wordsSearchAdapter);
+                    Log.d("DICT3","listSearchWords3=NULLLLL");
+                    searchRecycler.setVisibility(View.GONE);
+//                    int size = listSearchWords.size();
+//                    listSearchWords.clear();
+//                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
+//                    searchRecycler.setAdapter(wordsRosterAdapter);
+//                    searchRecycler.setHasFixedSize(true);
+//                    wordsSearchAdapter = new WordsAdapter(null, DictActivity.this);
+//                    searchRecycler.setAdapter(wordsSearchAdapter);
                 }
             }
         }, 100);
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    @Override
     public void onItemClick(int position) {
+        int top = position;
+//        if (handler != null) return;
+//        //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
+//
+//        Log.d(TAG, "position0=" + top);
+//        handler = new Handler();
+//        Thread thread = new Thread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+                Log.d(TAG, "position=" + top);
+                View v = layoutManager.findViewByPosition(top);
+                //v.startAnimation(animAlpha);
+                CardView card = (CardView) v.findViewById(R.id.cardWord);
+                card.setCardElevation(100f);
+                TextView textViewName
+                        = (TextView) v.findViewById(R.id.tv_number_item);
 
+                String selectedName = (String) textViewName.getText();
+                TextView textViewId
+                        = (TextView) v.findViewById(R.id.id_item);
+
+                String id = (String) textViewId.getText();
+                Log.d(TAG, top + "= onScrollStateChanged=" + selectedName+" id="+id);
+
+           handler = new Handler();
+           Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                searchWord = AppDatabase.getInstance(getApplicationContext())
+                        .wordDao()
+                        .findById(Integer.parseInt(id));
+                Log.d("DICT","idToSearchList="+ id);
+                Log.d("DICT","searchWord="+ searchWord.getWord());
+               // ViewDialog alert = new ViewDialog();
+               // alert.showDialog(DictActivity.this, "Window");
+
+
+            }
+        });
+        thread.start();
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        Log.d(TAG, +top + "= Dialog=" );
+                        WordDialog alert = new WordDialog();
+                        alert.showDialog(DictActivity.this, searchWord.getWord(),searchWord.getTranslate());
+                        //playSpeech(selectedName);
+                    }
+                }, 100);
+//
+//
+//            }
+//
+//        });
+//        thread.start();
     }
+
 }
