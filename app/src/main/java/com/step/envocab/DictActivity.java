@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -179,9 +180,14 @@ public class DictActivity extends BaseActivity implements WordListInterface{
                 if (handler == null) return;
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Log.d(TAG, +top + "= Dialog=" );
+                        DisplayMetrics displaymetrics = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                        int width = displaymetrics.widthPixels*3/4;
+                        int height = displaymetrics.heightPixels*3/4;
+
+                        Log.d(TAG, +top + "= Dialog="+width );
                         WordDialog alert = new WordDialog();
-                        alert.showDialog(DictActivity.this, searchWord.getWord(),searchWord.getTranslate());
+                        alert.showDialog(DictActivity.this, width, height, searchWord.getWord(),searchWord.getTranslate(),searchWord.getTranscript());
                         //playSpeech(selectedName);
                     }
                 }, 100);
