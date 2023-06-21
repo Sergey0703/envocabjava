@@ -14,6 +14,10 @@ public interface WordDao {
     @Insert
     void insertWord(Dbwords word);
 
+    //@Modifying
+    @Query("update Dbwords set translate = :trans where id = :id")
+    int upWord(Integer id, String trans);
+
     @Query("Select * FROM Dbwords WHERE id LIKE :id")
     Dbwords findById(int id);
 

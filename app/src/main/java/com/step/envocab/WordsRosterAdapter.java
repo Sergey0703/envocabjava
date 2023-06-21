@@ -14,15 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.WordViewHolder> {
-    private final WordListInterface wordListInterface;
+    private final WordRosterInterface wordRosterInterface;
 
     private boolean firstLoading = true;
     private List<Dbwords> wordsList;
     Animation animAlpha;
 
-    public WordsRosterAdapter(List<Dbwords> wordsList, WordListInterface wordListInterface) {
+    public WordsRosterAdapter(List<Dbwords> wordsList, WordRosterInterface wordRosterInterface) {
         this.wordsList = wordsList;
-        this.wordListInterface = wordListInterface;
+        this.wordRosterInterface = wordRosterInterface;
     }
 
 
@@ -35,7 +35,7 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);
 
-        return new WordViewHolder(view, wordListInterface);
+        return new WordViewHolder(view, wordRosterInterface);
     }
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
@@ -67,7 +67,7 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
         TextView id_item;
 
 
-        public WordViewHolder(@NonNull View itemView, WordListInterface wordListInterface) {
+        public WordViewHolder(@NonNull View itemView, WordRosterInterface wordRosterInterface) {
             super(itemView);
 
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
@@ -81,12 +81,12 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (wordListInterface != null) {
+                    if (wordRosterInterface != null) {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
 
                             //v.startAnimation(animAlpha);
-                            wordListInterface.onItemClick(pos);
+                            wordRosterInterface.onItemClick(pos);
                             //Log.d("TAG",id);
                         }
                     }
