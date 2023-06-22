@@ -11,19 +11,26 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 
 public class WordDialog extends Dialog {
     private WordRosterInterface wordRosterInterface;
     EditText trans,nameWord;
+    SwitchCompat train1Switch;
     Button btnDialog,btnClose, btnSave, btnCancel;
     Dialog dialog;
 
+    TextView titleWindow;
+
     Handler handler;
     Context context;
+    Boolean marked;
 
     //public WordDialog(@NonNull Context context) {
     public WordDialog(Context context, WordRosterInterface wordRosterInterface) {
@@ -33,7 +40,7 @@ public class WordDialog extends Dialog {
     }
 
 
-    public void showDialog(Activity activity, int width, int height, String id, String msg, String translate,String transcription ){
+    public void showDialog(Activity activity, int width, int height, String inform, String id, String msg, String translate,String transcription, Boolean train1 ){
         //final Dialog dialog = new Dialog(activity,R.style.FullHeightDialog);
         dialog = new Dialog(activity);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -43,6 +50,8 @@ public class WordDialog extends Dialog {
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.word_dialog);
 
+        titleWindow=dialog.findViewById(R.id.word_title);
+        titleWindow.setText(inform);
 
         nameWord = (EditText) dialog.findViewById(R.id.word_dialog);
         nameWord.setText(msg);
@@ -52,6 +61,15 @@ public class WordDialog extends Dialog {
 
         trans = (EditText) dialog.findViewById(R.id.translate_dialog);
         trans.setText(translate);
+
+        train1Switch = dialog.findViewById(R.id.switch_marked);
+        Log.d("word", String.valueOf(train1));
+        if(train1!=null && train1==true) train1=true;
+        else train1=false;
+        train1Switch.setChecked(train1);
+        Log.d("word2", String.valueOf(train1));
+
+
 
         btnDialog = (Button) dialog.findViewById(R.id.btn_dialog);
         btnDialog.setOnClickListener(new View.OnClickListener() {
@@ -86,11 +104,16 @@ public class WordDialog extends Dialog {
                 String strWord=String.valueOf(nameWord.getText());
                 String strTranslate=String.valueOf(trans.getText());
                 String strTranscripton=String.valueOf(transcript.getText());
+                if(train1Switch.isChecked()) {
+                    marked = true;
+                }else {
+                    marked = false;
+                }
                 Log.d("Dialog",strTranslate+" id="+id);
 
                 if (wordRosterInterface != null) {
                     Log.d("D","Send");
-                    wordRosterInterface.sendData(id,strTranslate);
+                    wordRosterInterface.sendData(id,strWord, strTranslate, strTranscripton, marked);
                 }
                 handler = new Handler();
 //                Thread thread = new Thread(new Runnable() {
@@ -117,6 +140,21 @@ public class WordDialog extends Dialog {
         dialog.show();
         dialog.getWindow().setLayout(width, height);
         //dialog.getWindow().setAttributes(lp);
+        nameWord.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+                      fixChanges();
+            }
+        });
          trans.addTextChangedListener(new TextWatcher() {
 
              @Override
@@ -150,6 +188,17 @@ public class WordDialog extends Dialog {
             @Override
             public void afterTextChanged(Editable s) {
                 fixChanges();
+            }
+        });
+        train1Switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fixChanges();
+                if(train1Switch.isChecked()){
+                   // train1Switch.setThumbTintMode();
+                }
             }
         });
 

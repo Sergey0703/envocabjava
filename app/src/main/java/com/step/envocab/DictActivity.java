@@ -36,7 +36,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     private String TAG = "DictActivity";
     private Handler handler = null;
 
-    Button btnSaveD;
+    Button btnSaveD, btnNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,23 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         layoutManager = new LinearLayoutManager(this);
         searchRecycler = findViewById(R.id.recyclerFilter);
         searchRecycler.setLayoutManager(layoutManager);
+
+        btnNew = (Button) findViewById(R.id.btn_new);
+        btnNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels * 3 / 4;
+                int height = displaymetrics.heightPixels * 3 / 4;
+
+                Log.d(TAG,  "= DialogN=" + width);
+                dialog = new WordDialog(DictActivity.this,  DictActivity.this);
+                dialog.showDialog(DictActivity.this, width, height, "New word","new",null
+                        ,null ,null
+                        ,null);
+            }
+        });
 
         //dataToSearchList();
 
@@ -200,40 +217,35 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
                 Log.d(TAG, +top + "= Dialog=" + width);
                 dialog = new WordDialog(DictActivity.this,  DictActivity.this);
-                dialog.showDialog(DictActivity.this, width, height, String.valueOf(searchWord.getId()), searchWord.getWord(), searchWord.getTranslate(), searchWord.getTranscript());
-
-//                                    Button saveButton = (Button) dialog.findViewById(R.id.btn_save);
-//                                    saveButton.setOnClickListener(new View.OnClickListener() {
-////                                        @Override
-////                                        public void onClick(DialogInterface dialog, int which) {
-////
-////                                        };
-//
-//                                        @Override
-//                                        public void onClick(View arg0) {
-//                                            //String name = ((EditText)dialog.findViewById(R.id.nameText)).getText().toString();
-//                                            //String number = ((EditText)dialog.findViewById(R.id.numberText)).getText().toString();
-//                                        }
-//                                    });
-
-
-
+                dialog.showDialog(DictActivity.this, width, height,"Edit word", String.valueOf(searchWord.getId()),
+                        searchWord.getWord(), searchWord.getTranslate(),
+                        searchWord.getTranscript(),searchWord.getTrain1());
                 }
         },100);
     }
 
     @Override
-    public void sendData(String id, String translate) {
+    public void sendData(String id, String word, String translate, String transcript, Boolean train1) {
         Log.d(TAG,"SendData!!!! id="+id+" translate="+translate);
                 handler = new Handler();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int idup = AppDatabase.getInstance(getApplicationContext())
-                                .wordDao()
-                                .upWord(Integer.parseInt(id),translate);
+                        Log.d(TAG,"train111="+train1);
+                        if(id.equals("new")){
+                            wordFilter.setText(word);
+                            Long idup = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .insWord( word, translate, transcript, train1);
 
-                        Log.d("Dialog", String.valueOf(idup));
+                            Log.d("DialogAdd", String.valueOf(idup));
+                        }else {
+                            int idup = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .upWord(Integer.parseInt(id), word, translate, transcript, train1);
+
+                            Log.d("Dialog", String.valueOf(idup));
+                        }
                     }
                 });
                 thread.start();

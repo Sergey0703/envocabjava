@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
+    android:background="@drawable/green_background2"
+
      >
 
     <TextView
@@ -15,7 +16,7 @@
 
         android:background="@color/main_green"
         android:padding="10dp"
-        android:text=" "
+        android:text=""
         android:maxLines="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -37,56 +38,127 @@
 
         android:textColor="#ffffffff" />
 
+    <TextView
+        android:id="@+id/text_id_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/word_title"
+        android:text="Word: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+
+        ></TextView>
 
     <EditText
         android:id="@+id/word_dialog"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
         android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@color/white"
+         app:layout_constraintTop_toBottomOf="@id/text_id_dialog"
+        android:text="word"
 
-        android:clickable="false"
+        android:textSize="20sp"
+        android:textColor="#ff000000"
+        />
+    <!--
+           android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        -->
+   <!-- app:layout_constraintLeft_toRightOf="@id/text_id_dialog"-->
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/word_title"
-        android:text=""
-        android:gravity="center"
-        android:textSize="18sp"
-        android:textColor="#ff000000"
-        />
+    <TextView
+        android:id="@+id/text_transcription_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/word_dialog"
+        android:text="Transcription: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+
+        ></TextView>
     <EditText
         android:id="@+id/transcription_dialog"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:padding="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/word_dialog"
+        android:layout_marginHorizontal="10dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/text_transcription_dialog"
         android:text=""
-        android:gravity="center"
+
         android:textSize="18sp"
         android:textColor="#ff000000"
         />
+    <!--
+    android:gravity="center"
+    app:layout_constraintLeft_toRightOf="@id/text_transcription_dialog"-->
+
+    <TextView
+        android:id="@+id/text_translate_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/transcription_dialog"
+        android:text="Translate: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
+
+        ></TextView>
     <EditText
         android:id="@+id/translate_dialog"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:padding="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transcription_dialog"
+        android:layout_marginHorizontal="10dp"
+
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/text_translate_dialog"
         android:text=""
-        android:gravity="center"
+
         android:textSize="18sp"
         android:textColor="#ff000000"
         />
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_marked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:checked="true"
+        android:fadeScrollbars="true"
+        android:padding="10dp"
+        android:text="Marked"
+
+        android:textOff="No"
+        android:textOn="Yes"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+
+        android:theme="@style/SwitchThemeOverlay"
+        app:layout_constraintTop_toBottomOf="@id/translate_dialog"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+<!--android:thumbTint="@color/yellow"
+        android:trackTint="@color/white"
+        -->
+
     <Button
         android:id="@+id/btn_dialog"
         android:layout_width="wrap_content"
