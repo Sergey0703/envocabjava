@@ -35,5 +35,16 @@
         <item name="android:colorForeground">@color/yellow
         </item>
     </style>
-
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.AppCompat</item>
+        <item name="boxStrokeColor">@color/colors_border</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">16sp</item>
+    </style>
+<!--<item name="hintTextAppearance">@style/TextAppearance.AppCompat</item>-->
+    <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>
