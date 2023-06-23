@@ -14,6 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,8 +26,8 @@ import java.util.List;
 
 public class DictActivity extends BaseActivity implements WordRosterInterface {
 
-    WordDialog dialog;
-    Context context;
+    private WordDialog dialog;
+    private Context context;
     EditText wordFilter;
     private List<Dbwords> listSearchWords;
     private Dbwords searchWord;
@@ -36,7 +38,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     private String TAG = "DictActivity";
     private Handler handler = null;
 
-    Button btnSaveD, btnNew;
+    private Button btnSaveD, btnNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,5 +259,22 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                         dataToSearchList(wordFilter.getText().toString());
                     }
                 }, 200);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem menuDict = menu.findItem(R.id.dict);
+        if(menuDict != null){
+            menuDict.setEnabled(false);
+            menuDict.getIcon().setAlpha(130);
+        }
+        MenuItem menuDict2 = menu.findItem(R.id.dict2);
+        if(menuDict2 != null){
+            menuDict2.setEnabled(false);
+            menuDict2.getIcon().setAlpha(130);
+        }
+
+        return true;
     }
 }

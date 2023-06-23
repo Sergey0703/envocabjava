@@ -6,16 +6,16 @@
 
     <item
         android:id="@+id/wordsTraining"
-        android:icon="@drawable/icon_home_blue"
+        android:icon="@drawable/icon_home_white"
         android:title="Repeat words"
-        app:showAsAction="withText"
+        app:showAsAction="always"
 
         />
     <item
         android:id="@+id/wordsTraining2"
-        android:icon="@drawable/icon_home_white"
+        android:icon="@drawable/icon_home_blue"
         android:title="Repeat words"
-        app:showAsAction="always"
+        app:showAsAction="withText"
 
         />
 
@@ -35,11 +35,18 @@
         />
     <item
         android:id="@+id/dict"
-        android:icon="@drawable/icon_menu_book_24"
+        android:icon="@drawable/icon_menu_book_white"
         android:title="Dictionary"
-        app:showAsAction="withText"
+        app:showAsAction="always"
 
         />
+    <item
+    android:id="@+id/dict2"
+    android:icon="@drawable/icon_menu_book_24"
+    android:title="Dictionary"
+    app:showAsAction="withText"
+
+    />
     <item
         android:id="@+id/aboutProgram"
         android:icon="@drawable/icon_copyright"

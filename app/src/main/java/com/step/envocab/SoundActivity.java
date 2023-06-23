@@ -508,6 +508,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
         if(menuSoundTraining != null){
             menuSoundTraining.setEnabled(false);
@@ -518,17 +519,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             menuSoundTraining2.setEnabled(false);
             menuSoundTraining2.getIcon().setAlpha(130);
         }
-        MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
-        if(menuWordsTraining != null){
-            menuWordsTraining.setEnabled(true);
-            menuWordsTraining.getIcon().setAlpha(255);
-        }
-        MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
-        if(menuWordsTraining2 != null){
-            menuWordsTraining2.setEnabled(true);
-            menuWordsTraining2.getIcon().setAlpha(255);
-        }
-        return super.onPrepareOptionsMenu(menu);
+
+        return true;
     }
 //@Override
 //public boolean onOptionsItemSelected(MenuItem item) {

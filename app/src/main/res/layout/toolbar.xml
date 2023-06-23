@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
+<!--<androidx.appcompat.widget.Toolbar -->
+<com.google.android.material.appbar.MaterialToolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/action_toolbar"
@@ -7,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:background="@color/main_green"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
     >
     <RelativeLayout
@@ -29,11 +31,7 @@
                 android:text="English Vocab"
                 android:textColor="#fff"
                 />
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
 
-                />
         </LinearLayout>
     </RelativeLayout>
-</androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.MaterialToolbar>

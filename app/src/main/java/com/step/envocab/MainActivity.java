@@ -448,27 +448,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    //@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
         if(menuWordsTraining != null){
             menuWordsTraining.setEnabled(false);
             menuWordsTraining.getIcon().setAlpha(130);
+            //Log.d("MENU","Menu!!!!!!!!!!!!!!!!!!!!!!!2000000000000");
         }
         MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
         if(menuWordsTraining2 != null){
             menuWordsTraining2.setEnabled(false);
             menuWordsTraining2.getIcon().setAlpha(130);
         }
-        MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
-        if(menuSoundTraining != null){
-            menuSoundTraining.setEnabled(true);
-            menuSoundTraining.getIcon().setAlpha(255);
-        }
-        MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
-        if(menuSoundTraining2 != null){
-            menuSoundTraining2.setEnabled(true);
-            menuSoundTraining2.getIcon().setAlpha(255);
-        }
-        return super.onPrepareOptionsMenu(menu);
+
+        return true;
     }
 }
