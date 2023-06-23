@@ -28,15 +28,18 @@
         android:id="@+id/btn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="X"
+        android:text="x"
+        android:gravity="top|end"
         android:textSize="20sp"
-        android:paddingRight="0dp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
+        android:textAllCaps="false"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 
         android:textColor="#ffffffff" />
-
+        <!-- android:gravity="right|center_vertical" -->
 
 
 
@@ -45,29 +48,31 @@
         style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:layout_constraintTop_toBottomOf="@id/word_title"
-        android:layout_margin="10dp"
+         app:layout_constraintTop_toBottomOf="@id/word_title"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="2dp"
         android:hint="Word"
         app:hintTextAppearance="@style/TextLabel"
-        android:textColorHint="@color/black"
+
         app:hintTextColor="@color/orange"
         app:boxStrokeColor="@color/orange"
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
         app:errorEnabled="true">
+    <!--android:textColorHint="@color/black" -->
     <!-- app:boxBackgroundColor="@color/green"-->
-    <com.google.android.material.textfield.TextInputEditText
+    <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->
+
+        <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/word_dialog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
 
         android:textSize="20sp"
-        android:textColor="@color/black"
-
 
         android:inputType="text" />
+    <!--  android:textColor="@color/black" -->
     </com.google.android.material.textfield.TextInputLayout>
     <!--
            android:clickable="false"
@@ -83,16 +88,18 @@
         android:layout_height="wrap_content"
 
         app:layout_constraintTop_toBottomOf="@id/text_input_word"
-        android:layout_margin="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="2dp"
         android:hint="Transcription"
         app:hintTextAppearance="@style/TextLabel"
-        android:textColorHint="@color/black"
+
         app:hintTextColor="@color/orange"
         app:boxStrokeColor="@color/orange"
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
         app:errorEnabled="true">
+        <!-- android:textColorHint="@color/black" -->
         <!-- app:boxBackgroundColor="@color/green"-->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transcription_dialog"
@@ -100,10 +107,8 @@
             android:layout_height="wrap_content"
 
             android:textSize="20sp"
-            android:textColor="@color/black"
-
-
             android:inputType="text" />
+        <!--  android:textColor="@color/black" -->
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -119,27 +124,31 @@
         android:layout_height="wrap_content"
 
         app:layout_constraintTop_toBottomOf="@id/text_input_trans"
-        android:layout_margin="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="2dp"
         android:hint="Translate"
         app:hintTextAppearance="@style/TextLabel"
-        android:textColorHint="@color/black"
+
         app:hintTextColor="@color/orange"
         app:boxStrokeColor="@color/orange"
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
         app:errorEnabled="true">
+        <!--  android:textColorHint="@color/black" -->
         <!-- app:boxBackgroundColor="@color/green"-->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/translate_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:lines="3"
+            android:minLines="3"
+            android:singleLine="false"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
             android:textSize="20sp"
-            android:textColor="@color/black"
-
-
-            android:inputType="text" />
+            />
+        <!--android:textColor="@color/black" -->
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -149,7 +158,7 @@
         android:id="@+id/switch_marked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         android:checked="true"
         android:fadeScrollbars="true"
         android:padding="10dp"
@@ -159,7 +168,7 @@
         android:textOn="Yes"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
 
         android:theme="@style/SwitchThemeOverlay"
         app:layout_constraintTop_toBottomOf="@id/text_input_translate"

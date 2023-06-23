@@ -100,10 +100,16 @@ public class WordDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
+
                 //dialog.dismiss();
-                String strWord=String.valueOf(nameWord.getText());
-                String strTranslate=String.valueOf(trans.getText());
-                String strTranscripton=String.valueOf(transcript.getText());
+                String strWord=String.valueOf(nameWord.getText()).trim();
+                if(strWord.equals("")){
+                    nameWord.setError("An empty word cannot be stored");
+                    return;
+                }
+
+                String strTranslate=String.valueOf(trans.getText()).trim();
+                String strTranscripton=String.valueOf(transcript.getText()).trim();
                 if(train1Switch.isChecked()) {
                     marked = true;
                 }else {
