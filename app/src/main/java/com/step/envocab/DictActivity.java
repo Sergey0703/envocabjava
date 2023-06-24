@@ -50,6 +50,12 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   finish();
+            }
+        });
 
         wordFilter = findViewById(R.id.wordFilter);
 
