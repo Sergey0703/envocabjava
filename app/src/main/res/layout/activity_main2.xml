@@ -66,9 +66,9 @@
         android:textColor="@color/blue_color2_font2"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
 
-        android:letterSpacing="0.1"
+        android:letterSpacing="0"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -89,9 +89,9 @@
         android:text="Words in vocab:"
         android:textColor="@color/blue_color2_font2"
         android:textSize="20sp"
-        android:fontFamily="@font/plainot"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal"
+        android:letterSpacing="0"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="@id/dashWordsInVocabCount"
@@ -110,9 +110,9 @@
         android:text="Repeated today: "
         android:textColor="@color/blue_color2_font2"
         android:textSize="20sp"
-        android:fontFamily="@font/plainot"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal"
+        android:letterSpacing="0"
         android:layout_below="@id/dashWordsInVocabCount"
         android:layout_alignLeft="@id/dashWordsInVocab"
         app:layout_constraintTop_toBottomOf="@id/dashWordsInVocabCount"
@@ -130,9 +130,9 @@
         android:textAlignment="textEnd"
         android:textColor="@color/blue_color2_font2"
         android:textSize="20sp"
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
         android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:letterSpacing="0"
         app:layout_constraintTop_toBottomOf="@id/dashWordsInVocabCount"
         app:layout_constraintRight_toRightOf="parent"
         ></TextView>
@@ -148,9 +148,9 @@
         android:text="Marked today: "
         android:textColor="@color/red_color_font2"
         android:textSize="20sp"
-        android:fontFamily="@font/plainot"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal"
+        android:letterSpacing="0"
         app:layout_constraintTop_toBottomOf="@id/dashWordsTodayCount"
         app:layout_constraintLeft_toLeftOf="@id/dashWordsInVocab"
 
@@ -165,8 +165,8 @@
         android:textColor="@color/red_color_font2"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:fontFamily="@font/plainot"
-        android:letterSpacing="0.1"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashWordsTodayCount"
 
@@ -236,9 +236,9 @@
         android:layout_alignParentLeft="true"
         android:text="word"
 
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
         android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:letterSpacing="0"
 
 
         android:textSize="34sp"
@@ -300,8 +300,8 @@
         android:layout_margin="0dp"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:letterSpacing="0.1"
-        android:fontFamily="@font/plainot"
+        android:letterSpacing="0"
+        android:fontFamily="sans-serif"
         android:textColor="@color/blue_color2_font2"
 
         android:layout_marginTop="5dp"
@@ -333,7 +333,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
         android:text="I know"
         android:textSize="@dimen/buttonTextSize"
 
@@ -356,7 +356,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
         android:text="Show Translate"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -477,7 +477,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
 
-        android:fontFamily="@font/plainot"
+        android:fontFamily="sans-serif"
         android:letterSpacing="0.1"
         android:thumbTint="@color/blue_color2_font2"
         android:trackTint="@color/blue_color2_font2"

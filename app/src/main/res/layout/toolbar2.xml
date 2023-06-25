@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@color/blue_color2"
+    android:background="@color/blue_color_toolbar22"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
     >
@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
                 android:text="English Vocab"
-                android:fontFamily="@font/plainot"
+                android:fontFamily="sans-serif"
                 android:letterSpacing="0.1"
                 android:textColor="@color/red_color_font2"
                 />
