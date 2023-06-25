@@ -1,19 +1,39 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.appcompat.widget.Toolbar -->
+<com.google.android.material.appbar.MaterialToolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/action_toolbar"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:layout_height="56dp"
+    android:background="@color/blue_color2"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/action_toolbar"
-
+    >
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true">
 
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:text="English Vocab"
+                android:fontFamily="@font/plainot"
+                android:letterSpacing="0.1"
+                android:textColor="@color/red_color_font2"
+                />
 
-    <!-- Layout for content is here. This can be a RelativeLayout  -->
-
-</LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</com.google.android.material.appbar.MaterialToolbar>

@@ -506,22 +506,22 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         thread.start();
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
-        if(menuSoundTraining != null){
-            menuSoundTraining.setEnabled(false);
-            menuSoundTraining.getIcon().setAlpha(130);
-        }
-        MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
-        if(menuSoundTraining2 != null){
-            menuSoundTraining2.setEnabled(false);
-            menuSoundTraining2.getIcon().setAlpha(130);
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        super.onPrepareOptionsMenu(menu);
+//        MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
+//        if(menuSoundTraining != null){
+//            menuSoundTraining.setEnabled(false);
+//            menuSoundTraining.getIcon().setAlpha(130);
+//        }
+//        MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
+//        if(menuSoundTraining2 != null){
+//            menuSoundTraining2.setEnabled(false);
+//            menuSoundTraining2.getIcon().setAlpha(130);
+//        }
+//
+//        return true;
+//    }
 //@Override
 //public boolean onOptionsItemSelected(MenuItem item) {
 //

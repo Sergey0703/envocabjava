@@ -48,8 +48,8 @@ public class MainActivity extends BaseActivity {
     Button btnWordOk;
     Button btnWordStudy;
     Button btnWordTranslate;
-    Button btnNext;
-    Button btnPrev;
+    ImageButton btnNext;
+    ImageButton btnPrev;
 
     TextView dashWord;
     TextView dashTranscript;
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         setSupportActionBar(toolbar);
@@ -449,20 +449,20 @@ public class MainActivity extends BaseActivity {
     }
 
     //@Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
-        if(menuWordsTraining != null){
-            menuWordsTraining.setEnabled(false);
-            menuWordsTraining.getIcon().setAlpha(130);
-            //Log.d("MENU","Menu!!!!!!!!!!!!!!!!!!!!!!!2000000000000");
-        }
-        MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
-        if(menuWordsTraining2 != null){
-            menuWordsTraining2.setEnabled(false);
-            menuWordsTraining2.getIcon().setAlpha(130);
-        }
-
-        return true;
-    }
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        super.onPrepareOptionsMenu(menu);
+//        MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
+//        if(menuWordsTraining != null){
+//            menuWordsTraining.setEnabled(false);
+//            menuWordsTraining.getIcon().setAlpha(130);
+//            //Log.d("MENU","Menu!!!!!!!!!!!!!!!!!!!!!!!2000000000000");
+//        }
+//        MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
+//        if(menuWordsTraining2 != null){
+//            menuWordsTraining2.setEnabled(false);
+//            menuWordsTraining2.getIcon().setAlpha(130);
+//        }
+//
+//        return true;
+//    }
 }

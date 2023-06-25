@@ -51,37 +51,52 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
+        int alphaT=255, alphaS=255, alphaD=255;
+        boolean menuT=true, menuS=true, menuD=true;
+        String act= String.valueOf(getLocalClassName());
+        switch (act){
+            case "MainActivity":
+                alphaT=130; menuT=false;
+            break;
+            case "SoundActivity":
+                alphaS=130; menuS=false;
+            break;
+            case "DictActivity":
+                alphaD=130; menuD=false;
+            break;
+        }
+        //Activity currentActivity = this.getApplicationContext()).getCurrentActivity();
         MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
         if(menuWordsTraining != null){
-            menuWordsTraining.setEnabled(true);
-            menuWordsTraining.getIcon().setAlpha(255);
+            menuWordsTraining.setEnabled(menuT);
+            menuWordsTraining.getIcon().setAlpha(alphaT);
             //Log.d("MENU","Menu!!!!!!!!!!!!!!!!!!!!!!!1000");
         }
         MenuItem menuWordsTraining2 = menu.findItem(R.id.wordsTraining2);
         if(menuWordsTraining2 != null){
-            menuWordsTraining2.setEnabled(true);
-            menuWordsTraining2.getIcon().setAlpha(255);
+            menuWordsTraining2.setEnabled(menuT);
+            menuWordsTraining2.getIcon().setAlpha(alphaT);
         }
         MenuItem menuSoundTraining = menu.findItem(R.id.soundTraining);
         if(menuSoundTraining != null){
-            menuSoundTraining.setEnabled(true);
-            menuSoundTraining.getIcon().setAlpha(255);
+            menuSoundTraining.setEnabled(menuS);
+            menuSoundTraining.getIcon().setAlpha(alphaS);
         }
         MenuItem menuSoundTraining2 = menu.findItem(R.id.soundTraining2);
         if(menuSoundTraining2 != null){
-            menuSoundTraining2.setEnabled(true);
-            menuSoundTraining2.getIcon().setAlpha(255);
+            menuSoundTraining2.setEnabled(menuS);
+            menuSoundTraining2.getIcon().setAlpha(alphaS);
         }
         super.onPrepareOptionsMenu(menu);
         MenuItem menuDict = menu.findItem(R.id.dict);
         if(menuDict != null){
-            menuDict.setEnabled(true);
-            menuDict.getIcon().setAlpha(255);
+            menuDict.setEnabled(menuD);
+            menuDict.getIcon().setAlpha(alphaD);
         }
         MenuItem menuDict2 = menu.findItem(R.id.dict2);
         if(menuDict2 != null){
-            menuDict2.setEnabled(true);
-            menuDict2.getIcon().setAlpha(255);
+            menuDict2.setEnabled(menuD);
+            menuDict2.getIcon().setAlpha(alphaD);
         }
         return super.onPrepareOptionsMenu(menu);
     }

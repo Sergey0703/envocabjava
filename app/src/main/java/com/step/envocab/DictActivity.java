@@ -122,6 +122,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
     public void dataToSearchList(String findStr) {
         String str = findStr + '%';
+        //handler = new Handler();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -137,6 +138,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         thread.start();
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+       // handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
@@ -267,20 +269,20 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 }, 200);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem menuDict = menu.findItem(R.id.dict);
-        if(menuDict != null){
-            menuDict.setEnabled(false);
-            menuDict.getIcon().setAlpha(130);
-        }
-        MenuItem menuDict2 = menu.findItem(R.id.dict2);
-        if(menuDict2 != null){
-            menuDict2.setEnabled(false);
-            menuDict2.getIcon().setAlpha(130);
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        super.onPrepareOptionsMenu(menu);
+//        MenuItem menuDict = menu.findItem(R.id.dict);
+//        if(menuDict != null){
+//            menuDict.setEnabled(false);
+//            menuDict.getIcon().setAlpha(130);
+//        }
+//        MenuItem menuDict2 = menu.findItem(R.id.dict2);
+//        if(menuDict2 != null){
+//            menuDict2.setEnabled(false);
+//            menuDict2.getIcon().setAlpha(130);
+//        }
+//
+//        return true;
+//    }
 }
