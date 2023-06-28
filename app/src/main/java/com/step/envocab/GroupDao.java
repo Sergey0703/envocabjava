@@ -12,8 +12,17 @@ public interface GroupDao {
     @Insert
     void insertGroup(Dbgroups group);
 
-    @Query("SELECT * from Dbgroups WHERE 'group' LIKE :filter ORDER BY 'group'")
+    @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY `group`")
     List<Dbgroups> getGroupsFiltered(String filter);
+
+    @Query("update Dbgroups set `group`=:group, description = :descript,  native1 =:native1 where id = :id")
+    int upGroup(Integer id, String group, String descript, Boolean native1);
+
+    @Query("insert into Dbgroups (`group`,'description','native1') VALUES(:group,:descript,:native1)")
+    Long insGroup( String group, String descript, Boolean native1);
+
+    @Query("Select * FROM dbgroups WHERE id LIKE :id")
+    Dbgroups findById(int id);
 
 //    //@Modifying
 //    @Query("update Dbwords set word=:word, translate = :trans, transcript =:transcript, train1 =:train where id = :id")
@@ -21,8 +30,7 @@ public interface GroupDao {
 //
 //    @Query("insert into Dbwords ('word','translate','transcript','train1') VALUES(:word,:trans,:transcript,:train)")
 //    Long insWord( String word, String trans, String transcript, Boolean train);
-//    @Query("Select * FROM Dbwords WHERE id LIKE :id")
-//    Dbwords findById(int id);
+
 //
 //    @Query("Select * FROM Dbwords ORDER BY trainDate ASC Limit 1")
 //    Dbwords findLast();

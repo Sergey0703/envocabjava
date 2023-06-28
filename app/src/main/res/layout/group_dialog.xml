@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+     >
+<!-- android:background="@drawable/green_background2" -->
+    <TextView
+        android:id="@+id/group_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:background="@color/pink_color2"
+        android:padding="10dp"
+        android:text=""
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:textColor="@color/red_color_font2"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x"
+        android:gravity="top|end"
+        android:textSize="20sp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
+        android:textAllCaps="false"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        android:backgroundTint="@color/pink_color2"
+        android:textColor="@color/red_color_font2" />
+        <!-- android:gravity="right|center_vertical" -->
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_group"
+        style="@style/TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         app:layout_constraintTop_toBottomOf="@id/group_title"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="2dp"
+        android:hint="Group"
+        app:hintTextAppearance="@style/TextLabel"
+
+        app:hintTextColor="@color/orange"
+        app:boxStrokeColor="@color/orange"
+        app:boxBackgroundColor="@color/white"
+
+        app:boxBackgroundMode="outline"
+        app:errorEnabled="true">
+    <!--android:textColorHint="@color/black" -->
+    <!-- app:boxBackgroundColor="@color/green"-->
+    <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->
+
+        <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
+
+        android:textSize="20sp"
+
+        android:inputType="text" />
+    <!--  android:textColor="@color/black" -->
+    </com.google.android.material.textfield.TextInputLayout>
+    <!--
+           android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        -->
+   <!-- app:layout_constraintLeft_toRightOf="@id/text_id_dialog"-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_trans"
+        style="@style/TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@id/text_input_group"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="2dp"
+        android:hint="Description"
+        app:hintTextAppearance="@style/TextLabel"
+
+        app:hintTextColor="@color/orange"
+        app:boxStrokeColor="@color/orange"
+        app:boxBackgroundColor="@color/white"
+
+        app:boxBackgroundMode="outline"
+        app:errorEnabled="true">
+        <!-- android:textColorHint="@color/black" -->
+        <!-- app:boxBackgroundColor="@color/green"-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/description_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textSize="20sp"
+            android:inputType="text" />
+        <!--  android:textColor="@color/black" -->
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <!--
+    android:gravity="center"
+    app:layout_constraintLeft_toRightOf="@id/text_transcription_dialog"-->
+
+
+
+
+
+
+
+<!--android:thumbTint="@color/yellow"
+        android:trackTint="@color/white"
+        -->
+
+    <Button
+        android:id="@+id/btn_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="@color/blue_color2_font2"
+        android:textColor="#ffffffff" />
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_cancel"
+        android:textColor="#ffffffff"
+        android:visibility="invisible"
+        android:backgroundTint="@color/blue_color2_font2"
+        />
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:backgroundTint="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="20dp"
+        app:layout_constraintLeft_toRightOf="@id/btn_save"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="#ffffffff"
+        android:visibility="invisible"
+        />
+    <!--android:background="@drawable/icon_headphones_blue">-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
