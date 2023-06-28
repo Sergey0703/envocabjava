@@ -3,6 +3,7 @@ package com.step.envocab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +29,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
     private GroupDialog dialogGroup;
     private List<Dbgroups> listSearchGroups;
     private Dbgroups searchGroup;
-    LinearLayoutManager layoutManager;
+    GridLayoutManager layoutManager;
     private RecyclerView searchGroupsRecycler;
     private GroupsRosterAdapter groupsRosterAdapter;
     private TextView textCautionGroup;
@@ -52,8 +53,11 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
         });
 
         textCautionGroup=findViewById(R.id.caution_group);
-        layoutManager = new LinearLayoutManager(this);
+      //  layoutManager = new LinearLayoutManager(this);
+         layoutManager=new GridLayoutManager(this,2);
         searchGroupsRecycler = findViewById(R.id.group_recycler_filter);
+
+
         searchGroupsRecycler.setLayoutManager(layoutManager);
 
         groupFilter=findViewById(R.id.groupFilter);
