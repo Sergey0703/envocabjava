@@ -3,6 +3,8 @@ package com.step.envocab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class DictActivity extends BaseActivity implements WordRosterInterface {
+    private Runnable runnable;
 
     private WordDialog dialog;
     private Context context;
@@ -34,11 +37,26 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     LinearLayoutManager layoutManager;
     private RecyclerView searchRecycler;
     private WordsRosterAdapter wordsRosterAdapter;
+    TextView textCautionDict;
 
     private String TAG = "DictActivity";
     private Handler handler = null;
 
     private Button btnSaveD, btnNew;
+
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+        if (handler != null) {
+            if (runnable != null) {
+                handler.removeCallbacks(runnable);
+            }
+            handler = null;
+
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +71,8 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   finish();
+                onStop();
+                finish();
             }
         });
 
@@ -62,6 +81,8 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         layoutManager = new LinearLayoutManager(this);
         searchRecycler = findViewById(R.id.recyclerFilter);
         searchRecycler.setLayoutManager(layoutManager);
+
+        textCautionDict=findViewById(R.id.caution_dict);
 
         btnNew = (Button) findViewById(R.id.btn_new);
         btnNew.setOnClickListener(new View.OnClickListener() {
@@ -138,13 +159,16 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         thread.start();
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-       // handler.postDelayed(new Runnable() {
+        //handler.postDelayed(new Runnable() {
+
             @Override
             public void run() {
+
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
                 if (listSearchWords != null && listSearchWords.size() != 0) {
 
                     Log.d("DICT", "listSearchWords3=" + listSearchWords.size());
+                    textCautionDict.setVisibility(View.GONE);
                     searchRecycler.setVisibility(View.VISIBLE);
                     //                    LinearLayoutManager manager = new LinearLayoutManager(getParent());
 //                     wordsList.setLayoutManager(manager);
@@ -157,6 +181,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 } else {
                     Log.d("DICT3", "listSearchWords3=NULLLLL");
                     searchRecycler.setVisibility(View.GONE);
+                    textCautionDict.setVisibility(View.VISIBLE);
 //                    int size = listSearchWords.size();
 //                    listSearchWords.clear();
 //                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
@@ -165,7 +190,9 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 //                    wordsSearchAdapter = new WordsAdapter(null, DictActivity.this);
 //                    searchRecycler.setAdapter(wordsSearchAdapter);
                 }
+
             }
+
         }, 100);
     }
 

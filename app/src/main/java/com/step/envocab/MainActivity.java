@@ -1,5 +1,7 @@
 package com.step.envocab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 
 import android.os.AsyncTask;
@@ -48,8 +50,8 @@ public class MainActivity extends BaseActivity {
     Button btnWordOk;
     Button btnWordStudy;
     Button btnWordTranslate;
-    ImageButton btnNext;
-    ImageButton btnPrev;
+    Button btnNext;
+    Button btnPrev;
 
     TextView dashWord;
     TextView dashTranscript;
@@ -68,7 +70,21 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+//        String fileNameString = sharedPreferencesBinding.fileNameEditView.getText().toString();
+//        SharedPreferences sharedPreferences;
+//        if(fileNameString.isEmpty()) {
+//            sharedPreferences = getPreferences(MODE_PRIVATE);
+//        }
+//        else {
+//            sharedPreferences = getSharedPreferences(fileNameString, MODE_PRIVATE);
+//        }
+        if(s1) {
+            setContentView(R.layout.activity_main2);
+        }else{
+            setContentView(R.layout.activity_main);
+            }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         setSupportActionBar(toolbar);

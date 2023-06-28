@@ -48,6 +48,20 @@
 
     />
     <item
+        android:id="@+id/group"
+        android:icon="@drawable/icon_groups_black"
+        android:title="Groups"
+        app:showAsAction="never"
+
+        />
+    <item
+        android:id="@+id/preferencies"
+        android:icon="@drawable/icon_preference_black"
+        android:title="Preferencies"
+
+
+        />
+    <item
         android:id="@+id/aboutProgram"
         android:icon="@drawable/icon_copyright"
         android:title="About program"

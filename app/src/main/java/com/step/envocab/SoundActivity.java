@@ -3,6 +3,7 @@ package com.step.envocab;
 import static android.app.PendingIntent.getActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -57,9 +59,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     TextToSpeech textToSpeech;
     TextToSpeech textToSpeechTr;
     boolean playSoundOn;
-    Switch speechTranslate;
-    Switch speechCategory;
-    Switch allStudyWords;
+    SwitchCompat speechTranslate;
+    SwitchCompat speechCategory;
+    SwitchCompat allStudyWords;
     String selectedTranslate;
     TextView textCaution;
     int speedScroll = 4000;
@@ -70,6 +72,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     Long endOfDay;
     boolean loading = true;
     Animation animAlpha;
+    private int layoutIdForListItem;
 
     @Override
     protected void onPause() {
@@ -96,7 +99,18 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sound);
+
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+
+        if(s1) {
+            setContentView(R.layout.activity_sound2);
+            layoutIdForListItem=R.layout.word_list_item2;
+        }else{
+            setContentView(R.layout.activity_sound);
+            layoutIdForListItem=R.layout.word_list_item;
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         // using toolbar as ActionBar
@@ -111,8 +125,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         wordsList = findViewById(R.id.rv_words);
         wordsList.setLayoutManager(layoutManager);
         btnPlaySound = findViewById(R.id.buttonPlaySound);
-        speechTranslate = (Switch) findViewById(R.id.speechTranslate);
-        speechCategory = (Switch) findViewById(R.id.speechCategory);
+        speechTranslate =  findViewById(R.id.speechTranslate);
+        speechCategory =  findViewById(R.id.speechCategory);
         btnPrevDay = findViewById(R.id.btnPrevDay);
         btnNextDay = findViewById(R.id.btnNextDay);
         allStudyWords = findViewById(R.id.allStudyWords);
@@ -124,13 +138,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 onStop();
-//                if (allStudyWords.isChecked()) {
-//                   // allStudyWords.setText("Words only by date");
-//                    Log.d(TAG, "Words only by date");
-//                } else {
-//                  //  allStudyWords.setText("Only studying words");
-//                    Log.d(TAG, "All words for study");
-//                }
+                if (allStudyWords.isChecked()) {
+                    speechCategory.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "Words only by date");
+                } else {
+                    speechCategory.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "All words for study");
+                }
                 dataToList("");
             }
         });
@@ -140,8 +154,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 //System.out.println("Switch!!!!!!");
                 onStop();
                 if (speechCategory.isChecked()) {
-                    speechCategory.setText("On the date");
-                    Log.d(TAG, "Words by date");
+                    speechCategory.setText("All words on the date");
+                    Log.d(TAG, "All words on the date");
                 } else {
                     speechCategory.setText("Marked words");
                     Log.d(TAG, "Marked words by date");
@@ -287,7 +301,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                     wordsList.setLayoutManager(manager);
 //                     //listWords.add();
                     wordsList.setHasFixedSize(true);
-                    wordsAdapter = new WordsAdapter(listWords, SoundActivity.this);
+                    wordsAdapter = new WordsAdapter(listWords, SoundActivity.this,layoutIdForListItem );
                     wordsList.setAdapter(wordsAdapter);
                     if(wordsList.getVisibility()==View.GONE){
                         wordsList.setVisibility(View.VISIBLE);

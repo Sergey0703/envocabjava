@@ -6,26 +6,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    android:background="@drawable/green_background2"
+    android:background="@drawable/gradient_pink"
     >
     <!-- android:keepScreenOn="true" -->
     <!--<include layout="@layout/appbar"/>-->
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar2"/>
 
     <RelativeLayout
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:maxHeight="100dp"
+        android:layout_height="140dp"
+        android:maxHeight="140dp"
         android:layout_weight="1"
 
         android:padding="0dp"
         android:elevation="2dp"
 
         >
-
-
-
 
 
         <androidx.appcompat.widget.SwitchCompat
@@ -35,40 +32,50 @@
 
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:checked="true"
-            android:fadeScrollbars="true"
+            android:fadeScrollbars="false"
+            android:fontFamily="sans-serif"
 
+
+            android:letterSpacing="0"
             android:text="Speak translation ON"
-            android:textColor="@color/white"
-            android:textOff="No"
-            android:textOn="Yes"
+            android:textColor="@color/blue_color2_font2"
+
+
             android:textSize="20sp"
+            android:textStyle="normal"
 
-            android:textStyle="bold|italic"
-            android:thumbTint="@color/yellow"
-
-            android:trackTint="@color/white"
-            android:theme="@style/SwitchThemeOverlay"
+            android:theme="@style/SwitchThemeOverlay2"
             />
+        <!--
+        android:thumbTint="@color/blue_color2_font2"
+            android:trackTint="@color/blue_color2_font2"
+        -->
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/allStudyWords"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/speechTranslate"
-            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
             android:checked="false"
             android:fadeScrollbars="true"
-            android:text="All marked words"
-            android:textColor="@color/white"
-            android:textOff="No"
-            android:textOn="Yes"
-            android:textSize="18sp"
-            android:layout_marginLeft="5dp"
-            android:textStyle="bold|italic"
-            android:thumbTint="@color/yellow"
-            android:trackTint="@color/red"
-            android:theme="@style/SwitchThemeOverlay"
+            android:text="All marked words "
+            android:textColor="@color/blue_color2_font2"
+
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0"
+            android:textSize="20sp"
+
+
+
+            android:textStyle="normal"
+            android:theme="@style/SwitchThemeOverlay2"
             />
 
 
@@ -77,21 +84,21 @@
             android:id="@+id/speechCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/speechTranslate"
-            android:layout_alignParentRight="true"
+            android:layout_below="@id/allStudyWords"
+            android:layout_centerHorizontal="true"
             android:checked="true"
             android:fadeScrollbars="true"
-            android:text="On the date"
-            android:textColor="@color/white"
+            android:text="All words on the date"
+            android:textColor="@color/blue_color2_font2"
             android:textOff="No"
             android:textOn="Yes"
-            android:textSize="18sp"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold|italic"
-            android:thumbTint="@color/yellow"
-            android:trackTint="@color/red"
-            android:theme="@style/SwitchThemeOverlay"
-            />
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+
+            android:textStyle="normal"
+            android:theme="@style/SwitchThemeOverlay2"
+            android:layout_marginTop="5dp"
+             />
 
         <!--app:backgroundTint="@color/green"-->
 
@@ -117,7 +124,8 @@ android:background="@drawable/green_background2"-->
         android:textAlignment="center"
         android:visibility="gone"
         android:textSize="30sp"
-        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/blue_color2_font2"
         android:text="No words to display, \n go back and mark today's words or try 'All marked words' switch above."
         />
     <RelativeLayout
@@ -132,45 +140,49 @@ android:background="@drawable/green_background2"-->
 
         >
         <!--android:background="@drawable/green_background2"-->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPlaySound"
 
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+
             android:background="@drawable/play_circle"
             android:scaleType="fitCenter"
-            android:text="" />
+            android:text=""
+
+            app:backgroundTint="@color/blue_color2_font2"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp" />
+
         <Button
             android:id="@+id/btnPrevDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
+            android:layout_width="46dp"
+            android:layout_height="49dp"
+
+            android:background="@drawable/back_arrow"
+            app:backgroundTint="@color/blue_color2_font2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-
-            android:background="@drawable/rounded_corner"
-            android:drawableLeft="@android:drawable/ic_media_previous"
-            android:text="-Day"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
             android:layout_margin="10dp"
+
             ></Button>
 
         <Button
             android:id="@+id/btnNextDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="49dp"
 
-            android:background="@drawable/rounded_corner"
-            android:drawableRight="@android:drawable/ic_media_next"
-            android:text="+Day"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:background="@drawable/next_arrow"
+            app:backgroundTint="@color/blue_color2_font2"
             android:textSize="16sp"
-            android:layout_alignParentBottom="true"
+
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             ></Button>
 

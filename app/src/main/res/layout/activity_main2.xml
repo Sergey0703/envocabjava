@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blue_color2"
+    android:background="@drawable/gradient_blue"
 
     >
     <!--android:background="@drawable/green_background2"-->
     <include layout="@layout/toolbar2"/>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
     tools:context="com.step.envocab.MainActivity">
@@ -401,31 +401,31 @@
 
     </Button>
 
-    <ImageButton
+    <Button
         android:id="@+id/btnNext"
         android:layout_width="46dp"
         android:layout_height="49dp"
 
         android:background="@drawable/next_arrow"
-
+        app:backgroundTint="@color/blue_color2_font2"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-    </ImageButton>
+    </Button>
 
-    <ImageButton
+    <Button
         android:id="@+id/btnPrev"
         android:layout_width="46dp"
         android:layout_height="49dp"
 
 
         android:background="@drawable/back_arrow"
-
+        app:backgroundTint="@color/blue_color2_font2"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        ></ImageButton>
+        ></Button>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressCircleInd"

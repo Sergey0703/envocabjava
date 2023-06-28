@@ -121,24 +121,15 @@ public class WordDialog extends Dialog {
                     Log.d("D","Send");
                     wordRosterInterface.sendData(id,strWord, strTranslate, strTranscripton, marked);
                 }
-                handler = new Handler();
-//                Thread thread = new Thread(new Runnable() {
-//                    @Override
+                dialog.dismiss();
+
+//                handler = new Handler();
+//                if (handler == null) return;
+//                handler.postDelayed(new Runnable() {
 //                    public void run() {
-//                        int idup = AppDatabase.getInstance(activity.getApplicationContext())
-//                                .wordDao()
-//                                .upWord(Integer.parseInt(id),strTranslate);
-//
-//                        Log.d("Dialog", String.valueOf(idup));
-//                    }
-//                });
-//                thread.start();
-                if (handler == null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        dialog.dismiss();
-                   }
-                }, 100);
+//                        dialog.dismiss();
+//                   }
+//                }, 100);
 
             }
         });

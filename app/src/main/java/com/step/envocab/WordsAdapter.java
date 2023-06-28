@@ -19,10 +19,12 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     private boolean firstLoading = true;
     private List<Dbwords> wordsList;
     Animation animAlpha;
+    int layoutIdForListItem;
 
-    public WordsAdapter(List<Dbwords> wordsList, WordListInterface wordListInterface) {
+    public WordsAdapter(List<Dbwords> wordsList, WordListInterface wordListInterface, int layoutIdForListItem) {
         this.wordsList = wordsList;
         this.wordListInterface = wordListInterface;
+        this.layoutIdForListItem=layoutIdForListItem;
     }
 
 
@@ -30,7 +32,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.word_list_item;
+        //layoutIdForListItem = R.layout.word_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);

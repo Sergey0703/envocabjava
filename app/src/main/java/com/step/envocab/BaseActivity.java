@@ -23,18 +23,6 @@ import com.step.envocab.R;
 
 public class BaseActivity extends AppCompatActivity {
     Activity activity;
-    //Context context;
-    ImageView menuIcon;
-
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-//        super.onCreate(savedInstanceState, persistentState);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
-//        // using toolbar as ActionBar
-//        setSupportActionBar(toolbar);
-////        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-////        getSupportActionBar().setCustomView(R.layout.toolbar);
-//    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -51,8 +39,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
-        int alphaT=255, alphaS=255, alphaD=255;
-        boolean menuT=true, menuS=true, menuD=true;
+        int alphaT=255, alphaS=255, alphaD=255, alphaG=255;
+        boolean menuT=true, menuS=true, menuD=true, menuG=true;
         String act= String.valueOf(getLocalClassName());
         switch (act){
             case "MainActivity":
@@ -64,6 +52,8 @@ public class BaseActivity extends AppCompatActivity {
             case "DictActivity":
                 alphaD=130; menuD=false;
             break;
+            case "GroupActivity":
+                alphaG=130; menuG=false;
         }
         //Activity currentActivity = this.getApplicationContext()).getCurrentActivity();
         MenuItem menuWordsTraining = menu.findItem(R.id.wordsTraining);
@@ -87,7 +77,7 @@ public class BaseActivity extends AppCompatActivity {
             menuSoundTraining2.setEnabled(menuS);
             menuSoundTraining2.getIcon().setAlpha(alphaS);
         }
-        super.onPrepareOptionsMenu(menu);
+        //super.onPrepareOptionsMenu(menu);
         MenuItem menuDict = menu.findItem(R.id.dict);
         if(menuDict != null){
             menuDict.setEnabled(menuD);
@@ -97,6 +87,16 @@ public class BaseActivity extends AppCompatActivity {
         if(menuDict2 != null){
             menuDict2.setEnabled(menuD);
             menuDict2.getIcon().setAlpha(alphaD);
+        }
+        MenuItem menuGroup = menu.findItem(R.id.group);
+        if(menuDict2 != null){
+            menuDict2.setEnabled(menuG);
+            menuDict2.getIcon().setAlpha(alphaG);
+        }
+        MenuItem menuPref = menu.findItem(R.id.preferencies);
+        if(menuPref != null){
+            menuDict2.setEnabled(true);
+            menuDict2.getIcon().setAlpha(255);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -128,6 +128,14 @@ public class BaseActivity extends AppCompatActivity {
         case R.id.dict2:
             Intent intent6=new Intent(BaseActivity.this, DictActivity.class);
             startActivity(intent6);
+            return true;
+        case R.id.group:
+            Intent intent8=new Intent(BaseActivity.this, GroupActivity.class);
+            startActivity(intent8);
+            return true;
+        case R.id.preferencies:
+            Intent intent7=new Intent(BaseActivity.this, PreferenceActivity.class);
+            startActivity(intent7);
             return true;
         case R.id.aboutProgram:
 //            AboutDialog aboutDialog = new AboutDialog();

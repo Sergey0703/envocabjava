@@ -230,18 +230,24 @@
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
         android:background="@drawable/rounded_corner"
         android:drawableRight="@android:drawable/ic_media_next"
-        android:onClick="onNextBtnClick"
+
         android:text="Next"
         android:textColor="@color/white"
         android:textSize="18dp"
+
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
     </Button>
+    <!-- android:layout_gravity="bottom|right"
+     android:background="@drawable/rounded_corner"
+        android:drawableRight="@android:drawable/ic_media_next"
+
+    -->
 
     <Button
         android:id="@+id/btnPrev"
