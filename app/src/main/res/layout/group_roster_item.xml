@@ -17,7 +17,8 @@
     app:cardCornerRadius="10dp"
     android:layout_marginTop="0dp"
 
-    app:strokeWidth="0dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/white"
     android:outlineAmbientShadowColor="@color/yellow"
     android:outlineSpotShadowColor="@color/yellow"
 
@@ -54,12 +55,13 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/school_book_new"
             android:textAlignment="center"
-            android:text="Text"
-            android:visibility="invisible"
-            android:textSize="22sp" />
+            android:text="id"
+            android:visibility="visible"
+            android:textSize="22sp"
+            android:layout_below="@id/tv_holder_number"/>
 
         <TextView
             android:id="@+id/tv_number_item"

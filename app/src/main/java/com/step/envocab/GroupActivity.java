@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -189,40 +190,48 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
         String id = (String) textViewId.getText();
         Log.d(TAG, top + "= onScrollStateChanged=" + selectedName + " id=" + id);
 
-        handler = new Handler();
-        Thread thread = new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                searchGroup = AppDatabase.getInstance(getApplicationContext())
-                        .groupDao()
-                        .findById(Integer.parseInt(id));
-                Log.d(TAG, "idToSearchList=" + id);
-                Log.d(TAG, "searchGroup=" + searchGroup.getGroup());
-                // ViewDialog alert = new ViewDialog();
-                // alert.showDialog(DictActivity.this, "Window");
-
-
+                Log.d(TAG,"id=" + id);
+                startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
             }
-        });
-        thread.start();
+        },200);
 
-        if (handler == null) return;
-
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int width = displaymetrics.widthPixels * 3 / 4;
-                int height = displaymetrics.heightPixels * 2 / 4;
-
-                Log.d(TAG, +top + "= Dialog=" + width);
-                dialogGroup = new GroupDialog(GroupActivity.this,  GroupActivity.this);
-                dialogGroup.showDialog(GroupActivity.this, width, height,"Edit group", String.valueOf(searchGroup.getId()),
-                        searchGroup.getGroup(), searchGroup.getDescription());
-            }
-        },100);
+//        handler = new Handler();
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                searchGroup = AppDatabase.getInstance(getApplicationContext())
+//                        .groupDao()
+//                        .findById(Integer.parseInt(id));
+//                Log.d(TAG, "idToSearchList=" + id);
+//                Log.d(TAG, "searchGroup=" + searchGroup.getGroup());
+//                // ViewDialog alert = new ViewDialog();
+//                // alert.showDialog(DictActivity.this, "Window");
+//
+//
+//            }
+//        });
+//        thread.start();
+//
+//        if (handler == null) return;
+//
+//
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                DisplayMetrics displaymetrics = new DisplayMetrics();
+//                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//                int width = displaymetrics.widthPixels * 3 / 4;
+//                int height = displaymetrics.heightPixels * 2 / 4;
+//
+//                Log.d(TAG, +top + "= Dialog=" + width);
+//                dialogGroup = new GroupDialog(GroupActivity.this,  GroupActivity.this);
+//                dialogGroup.showDialog(GroupActivity.this, width, height,"Edit group", String.valueOf(searchGroup.getId()),
+//                        searchGroup.getGroup(), searchGroup.getDescription());
+//            }
+//        },100);
     }
 
     @Override
@@ -255,7 +264,9 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
         if (handler == null) return;
         handler.postDelayed(new Runnable() {
             public void run() {
-                dataToSearchListGroup(groupFilter.getText().toString());
+
+                //dataToSearchListGroup(groupFilter.getText().toString());
+                dataToSearchListGroup("");
             }
         }, 200);
     }

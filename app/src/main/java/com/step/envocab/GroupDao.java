@@ -12,7 +12,7 @@ public interface GroupDao {
     @Insert
     void insertGroup(Dbgroups group);
 
-    @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY `group`")
+    @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY `id`")
     List<Dbgroups> getGroupsFiltered(String filter);
 
     @Query("update Dbgroups set `group`=:group, description = :descript,  native1 =:native1 where id = :id")
