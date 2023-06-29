@@ -268,6 +268,6 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                 //dataToSearchListGroup(groupFilter.getText().toString());
                 dataToSearchListGroup("");
             }
-        }, 200);
+        }, 500);
     }
 }

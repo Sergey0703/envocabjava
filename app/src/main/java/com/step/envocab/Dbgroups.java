@@ -14,10 +14,10 @@ import java.util.Date;
 public class Dbgroups {
     //defaultValue="undefined"
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="id")
+    @ColumnInfo(name="id_group")
     @NonNull
     //type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='undefined'
-    private Integer id;
+    private Integer id_group;
     private String group;
    // private Integer id_word;
 
@@ -56,12 +56,12 @@ public class Dbgroups {
     }
 
 
-    public Integer getId() {
-        return id;
+    public Integer getId_group() {
+        return id_group;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_group(Integer id_group) {
+        this.id_group = id_group;
     }
 
     public String getGroup() {
@@ -71,7 +71,7 @@ public class Dbgroups {
     @Override
     public String toString() {
         return "Word{" +
-                "id=" + id +
+                "id=" + id_group +
                 ", group='" + group + '\'' +
                 ", description='" + description + '\'' +
                 ", native1=" + native1 +

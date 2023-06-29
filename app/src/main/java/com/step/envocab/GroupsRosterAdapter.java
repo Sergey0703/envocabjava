@@ -1,6 +1,7 @@
 package com.step.envocab;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,9 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
         //holder.bind(position);
         Dbgroups group = groupsList.get(position);
-        holder.listItemNumberView.setText(group.getGroup());
-        holder.id_item.setText(String.valueOf(group.getId()));
+        holder.listItemNumberView.setText(group.getGroup()+" !!!");
+        holder.id_item.setText(String.valueOf(group.getId_group()));
+        Log.d("RRR=",group.getGroup()+" " +String.valueOf(group.getId_group()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {
 //            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
 //        } else {
