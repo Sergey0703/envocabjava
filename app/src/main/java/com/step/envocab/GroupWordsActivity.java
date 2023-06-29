@@ -3,6 +3,7 @@ package com.step.envocab;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,6 +44,13 @@ public class GroupWordsActivity extends BaseActivity{
         dataToSearchListGroupWords(passedId);
 
     }
+    public void insGroupWord() {
+        //System.out.println("Ins");
+        //Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
+        InsertAsyncTaskG insertAsyncTaskG = new InsertAsyncTaskG();
+      //  insertAsyncTaskG.execute(word);
+    }
+
 
     public void dataToSearchListGroupWords(String findStr) {
 //        String str = findStr + '%';
@@ -92,5 +100,15 @@ public class GroupWordsActivity extends BaseActivity{
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
+    class InsertAsyncTaskG extends AsyncTask<Dbwords, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Dbwords... words) {
+            AppDatabase.getInstance(getApplicationContext())
+                    .wordDao()
+                    .insertWord(words[0]);
+            return null;
+        }
+    }
 
 }
