@@ -26,7 +26,13 @@ public interface GroupsAndWordsDao {
     public long insertGroupWithWord(Dbgroupsandwords dbgroupsandwords);
 
     @Transaction
-    @Query("SELECT * FROM dbgroups")
-    public List<GroupWithWords> getGroupWithWords();
+    @Query("SELECT * FROM dbgroupsandwords")
+    public List<GroupWithWords> getGroupWithWordsAll();
+
+    @Transaction
+    @Query("SELECT * FROM dbgroupsandwords WHERE id_group LIKE :id_group ")
+    public List<GroupWithWords> getGroupWithWords(int id_group);
+
+
 
 }

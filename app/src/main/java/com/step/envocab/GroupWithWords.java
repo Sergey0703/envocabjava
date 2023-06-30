@@ -16,4 +16,21 @@ public class GroupWithWords {
             associateBy = @Junction(Dbgroupsandwords.class)
     )
     public List<Dbwords> listDbWords;
+
+    public Dbgroups getDbgroups() {
+        return dbgroups;
+    }
+
+    public void setDbgroups(Dbgroups dbgroups) {
+        this.dbgroups = dbgroups;
+    }
+
+
+    public List<Dbwords> getListDbWords() {
+        return listDbWords;
+    }
+
+    public void setListDbWords(List<Dbwords> listDbWords) {
+        this.listDbWords = listDbWords;
+    }
 }

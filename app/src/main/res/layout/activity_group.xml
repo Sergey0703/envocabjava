@@ -87,7 +87,7 @@
             android:layout_centerHorizontal="true"
 
             android:textAlignment="center"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:textSize="30sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/blue_color2_font2"

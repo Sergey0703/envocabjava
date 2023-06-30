@@ -1,0 +1,99 @@
+package com.step.envocab;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRosterAdapter.GroupWordsViewHolder> {
+    private final GroupWordsRosterInterface groupWordsRosterInterface;
+
+    private boolean firstLoading = true;
+    private List<GroupWithWords> groupWordsList;
+    Animation animAlpha;
+
+    public GroupWordsRosterAdapter(List<GroupWithWords> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
+        this.groupWordsList = groupWordsList;
+        this.groupWordsRosterInterface = groupWordsRosterInterface;
+    }
+
+
+    @NonNull
+    @Override
+    public GroupWordsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        int layoutIdForListItem = R.layout.word_roster_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
+        //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);
+
+        return new GroupWordsViewHolder(view, groupWordsRosterInterface);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull GroupWordsViewHolder holder, int position) {
+        //holder.bind(position);
+        GroupWithWords word = groupWordsList.get(position);
+        holder.listItemNumberView.setText(String.valueOf(word.getListDbWords().get(0).getWord()));
+        holder.id_item.setText(String.valueOf(word.toString()));
+//        if (word.getTrain1() != null && word.getTrain1() == true) {
+//            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+//        } else {
+//            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+//        }
+        //holder.viewHolderIndex.setText(word.getTranslate());
+//        if (word.getTranslate().trim().length() > 0) {
+//            holder.viewHolderTranscription.setText("[" + word.getTranscript() + "]");
+//        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return groupWordsList.size();
+
+    }
+
+    class GroupWordsViewHolder extends RecyclerView.ViewHolder {
+        TextView listItemNumberView;
+        TextView viewHolderIndex;
+        TextView viewHolderTranscription;
+        TextView id_item;
+
+
+        public GroupWordsViewHolder(@NonNull View itemView, GroupWordsRosterInterface groupWordsRosterInterface) {
+            super(itemView);
+
+            listItemNumberView = itemView.findViewById(R.id.tv_number_item);
+            viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
+            id_item = itemView.findViewById(R.id.id_item);
+            //String id=String.valueOf(id_item.getText());
+
+            //viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);
+
+//            itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (groupWordsRosterInterface != null) {
+                        int pos = getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION) {
+
+                            //v.startAnimation(animAlpha);
+                            groupWordsRosterInterface.onItemClick(pos);
+                            //Log.d("TAG",id);
+                        }
+                    }
+                }
+            });
+
+        }
+
+    }
+}

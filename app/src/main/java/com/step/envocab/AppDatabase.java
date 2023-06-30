@@ -14,6 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WordDao wordDao();
     public abstract GroupDao groupDao();
+    public abstract GroupsAndWordsDao groupsAndWordsDao();
     private static volatile AppDatabase INSTANCE;
 
 //    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
