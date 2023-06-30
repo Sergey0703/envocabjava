@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.UserDictionary;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private GroupWordsRosterAdapter groupWordsRosterAdapter;
 
     private TextView textCautionGroupWords, nameGroup;
+    private EditText groupWordFilter;
 
 
     String passedId="", passedName="";
@@ -66,6 +70,8 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         groupWordsRecycler.setLayoutManager(layoutManager);
 
         textCautionGroupWords=findViewById(R.id.caution_group_words);
+
+
         nameGroup=findViewById(R.id.name_group);
         nameGroup.setText(passedName);
         addButton=findViewById(R.id.btn_add_group_word);
@@ -79,7 +85,36 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
             }
         });
 
-        dataToSearchListGroupWords(passedId);
+        groupWordFilter=findViewById(R.id.group_word_filter);
+        groupWordFilter.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            // при изменении текста выполняем фильтрацию
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String searchString = s.toString();
+
+                if (searchString.trim().length() == 0) {
+
+
+                    dataToSearchListGroupWords("");
+                    return;
+                } else {
+
+                    //String searchString='%'+s.toString()+'%';
+                    Log.d("Dict", searchString.toString() + " " + count);
+                    dataToSearchListGroupWords(searchString);
+                }
+                //wordsSearchAdapter.getFilter().filter(s.toString());
+            }
+        });
+
+        dataToSearchListGroupWords("");
 
     }
     public void insGroupWord() {
@@ -100,9 +135,11 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                listSearchGroupWords = AppDatabase.getInstance(getApplicationContext())
-                        .groupsAndWordsDao()
-                        .getGroupWithWords2(Integer.parseInt(findStr));
+                if(findStr.equals("")) {
+                    listSearchGroupWords = AppDatabase.getInstance(getApplicationContext())
+                            .groupsAndWordsDao()
+                            .getGroupWithWords2(Integer.parseInt(passedId));
+                }
 //                  List<Dbwords> ll= AppDatabase.getInstance(getApplicationContext())
 //                  .groupsAndWordsDao()
 //                        .getGroupWithWords3(Integer.parseInt(findStr));
@@ -113,12 +150,12 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 //                for(Dbwords ww: ll){
 //                    Log.d(TAG,String.valueOf(ww.getWord()));
 //                }
-                for(GroupWithWords it: listSearchGroupWords ){
-                    Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getGroup());
-                    for(Dbwords w: it.getListDbWords()){
-                        Log.d(TAG,"w="+w.getWord());
-                    }
-                }
+//                for(GroupWithWords it: listSearchGroupWords ){
+//                    Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getGroup());
+//                    for(Dbwords w: it.getListDbWords()){
+//                        Log.d(TAG,"w="+w.getWord());
+//                    }
+//                }
 
 
             }
