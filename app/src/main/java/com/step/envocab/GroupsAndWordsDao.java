@@ -33,6 +33,12 @@ public interface GroupsAndWordsDao {
     @Query("SELECT * FROM dbgroupsandwords WHERE id_group LIKE :id_group ")
     public List<GroupWithWords> getGroupWithWords(int id_group);
 
+    @Transaction
+    @Query("SELECT * FROM dbgroups WHERE id_group LIKE :id_group ")
+    public List<GroupWithWords> getGroupWithWords2(int id_group);
 
+    @Transaction
+    @Query("SELECT * FROM dbgroupsandwords WHERE id_group LIKE :id_group ")
+    public List<Dbwords> getGroupWithWords3(int id_group);
 
 }

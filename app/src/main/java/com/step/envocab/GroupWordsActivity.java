@@ -95,10 +95,17 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
             public void run() {
                 listSearchGroupWords = AppDatabase.getInstance(getApplicationContext())
                         .groupsAndWordsDao()
-                              //  .getGroupWithWordsAll();
-                        .getGroupWithWords(Integer.parseInt(findStr));
-                Log.d(TAG, "dataToSearchList=" + findStr);
-                Log.d(TAG, "listSearchWordsInGroup=" + listSearchGroupWords.size());
+                        .getGroupWithWords2(Integer.parseInt(findStr));
+//                  List<Dbwords> ll= AppDatabase.getInstance(getApplicationContext())
+//                  .groupsAndWordsDao()
+//                        .getGroupWithWords3(Integer.parseInt(findStr));
+
+//                Log.d(TAG, "dataToSearchList=" + findStr);
+////                Log.d(TAG, "listSearchWordsInGroup=" + listSearchGroupWords.size());
+//                Log.d(TAG, "listSearchWordsInGroup3=" + ll.size());
+//                for(Dbwords ww: ll){
+//                    Log.d(TAG,String.valueOf(ww.getWord()));
+//                }
                 for(GroupWithWords it: listSearchGroupWords ){
                     Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getId_group());
                     for(Dbwords w: it.getListDbWords()){
@@ -120,13 +127,14 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
                 if (listSearchGroupWords != null && listSearchGroupWords.size() != 0) {
 
+                    List<Dbwords> db= listSearchGroupWords.get(0).getListDbWords();
                     Log.d(TAG, "listSearchWords3=" + listSearchGroupWords.size());
                     textCautionGroupWords.setVisibility(View.GONE);
                     groupWordsRecycler.setVisibility(View.VISIBLE);
 
 
                     groupWordsRecycler.setHasFixedSize(true);
-                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(listSearchGroupWords, GroupWordsActivity.this);
+                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(db, GroupWordsActivity.this);
                     groupWordsRecycler.setAdapter(groupWordsRosterAdapter);
 
                 } else {

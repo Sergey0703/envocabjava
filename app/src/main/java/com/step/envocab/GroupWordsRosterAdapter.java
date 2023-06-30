@@ -16,10 +16,11 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     private final GroupWordsRosterInterface groupWordsRosterInterface;
 
     private boolean firstLoading = true;
-    private List<GroupWithWords> groupWordsList;
+    private List<Dbwords> groupWordsList;
+
     Animation animAlpha;
 
-    public GroupWordsRosterAdapter(List<GroupWithWords> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
+    public GroupWordsRosterAdapter(List<Dbwords> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
         this.groupWordsList = groupWordsList;
         this.groupWordsRosterInterface = groupWordsRosterInterface;
     }
@@ -40,9 +41,9 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     @Override
     public void onBindViewHolder(@NonNull GroupWordsViewHolder holder, int position) {
         //holder.bind(position);
-        GroupWithWords word = groupWordsList.get(position);
-        holder.listItemNumberView.setText(String.valueOf(word.getListDbWords().get(0).getWord()));
-        holder.id_item.setText(String.valueOf(word.toString()));
+        Dbwords word = groupWordsList.get(position);
+        holder.listItemNumberView.setText(String.valueOf(word.getWord()));
+        holder.id_item.setText(String.valueOf(word.getId()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {
 //            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
 //        } else {
