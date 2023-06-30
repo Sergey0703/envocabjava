@@ -27,10 +27,10 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private RecyclerView groupWordsRecycler;
     private GroupWordsRosterAdapter groupWordsRosterAdapter;
 
-    private TextView textCautionGroupWords;
+    private TextView textCautionGroupWords, nameGroup;
 
 
-    String passedId="";
+    String passedId="", passedName="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +51,13 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         });
 
         Intent intent =getIntent();
+
         if(intent.getExtras()!=null){
-            passedId=intent.getStringExtra("data");
+            Bundle extras = intent.getExtras();
+            passedId=extras.getString("data");
+            passedName=extras.getString("passedName");
+//            passedId=intent.getStringExtra("data");
+//            passedName=intent.getStringExtra("passedName");
             Log.d(TAG,passedId );
             }
 
@@ -61,6 +66,8 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         groupWordsRecycler.setLayoutManager(layoutManager);
 
         textCautionGroupWords=findViewById(R.id.caution_group_words);
+        nameGroup=findViewById(R.id.name_group);
+        nameGroup.setText(passedName);
         addButton=findViewById(R.id.btn_add_group_word);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +114,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 //                    Log.d(TAG,String.valueOf(ww.getWord()));
 //                }
                 for(GroupWithWords it: listSearchGroupWords ){
-                    Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getId_group());
+                    Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getGroup());
                     for(Dbwords w: it.getListDbWords()){
                         Log.d(TAG,"w="+w.getWord());
                     }

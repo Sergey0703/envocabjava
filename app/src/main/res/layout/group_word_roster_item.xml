@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardGroupWords"
+    android:layout_height="wrap_content"
+
+    android:layout_width="match_parent"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="5dp"
+    android:layout_marginTop="0dp"
+
+    app:strokeWidth="0dp"
+    android:outlineAmbientShadowColor="@color/white"
+    android:outlineSpotShadowColor="@color/white"
+    app:cardMaxElevation="2dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:layout_constraintHeight_max="30dp"
+    app:layout_constraintHeight_min="30dp"
+    app:strokeColor="@color/white"
+    app:layout_constraintWidth="2dp"
+    app:cardBackgroundColor="@color/blue_color2"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--app:cardBackgroundColor="@color/yellow"
+    app:strokeColor="@color/white"
+    -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="horizontal"
+
+        >
+ <!--android:background="@drawable/green_background_small"-->
+        <TextView
+            android:id="@+id/id_item"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif"
+            android:textAlignment="center"
+            android:text="Text"
+            android:visibility="invisible"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tv_number_item"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_color_font2"
+            android:fontFamily="sans-serif"
+
+            android:text="Text"
+
+            android:layout_centerVertical="true"
+
+            android:textSize="22sp"
+            android:paddingBottom="0dp"/>
+            <!-- style="@style/TextAppearance.Material3.TitleLarge" -->
+        <!--<TextView
+            android:id="@+id/tv_transcription"
+            style="@style/TextAppearance.Material3.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_number_item"
+            android:layout_centerHorizontal="false"
+            android:fontFamily="monospace"
+            android:textColor="@color/white"
+            android:textSize="22sp" /> -->
+            <!--  android:layout_centerVertical="true" -->
+        <TextView
+            android:id="@+id/tv_holder_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue_color2_font2"
+            android:text="Translate"
+            android:layout_toRightOf="@id/tv_number_item"
+            android:layout_marginLeft="10dp"
+
+
+            android:layout_centerVertical="true"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:paddingBottom="0dp"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btnDelItem"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="Delete word"
+            android:background="@drawable/delete_button"
+            android:visibility="invisible"
+            ></ImageButton>
+
+        <ImageButton
+            android:id="@+id/btnAddItem"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="Add word"
+            android:background="@drawable/add_button"
+
+            ></ImageButton>
+
+        <!--android:layout_below="@id/tv_number_item"-->
+        <!--android:fontFamily="@font/plainot"-->
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
+    <!--
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    -->
+<!--</androidx.cardview.widget.CardView>-->

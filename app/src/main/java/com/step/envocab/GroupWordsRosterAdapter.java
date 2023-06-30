@@ -30,7 +30,7 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     @Override
     public GroupWordsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.word_roster_item;
+        int layoutIdForListItem = R.layout.group_word_roster_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);

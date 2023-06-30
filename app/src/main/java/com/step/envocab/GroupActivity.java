@@ -188,13 +188,20 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                 = (TextView) v.findViewById(R.id.id_item);
 
         String id = (String) textViewId.getText();
+
         Log.d(TAG, top + "= onScrollStateChanged=" + selectedName + " id=" + id);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG,"id=" + id);
-                startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
+                Intent intent = new Intent(GroupActivity.this, GroupWordsActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("data",id);
+                extras.putString("passedName",selectedName);
+                //startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
+                intent.putExtras(extras);
+                startActivity(intent);
             }
         },200);
 
