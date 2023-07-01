@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,11 +17,11 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     private final GroupWordsRosterInterface groupWordsRosterInterface;
 
     private boolean firstLoading = true;
-    private List<Dbwords> groupWordsList;
+    private List<GroupWithWords2> groupWordsList;
 
     Animation animAlpha;
 
-    public GroupWordsRosterAdapter(List<Dbwords> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
+    public GroupWordsRosterAdapter(List<GroupWithWords2> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
         this.groupWordsList = groupWordsList;
         this.groupWordsRosterInterface = groupWordsRosterInterface;
     }
@@ -41,7 +42,7 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     @Override
     public void onBindViewHolder(@NonNull GroupWordsViewHolder holder, int position) {
         //holder.bind(position);
-        Dbwords word = groupWordsList.get(position);
+        GroupWithWords2 word = groupWordsList.get(position);
         holder.listItemNumberView.setText(String.valueOf(word.getWord()));
         holder.id_item.setText(String.valueOf(word.getId()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {
@@ -49,7 +50,14 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
 //        } else {
 //            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
 //        }
-        //holder.viewHolderIndex.setText(word.getTranslate());
+        holder.viewHolderIndex.setText(word.getTranslate());
+        if(word.getId_group()!=null){
+            holder.btnDelItem.setVisibility(View.VISIBLE);
+            holder.btnAddItem.setVisibility(View.INVISIBLE);
+        }else{
+            holder.btnDelItem.setVisibility(View.INVISIBLE);
+            holder.btnAddItem.setVisibility(View.VISIBLE);
+        }
 //        if (word.getTranslate().trim().length() > 0) {
 //            holder.viewHolderTranscription.setText("[" + word.getTranscript() + "]");
 //        }
@@ -66,7 +74,7 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
         TextView viewHolderIndex;
         TextView viewHolderTranscription;
         TextView id_item;
-
+        ImageButton btnDelItem, btnAddItem;
 
         public GroupWordsViewHolder(@NonNull View itemView, GroupWordsRosterInterface groupWordsRosterInterface) {
             super(itemView);
@@ -74,12 +82,14 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
             id_item = itemView.findViewById(R.id.id_item);
+            btnDelItem=itemView.findViewById(R.id.btnDelItem);
+            btnAddItem=itemView.findViewById(R.id.btnAddItem);
             //String id=String.valueOf(id_item.getText());
 
             //viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);
 
-//            itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.findViewById(R.id.btnDelItem).setOnClickListener(new View.OnClickListener() {
+            //itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (groupWordsRosterInterface != null) {
@@ -87,7 +97,22 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
                         if (pos != RecyclerView.NO_POSITION) {
 
                             //v.startAnimation(animAlpha);
-                            groupWordsRosterInterface.onItemClick(pos);
+                            groupWordsRosterInterface.onItemClick(pos, "del");
+                            //Log.d("TAG",id);
+                        }
+                    }
+                }
+            });
+            itemView.findViewById(R.id.btnAddItem).setOnClickListener(new View.OnClickListener() {
+                //itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (groupWordsRosterInterface != null) {
+                        int pos = getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION) {
+
+                            //v.startAnimation(animAlpha);
+                            groupWordsRosterInterface.onItemClick(pos, "add");
                             //Log.d("TAG",id);
                         }
                     }

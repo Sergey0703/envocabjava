@@ -13,6 +13,7 @@ public class GroupWithWords {
     @Relation(
             parentColumn = "id_group",
             entityColumn = "id",
+            //entity=
             associateBy = @Junction(Dbgroupsandwords.class)
     )
     public List<Dbwords> listDbWords;
@@ -29,6 +30,9 @@ public class GroupWithWords {
     public List<Dbwords> getListDbWords() {
         return listDbWords;
     }
+//    public Dbwords getDbWords(){
+//        return dbword;
+//    }
 
     public void setListDbWords(List<Dbwords> listDbWords) {
         this.listDbWords = listDbWords;

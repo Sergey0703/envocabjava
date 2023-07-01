@@ -34,7 +34,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_dialog"
-        android:text="Computer Designer:\n Tatiana Nelipova "
+        android:text="Computer Designer:\n Tetiana Neliepova "
         android:gravity="center"
         android:textSize="18sp"
         android:textColor="#ff000000"

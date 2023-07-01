@@ -1,6 +1,7 @@
 package com.step.envocab;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +23,9 @@ import android.widget.TextView;
 import java.util.List;
 
 public class GroupWordsActivity extends BaseActivity implements GroupWordsRosterInterface{
+    private Handler handler = null;
     private String TAG="GroupWords";
-    private List<GroupWithWords> listSearchGroupWords;
+    private List<GroupWithWords2> listSearchGroupWords;
     private Button addButton;
     private LinearLayoutManager layoutManager;
 
@@ -73,7 +75,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
 
         nameGroup=findViewById(R.id.name_group);
-        nameGroup.setText(passedName);
+        nameGroup.setText("Group: "+passedName);
         addButton=findViewById(R.id.btn_add_group_word);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,19 +120,19 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
     }
     public void insGroupWord() {
-        Log.d(TAG,"ins!!!");
-        Dbgroupsandwords groupWithWords = new Dbgroupsandwords();
-        groupWithWords.setId_group(1);
-        groupWithWords.setId(3);
-        //GroupsAndWordsDao.insertGroupWithWord(groupWithWords);
-        //Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
-        InsertAsyncTaskG insertAsyncTaskG = new InsertAsyncTaskG();
-        insertAsyncTaskG.execute(groupWithWords);
+//        Log.d(TAG,"ins!!!");
+//        Dbgroupsandwords groupWithWords = new Dbgroupsandwords();
+//        groupWithWords.setId_group(2);
+//        groupWithWords.setId(1);
+//        //GroupsAndWordsDao.insertGroupWithWord(groupWithWords);
+//        //Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
+//        InsertAsyncTaskG insertAsyncTaskG = new InsertAsyncTaskG();
+//        insertAsyncTaskG.execute(groupWithWords);
     }
 
 
     public void dataToSearchListGroupWords(String findStr) {
-//        String str = findStr + '%';
+        String str = findStr + '%';
 //        //handler = new Handler();
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -138,17 +140,25 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                 if(findStr.equals("")) {
                     listSearchGroupWords = AppDatabase.getInstance(getApplicationContext())
                             .groupsAndWordsDao()
-                            .getGroupWithWords2(Integer.parseInt(passedId));
-                }
-//                  List<Dbwords> ll= AppDatabase.getInstance(getApplicationContext())
-//                  .groupsAndWordsDao()
-//                        .getGroupWithWords3(Integer.parseInt(findStr));
+                            .getGroupWithWords5(Integer.parseInt(passedId));
+                }else{
+                    Log.d(TAG,"str="+str);
+                    listSearchGroupWords = AppDatabase.getInstance(getApplicationContext())
+                            .groupsAndWordsDao()
+                            .getGroupWithWords6(Integer.parseInt(passedId),str);
 
-//                Log.d(TAG, "dataToSearchList=" + findStr);
-////                Log.d(TAG, "listSearchWordsInGroup=" + listSearchGroupWords.size());
+                }
+
+//                  List<GroupWithWords2> ll= AppDatabase.getInstance(getApplicationContext())
+//                  .groupsAndWordsDao()
+//                      //  .getGroupWithWords6(Integer.parseInt(passedId));
+//                        .getGroupWithWords6();
+
+//                Log.d(TAG, "dataToSearchList=" + passedId);
+//////                Log.d(TAG, "listSearchWordsInGroup=" + listSearchGroupWords.size());
 //                Log.d(TAG, "listSearchWordsInGroup3=" + ll.size());
-//                for(Dbwords ww: ll){
-//                    Log.d(TAG,String.valueOf(ww.getWord()));
+//                for(GroupWithWords2 ww: ll){
+//                    Log.d(TAG,String.valueOf(ww.getId_group())+" word="+ww.getWord()+" "+ww.getTranslate());
 //                }
 //                for(GroupWithWords it: listSearchGroupWords ){
 //                    Log.d(TAG,"Size="+String.valueOf(it.getListDbWords().size())+" gr="+it.getDbgroups().getGroup());
@@ -171,14 +181,15 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
                 if (listSearchGroupWords != null && listSearchGroupWords.size() != 0) {
 
-                    List<Dbwords> db= listSearchGroupWords.get(0).getListDbWords();
+                    //List<Dbwords> db= listSearchGroupWords.get(0).getListDbWords();
+                   // List<GroupWithWords2> db= listSearchGroupWords.get(0).getListDbWords();
                     Log.d(TAG, "listSearchWords3=" + listSearchGroupWords.size());
                     textCautionGroupWords.setVisibility(View.GONE);
                     groupWordsRecycler.setVisibility(View.VISIBLE);
 
 
                     groupWordsRecycler.setHasFixedSize(true);
-                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(db, GroupWordsActivity.this);
+                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(listSearchGroupWords, GroupWordsActivity.this);
                     groupWordsRecycler.setAdapter(groupWordsRosterAdapter);
 
                 } else {
@@ -194,7 +205,58 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String funct) {
+        int top = position;
+        Log.d(TAG, "position=" + top+" funct="+funct);
+        View v = layoutManager.findViewByPosition(top);
+        //v.startAnimation(animAlpha);
+        CardView card = (CardView) v.findViewById(R.id.cardWord);
+//        card.setCardElevation(100f);
+        TextView textViewName
+                = (TextView) v.findViewById(R.id.tv_number_item);
+
+        String selectedName = (String) textViewName.getText();
+        TextView textViewId
+                = (TextView) v.findViewById(R.id.id_item);
+
+        String id = (String) textViewId.getText();
+        Log.d(TAG, top + "= onScrollStateChanged=" + selectedName + " id=" + id);
+
+        handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(funct.equals("add")) {
+                    Dbgroupsandwords dbgroupsandwords=new Dbgroupsandwords();
+                    dbgroupsandwords.setId(Integer.parseInt(id));
+                    dbgroupsandwords.setId_group(Integer.parseInt(passedId));
+                    Long idns = AppDatabase.getInstance(getApplicationContext())
+                            .groupsAndWordsDao()
+                            .insertGroupWithWord(dbgroupsandwords);
+                }else{
+                    int idns = AppDatabase.getInstance(getApplicationContext())
+                            .groupsAndWordsDao()
+                            .del(Integer.parseInt(id), Integer.parseInt(passedId));
+                }
+
+                if (handler == null) return;
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        dataToSearchListGroupWords(groupWordFilter.getText().toString());
+                    }
+                }, 200);
+//                searchWord = AppDatabase.getInstance(getApplicationContext())
+//                        .wordDao()
+//                        .findById(Integer.parseInt(id));
+//                Log.d("DICT", "idToSearchList=" + id);
+//                Log.d("DICT", "searchWord=" + searchWord.getWord());
+//                // ViewDialog alert = new ViewDialog();
+//                // alert.showDialog(DictActivity.this, "Window");
+
+
+            }
+        });
+        thread.start();
 
     }
 
