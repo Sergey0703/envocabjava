@@ -19,7 +19,7 @@
     app:layout_constraintHeight_min="30dp"
     app:strokeColor="@color/white"
     app:layout_constraintWidth="2dp"
-    app:cardBackgroundColor="@color/main_green"
+    app:cardBackgroundColor="@color/blue_color2"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--app:cardBackgroundColor="@color/yellow"
     app:strokeColor="@color/white"
@@ -49,7 +49,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/red_color_font2"
             android:fontFamily="sans-serif"
 
             android:text="Text"
@@ -74,7 +74,7 @@
             android:id="@+id/tv_holder_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/blue_color2_font2"
             android:text="Translate"
             android:layout_toRightOf="@id/tv_number_item"
             android:layout_marginLeft="10dp"

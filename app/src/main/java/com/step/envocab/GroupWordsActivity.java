@@ -12,10 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.UserDictionary;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,11 +49,11 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
         if(s1) {
             setContentView(R.layout.activity_group_words2);
-            layoutIdForListItem=R.layout.group_roster_item2;
+            layoutIdForListItem=R.layout.group_word_roster_item2;
             theme="light";
         }else{
             setContentView(R.layout.activity_group_words);
-            layoutIdForListItem=R.layout.group_roster_item;
+            layoutIdForListItem=R.layout.group_word_roster_item;
             theme="dark";
         }
 
@@ -206,7 +204,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
 
                     groupWordsRecycler.setHasFixedSize(true);
-                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(listSearchGroupWords, GroupWordsActivity.this);
+                    groupWordsRosterAdapter = new GroupWordsRosterAdapter(listSearchGroupWords, GroupWordsActivity.this, layoutIdForListItem);
                     groupWordsRecycler.setAdapter(groupWordsRosterAdapter);
 
                 } else {

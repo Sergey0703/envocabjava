@@ -18,12 +18,14 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
 
     private boolean firstLoading = true;
     private List<GroupWithWords2> groupWordsList;
+    private int layoutIdForListItem;
 
     Animation animAlpha;
 
-    public GroupWordsRosterAdapter(List<GroupWithWords2> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface) {
+    public GroupWordsRosterAdapter(List<GroupWithWords2> groupWordsList, GroupWordsRosterInterface groupWordsRosterInterface, int layoutIdForListItem) {
         this.groupWordsList = groupWordsList;
         this.groupWordsRosterInterface = groupWordsRosterInterface;
+        this.layoutIdForListItem=layoutIdForListItem;
     }
 
 
@@ -31,7 +33,7 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
     @Override
     public GroupWordsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.group_word_roster_item;
+        //int layoutIdForListItem = R.layout.group_word_roster_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);

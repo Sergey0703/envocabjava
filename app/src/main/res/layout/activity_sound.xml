@@ -132,15 +132,21 @@ android:background="@drawable/green_background2"-->
 
         >
         <!--android:background="@drawable/green_background2"-->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPlaySound"
 
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerInParent="true"
             android:background="@drawable/play_circle"
-            android:scaleType="fitCenter"
-            android:text="" />
+
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp"
+            app:cornerRadius="12dp"
+
+            />
+
         <Button
             android:id="@+id/btnPrevDay"
             android:layout_width="wrap_content"
@@ -149,31 +155,48 @@ android:background="@drawable/green_background2"-->
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
 
-            android:background="@drawable/rounded_corner"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+
             android:drawableLeft="@android:drawable/ic_media_previous"
             android:text="-Day"
+
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp"
+            app:cornerRadius="22dp"
+            android:padding="8dp"
+
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            android:layout_margin="10dp"
-            ></Button>
+            android:textSize="16sp"></Button>
+        <!--  android:background="@drawable/rounded_corner" -->
 
         <Button
             android:id="@+id/btnNextDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:background="@drawable/rounded_corner"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+
+            app:strokeColor="@color/white"
+            app:strokeWidth="3dp"
+            app:cornerRadius="22dp"
+            android:padding="8dp"
+
+
             android:drawableRight="@android:drawable/ic_media_next"
             android:text="+Day"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            ></Button>
-
+            android:textSize="16sp"></Button>
+            <!-- android:background="@drawable/rounded_corner" -->
 
     </RelativeLayout>
 

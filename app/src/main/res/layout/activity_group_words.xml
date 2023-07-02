@@ -60,7 +60,7 @@
 
             android:digits="- 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
 
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:background="@color/white"
             />
         </com.google.android.material.textfield.TextInputLayout>

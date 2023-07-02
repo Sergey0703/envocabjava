@@ -178,46 +178,65 @@
     </TextView>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWordOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+
         android:text="I know"
         android:textColor="@color/green"
         android:textSize="@dimen/buttonTextSize"
+
+        app:strokeColor="@color/white"
+        app:strokeWidth="3dp"
+        app:cornerRadius="22dp"
+        android:padding="14dp"
 
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.75"
-        ></Button>
+        ></com.google.android.material.button.MaterialButton>
+        <!--  android:background="@drawable/rounded_corner"
+           style="@style/Widget.MaterialComponents.Button.OutlinedButton"
 
+        -->
     <Button
         android:id="@+id/btnWordTranslate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
-        android:background="@drawable/rounded_corner"
+
         android:onClick="onHelloBtnClick"
         android:text="Show Translate"
         android:textColor="@color/orange"
         android:textSize="@dimen/buttonTextSize"
+
+        app:strokeColor="@color/white"
+        app:strokeWidth="3dp"
+        app:cornerRadius="22dp"
+        android:padding="14dp"
+
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@id/btnPrev"
         app:layout_constraintLeft_toLeftOf="parent">
 
     </Button>
-
+      <!-- android:background="@drawable/rounded_corner"-->
     <Button
         android:id="@+id/btnWordStudy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_gravity="top|right"
-        android:background="@drawable/rounded_corner"
 
-        android:text="STUDY"
+
+        app:strokeColor="@color/white"
+        app:strokeWidth="3dp"
+        app:cornerRadius="22dp"
+        android:padding="14dp"
+
+        android:text=" STUDY "
         android:textColor="@color/red"
         android:textSize="@dimen/buttonTextSize"
         android:layout_marginBottom="5dp"
@@ -225,25 +244,29 @@
         app:layout_constraintRight_toRightOf="parent">
 
     </Button>
-
+        <!--  android:background="@drawable/rounded_corner" -->
     <Button
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+
         android:drawableRight="@android:drawable/ic_media_next"
 
         android:text="Next"
         android:textColor="@color/white"
         android:textSize="18dp"
 
-
+        app:strokeColor="@color/white"
+        app:strokeWidth="3dp"
+        app:cornerRadius="22dp"
+        android:padding="10dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
     </Button>
     <!-- android:layout_gravity="bottom|right"
+     android:background="@drawable/rounded_corner"
      android:background="@drawable/rounded_corner"
         android:drawableRight="@android:drawable/ic_media_next"
 
@@ -254,16 +277,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
-        android:background="@drawable/rounded_corner"
+
         android:drawableLeft="@android:drawable/ic_media_previous"
-        android:onClick="onPrevBtnClick"
+
         android:text="Prev"
         android:textColor="@color/white"
         android:textSize="@dimen/buttonTextSize"
+
+        app:strokeColor="@color/white"
+        app:strokeWidth="3dp"
+        app:cornerRadius="22dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         ></Button>
-
+        <!--  android:background="@drawable/rounded_corner" -->
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressCircleInd"
         android:layout_width="200dp"
