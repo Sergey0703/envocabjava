@@ -171,6 +171,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
 
+        android:visibility="gone"
+
         android:theme="@style/SwitchThemeOverlay"
         app:layout_constraintTop_toBottomOf="@id/text_input_translate"
         app:layout_constraintLeft_toLeftOf="@id/text_input_translate"

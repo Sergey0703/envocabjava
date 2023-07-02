@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class DictActivity extends BaseActivity implements WordRosterInterface {
     private Runnable runnable;
+    private String theme="light";
 
     private WordDialog dialog;
     private Context context;
@@ -38,6 +40,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     private RecyclerView searchRecycler;
     private WordsRosterAdapter wordsRosterAdapter;
     TextView textCautionDict;
+    private int layoutIdForListItem;
 
     private String TAG = "DictActivity";
     private Handler handler = null;
@@ -61,7 +64,19 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dict);
+
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+
+        if(s1) {
+            setContentView(R.layout.activity_dict2);
+            layoutIdForListItem=R.layout.word_dict_roster_item2;
+            theme="light";
+        }else{
+            setContentView(R.layout.activity_dict);
+            layoutIdForListItem=R.layout.word_roster_item;
+            theme="dark";
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         // using toolbar as ActionBar
@@ -95,7 +110,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
                 Log.d(TAG,  "= DialogN=" + width);
                 dialog = new WordDialog(DictActivity.this,  DictActivity.this);
-                dialog.showDialog(DictActivity.this, width, height, "New word","new",null
+                dialog.showDialog(DictActivity.this, width, height, theme, "New word","new",null
                         ,null ,null
                         ,null);
             }
@@ -175,7 +190,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 //                     //listWords.add();
 
                     searchRecycler.setHasFixedSize(true);
-                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
+                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this,layoutIdForListItem);
                     searchRecycler.setAdapter(wordsRosterAdapter);
 
                 } else {
@@ -213,7 +228,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         View v = layoutManager.findViewByPosition(top);
         //v.startAnimation(animAlpha);
         CardView card = (CardView) v.findViewById(R.id.cardWord);
-        card.setCardElevation(100f);
+//        card.setCardElevation(100f);
         TextView textViewName
                 = (TextView) v.findViewById(R.id.tv_number_item);
 
@@ -254,7 +269,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
                 Log.d(TAG, +top + "= Dialog=" + width);
                 dialog = new WordDialog(DictActivity.this,  DictActivity.this);
-                dialog.showDialog(DictActivity.this, width, height,"Edit word", String.valueOf(searchWord.getId()),
+                dialog.showDialog(DictActivity.this, width, height,theme,"Edit word", String.valueOf(searchWord.getId()),
                         searchWord.getWord(), searchWord.getTranslate(),
                         searchWord.getTranscript(),searchWord.getTrain1());
                 }
@@ -264,22 +279,23 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     @Override
     public void sendData(String id, String word, String translate, String transcript, Boolean train1) {
         Log.d(TAG,"SendData!!!! id="+id+" translate="+translate);
+         wordFilter.setText(word);
                 handler = new Handler();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG,"train111="+train1);
+                        Log.d(TAG,"word="+train1);
                         if(id.equals("new")){
-                            wordFilter.setText(word);
+                           // wordFilter.setText(word);
                             Long idup = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .insWord( word, translate, transcript, train1);
+                                    .insWord( word, translate, transcript, null);
 
                             Log.d("DialogAdd", String.valueOf(idup));
                         }else {
                             int idup = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .upWord(Integer.parseInt(id), word, translate, transcript, train1);
+                                    .upWord(Integer.parseInt(id), word, translate, transcript, null);
 
                             Log.d("Dialog", String.valueOf(idup));
                         }

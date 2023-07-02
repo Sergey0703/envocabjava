@@ -18,11 +18,13 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
 
     private boolean firstLoading = true;
     private List<Dbgroups> groupsList;
+    private int layoutIdForListItem;
     Animation animAlpha;
 
-    public GroupsRosterAdapter(List<Dbgroups> groupsList, GroupRosterInterface groupRosterInterface) {
+    public GroupsRosterAdapter(List<Dbgroups> groupsList, GroupRosterInterface groupRosterInterface, int layoutIdForListItem) {
         this.groupsList = groupsList;
         this.groupRosterInterface = groupRosterInterface;
+        this.layoutIdForListItem=layoutIdForListItem;
     }
 
 
@@ -30,7 +32,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.group_roster_item;
+       // int layoutIdForListItem = R.layout.group_roster_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);
@@ -43,6 +45,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
         Dbgroups group = groupsList.get(position);
         holder.listItemNumberView.setText(group.getGroup());
         holder.id_item.setText(String.valueOf(group.getId_group()));
+
         Log.d("RRR=",group.getGroup()+" " +String.valueOf(group.getId_group()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {
 //            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);

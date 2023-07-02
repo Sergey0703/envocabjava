@@ -5,7 +5,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +36,8 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
     private TextView textCautionGroupWords, nameGroup;
     private EditText groupWordFilter;
+    private int layoutIdForListItem;
+    private String theme;
 
 
     String passedId="", passedName="";
@@ -41,7 +45,20 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_words);
+
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+
+        if(s1) {
+            setContentView(R.layout.activity_group_words2);
+            layoutIdForListItem=R.layout.group_roster_item2;
+            theme="light";
+        }else{
+            setContentView(R.layout.activity_group_words);
+            layoutIdForListItem=R.layout.group_roster_item;
+            theme="dark";
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         // using toolbar as ActionBar

@@ -21,9 +21,11 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_margin="0dp"
-        app:srcCompat="@drawable/title_new"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:srcCompat="@drawable/title_pink"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardCount"
@@ -335,7 +337,8 @@
 
         android:fontFamily="sans-serif"
         android:text="I know"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="20sp"
+        android:textStyle="bold"
 
         android:textColor="@color/blue_color2_font2"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -345,8 +348,8 @@
         app:cornerRadius="20dp"
         android:padding="10dp"
 
-        app:layout_constraintLeft_toRightOf="@id/btnPrev"
 
+        app:layout_constraintRight_toLeftOf="@id/btnNext"
         app:layout_constraintBottom_toBottomOf="parent"
 
         ></com.google.android.material.button.MaterialButton>
@@ -385,7 +388,7 @@
 
 
         android:text="STUDY"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="20sp"
 
         android:textColor="@color/red_color_font2"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -397,7 +400,8 @@
 
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btnNext">
+        app:layout_constraintLeft_toRightOf="@id/btnPrev"
+        >
 
     </Button>
 
@@ -410,7 +414,9 @@
         app:backgroundTint="@color/blue_color2_font2"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="5dp"
+        >
 
     </Button>
 
@@ -425,6 +431,7 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="5dp"
         ></Button>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

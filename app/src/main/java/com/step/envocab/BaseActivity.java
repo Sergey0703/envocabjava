@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import com.step.envocab.R;
 
 public class BaseActivity extends AppCompatActivity {
     Activity activity;
+
+
 
     @SuppressLint("RestrictedApi")
     @Override

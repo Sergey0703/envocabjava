@@ -3,6 +3,7 @@ package com.step.envocab;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,7 +37,7 @@ public class GroupDialog extends Dialog {
     }
 
 
-    public void showDialog(Activity activity, int width, int height, String inform, String id, String msg, String description ){
+    public void showDialog(Activity activity, int width, int height, String theme, String inform, String id, String msg, String description ){
         //final Dialog dialog = new Dialog(activity,R.style.FullHeightDialog);
         dialogGroup = new Dialog(activity);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -91,6 +92,19 @@ public class GroupDialog extends Dialog {
         });
 
         btnSave = (Button) dialogGroup.findViewById(R.id.btn_save);
+
+        if(theme.equals("light")){
+            titleWindow.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnClose.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnDialog.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnSave.setBackgroundColor(Color.parseColor("#3A5BAE"));
+        }else{
+            titleWindow.setBackgroundColor(Color.parseColor("#183c18"));
+            titleWindow.setTextColor(Color.parseColor("#ffffff"));
+            btnClose.setBackgroundColor(Color.parseColor("#183c18"));
+            btnDialog.setBackgroundColor(Color.parseColor("#183c18"));
+            btnSave.setBackgroundColor(Color.parseColor("#183c18"));
+        }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,14 +117,15 @@ public class GroupDialog extends Dialog {
                     return;
                 }
 
-                String strDescription=String.valueOf(descript.getText()).trim();
+                //String strDescription=String.valueOf(descript.getText()).trim();
+                String strDescription="";
 //                String strTranscripton=String.valueOf(transcript.getText()).trim();
 //                if(train1Switch.isChecked()) {
 //                    marked = true;
 //                }else {
 //                    marked = false;
 //                }
-                Log.d("Dialog",strDescription+" id="+id);
+          //      Log.d("Dialog",strDescription+" id="+id);
 
                 if (groupRosterInterface != null) {
                     Log.d("D","Send");

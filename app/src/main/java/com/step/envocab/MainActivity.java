@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Log.d(TAG,themeApp);
         SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
         Boolean s1 = sh.getBoolean("themeApp", true);
 //        String fileNameString = sharedPreferencesBinding.fileNameEditView.getText().toString();

@@ -1,7 +1,6 @@
 package com.step.envocab;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,13 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
 
     private boolean firstLoading = true;
     private List<Dbwords> wordsList;
+    int layoutIdForListItem;
     Animation animAlpha;
 
-    public WordsRosterAdapter(List<Dbwords> wordsList, WordRosterInterface wordRosterInterface) {
+    public WordsRosterAdapter(List<Dbwords> wordsList, WordRosterInterface wordRosterInterface, int layoutIdForListItem) {
         this.wordsList = wordsList;
         this.wordRosterInterface = wordRosterInterface;
+        this.layoutIdForListItem =layoutIdForListItem;
     }
 
 
@@ -30,7 +31,7 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.word_roster_item;
+        //int layoutIdForListItem = R.layout.word_roster_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutIdForListItem, parent, false);
         //animAlpha= AnimationUtils.loadAnimation(parent.getContext(), R.anim.alpha);

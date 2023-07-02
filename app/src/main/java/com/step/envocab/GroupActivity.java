@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,11 +36,26 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
     private RecyclerView searchGroupsRecycler;
     private GroupsRosterAdapter groupsRosterAdapter;
     private TextView textCautionGroup;
+    private int layoutIdForListItem;
+    private String theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group);
+
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+
+        if(s1) {
+            setContentView(R.layout.activity_group2);
+            layoutIdForListItem=R.layout.group_roster_item2;
+            theme="light";
+        }else{
+            setContentView(R.layout.activity_group);
+            layoutIdForListItem=R.layout.group_roster_item;
+            theme="dark";
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
         // using toolbar as ActionBar
@@ -73,7 +90,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 
                 Log.d(TAG,  "= DialogN=" + width);
                 dialogGroup = new GroupDialog(GroupActivity.this,  GroupActivity.this);
-                dialogGroup.showDialog(GroupActivity.this, width, height, "New group","new",null
+                dialogGroup.showDialog(GroupActivity.this, width, height, theme,"New group","new",null
                         ,null );
             }
         });
@@ -150,7 +167,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 //                     //listWords.add();
 
                     searchGroupsRecycler.setHasFixedSize(true);
-                    groupsRosterAdapter = new GroupsRosterAdapter(listSearchGroups, GroupActivity.this);
+                    groupsRosterAdapter = new GroupsRosterAdapter(listSearchGroups, GroupActivity.this,layoutIdForListItem);
                     searchGroupsRecycler.setAdapter(groupsRosterAdapter);
 
                 } else {
@@ -243,6 +260,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 
     @Override
     public void sendData(String id, String group, String description, Boolean native1) {
+        groupFilter.setText(group);
         Log.d(TAG,"SendData!!!! id="+id+" group="+group);
         handler = new Handler();
         Thread thread = new Thread(new Runnable() {
@@ -250,7 +268,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
             public void run() {
 
                 if(id.equals("new")){
-                    groupFilter.setText(group);
+
                     Long idup = AppDatabase.getInstance(getApplicationContext())
                             .groupDao()
                             .insGroup( group, description, native1);

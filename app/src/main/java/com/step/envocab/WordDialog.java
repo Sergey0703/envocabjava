@@ -40,7 +40,7 @@ public class WordDialog extends Dialog {
     }
 
 
-    public void showDialog(Activity activity, int width, int height, String inform, String id, String msg, String translate,String transcription, Boolean train1 ){
+    public void showDialog(Activity activity, int width, int height, String theme ,String inform, String id, String msg, String translate,String transcription, Boolean train1 ){
         //final Dialog dialog = new Dialog(activity,R.style.FullHeightDialog);
         dialog = new Dialog(activity);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -53,6 +53,7 @@ public class WordDialog extends Dialog {
         titleWindow=dialog.findViewById(R.id.word_title);
         titleWindow.setText(inform);
 
+
         nameWord = (EditText) dialog.findViewById(R.id.word_dialog);
         nameWord.setText(msg);
 
@@ -62,12 +63,12 @@ public class WordDialog extends Dialog {
         trans = (EditText) dialog.findViewById(R.id.translate_dialog);
         trans.setText(translate);
 
-        train1Switch = dialog.findViewById(R.id.switch_marked);
-        Log.d("word", String.valueOf(train1));
-        if(train1!=null && train1==true) train1=true;
-        else train1=false;
-        train1Switch.setChecked(train1);
-        Log.d("word2", String.valueOf(train1));
+//        train1Switch = dialog.findViewById(R.id.switch_marked);
+//        Log.d("word", String.valueOf(train1));
+//        if(train1!=null && train1==true) train1=true;
+//        else train1=false;
+//        train1Switch.setChecked(train1);
+//        Log.d("word2", String.valueOf(train1));
 
 
 
@@ -96,6 +97,12 @@ public class WordDialog extends Dialog {
         });
 
         btnSave = (Button) dialog.findViewById(R.id.btn_save);
+        if(theme.equals("light")) {
+            titleWindow.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnClose.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnDialog.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            btnSave.setBackgroundColor(Color.parseColor("#3A5BAE"));
+        }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,16 +117,16 @@ public class WordDialog extends Dialog {
 
                 String strTranslate=String.valueOf(trans.getText()).trim();
                 String strTranscripton=String.valueOf(transcript.getText()).trim();
-                if(train1Switch.isChecked()) {
-                    marked = true;
-                }else {
-                    marked = false;
-                }
+//                if(train1Switch.isChecked()) {
+//                    marked = true;
+//                }else {
+//                    marked = false;
+//                }
                 Log.d("Dialog",strTranslate+" id="+id);
 
                 if (wordRosterInterface != null) {
                     Log.d("D","Send");
-                    wordRosterInterface.sendData(id,strWord, strTranslate, strTranscripton, marked);
+                    wordRosterInterface.sendData(id,strWord, strTranslate, strTranscripton, null);
                 }
                 dialog.dismiss();
 
@@ -187,17 +194,17 @@ public class WordDialog extends Dialog {
                 fixChanges();
             }
         });
-        train1Switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                fixChanges();
-                if(train1Switch.isChecked()){
-                   // train1Switch.setThumbTintMode();
-                }
-            }
-        });
+//        train1Switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                fixChanges();
+//                if(train1Switch.isChecked()){
+//                   // train1Switch.setThumbTintMode();
+//                }
+//            }
+//        });
 
     }
 

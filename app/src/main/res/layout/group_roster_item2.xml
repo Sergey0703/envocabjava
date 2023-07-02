@@ -27,7 +27,7 @@
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
 
-    app:cardBackgroundColor="@color/main_green"
+    app:cardBackgroundColor="@color/pink_color2"
     xmlns:android="http://schemas.android.com/apk/res/android"
 
     app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +55,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/school_book_new"
             android:textAlignment="center"
             android:text="id"
@@ -68,7 +68,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/red_color_font2"
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:text="Text"
@@ -90,7 +90,7 @@
             android:id="@+id/tv_holder_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/red_color_font2"
             android:text="Translate"
             android:layout_below="@id/tv_number_item"
 

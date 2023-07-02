@@ -69,7 +69,7 @@
         <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/group_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
+        android:layout_height="wrap_content" android:digits="- 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
 
         android:textSize="20sp"
 
@@ -100,7 +100,8 @@
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        android:visibility="gone">
         <!-- android:textColorHint="@color/black" -->
         <!-- app:boxBackgroundColor="@color/green"-->
         <com.google.android.material.textfield.TextInputEditText
@@ -109,7 +110,8 @@
             android:layout_height="wrap_content"
 
             android:textSize="20sp"
-            android:inputType="text" />
+            android:inputType="text"
+            />
         <!--  android:textColor="@color/black" -->
     </com.google.android.material.textfield.TextInputLayout>
 
