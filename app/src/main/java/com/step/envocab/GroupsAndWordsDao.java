@@ -62,4 +62,10 @@ public interface GroupsAndWordsDao {
     //public List<GroupWithWords2> getGroupWithWords6(int id_group);
     //AND dbgroupsandwords.id_group LIKE:id_group
 
+    @Transaction
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.translate, dbwords.transcript, dbwords.train1, selword.id_group FROM dbwords INNER JOIN (SELECT dbgroupsandwords.id, sel.id_group FROM dbgroupsandwords INNER JOIN (SELECT dbgroups.id_group FROM dbgroups WHERE  dbgroups.use_group >0) AS sel ON dbgroupsandwords.id_group = sel.id_group) AS selword ON dbwords.id = selword.id ORDER BY dbwords.trainDate ASC Limit 1")
+    public Dbwords getWords7();
+
+
+
 }

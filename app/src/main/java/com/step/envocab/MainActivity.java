@@ -304,11 +304,22 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 word = null;
+                List<Dbgroups> listGroup = AppDatabase.getInstance(getApplicationContext())
+                        .groupDao()
+                        .findUseGroup();
+
                 Log.d(TAG, "trainDateLong=" + trainDateLong);
                 if (nav == "") {
-                    word = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .findLast();
+                    if(listGroup.size()>0) {
+                        word = AppDatabase.getInstance(getApplicationContext())
+                                .groupsAndWordsDao()
+                                .getWords7();
+                    }else{
+                        word = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .findLast();
+
+                    }
                 } else if (nav == "Next") {
                     word = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()

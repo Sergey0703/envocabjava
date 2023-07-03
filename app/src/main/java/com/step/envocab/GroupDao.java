@@ -9,8 +9,8 @@ import java.util.List;
 
 @Dao
 public interface GroupDao {
-    @Insert
-    void insertGroup(Dbgroups group);
+    //@Insert
+   // void insertGroup(Dbgroups group);
 
     @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY id_group")
     List<Dbgroups> getGroupsFiltered(String filter);
@@ -18,11 +18,18 @@ public interface GroupDao {
     @Query("update Dbgroups set `group`=:group, description = :descript,  native1 =:native1 where id_group = :id_group")
     int upGroup(Integer id_group, String group, String descript, Boolean native1);
 
-    @Query("insert into Dbgroups (`group`,'description','native1') VALUES(:group,:descript,:native1)")
+    @Query("update Dbgroups set use_group =:use_group where id_group = :id_group")
+    int upGroupTrain(Integer id_group, int use_group);
+
+
+    @Query("insert into Dbgroups (`group`,'description','native1',`use_group`) VALUES(:group,:descript,:native1,1)")
     Long insGroup( String group, String descript, Boolean native1);
 
     @Query("Select * FROM dbgroups WHERE id_group LIKE :id_group")
     Dbgroups findById(int id_group);
+
+    @Query("Select * FROM dbgroups WHERE use_group >0")
+    List<Dbgroups> findUseGroup();
 
 //    //@Modifying
 //    @Query("update Dbwords set word=:word, translate = :trans, transcript =:transcript, train1 =:train where id = :id")

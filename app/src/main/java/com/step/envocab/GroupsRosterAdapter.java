@@ -45,7 +45,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
         Dbgroups group = groupsList.get(position);
         holder.listItemNumberView.setText(group.getGroup());
         holder.id_item.setText(String.valueOf(group.getId_group()));
-
+        holder.use_group.setText(String.valueOf(group.getUse_group()));
         Log.d("RRR=",group.getGroup()+" " +String.valueOf(group.getId_group()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {
 //            holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
@@ -69,6 +69,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
         TextView viewHolderIndex;
         TextView viewHolderTranscription;
         TextView id_item;
+        TextView use_group;
 
 
         public GroupViewHolder(@NonNull View itemView, GroupRosterInterface groupRosterInterface) {
@@ -77,6 +78,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
             id_item = itemView.findViewById(R.id.id_item);
+            use_group=itemView.findViewById(R.id.use_group);
             //String id=String.valueOf(id_item.getText());
 
             //viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);

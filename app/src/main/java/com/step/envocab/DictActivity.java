@@ -137,12 +137,8 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
                 if (searchString.trim().length() == 0) {
 
-//                    searchRecycler.setHasFixedSize(true);
-//                    int size = listSearchWords.size();
-//                    listSearchWords.clear();
-//                    wordsRosterAdapter = new WordsRosterAdapter(listSearchWords, DictActivity.this);
-//                    searchRecycler.setAdapter(wordsRosterAdapter);
-                    searchRecycler.setVisibility(View.GONE);
+                    dataToSearchList(searchString);
+                   // searchRecycler.setVisibility(View.GONE)
                     return;
                 } else {
 
@@ -153,6 +149,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 //wordsSearchAdapter.getFilter().filter(s.toString());
             }
         });
+        dataToSearchList("");
     }
 
 

@@ -97,6 +97,19 @@
             android:layout_centerHorizontal="false"
             android:fontFamily="@font/plainot"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/use_group"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/school_book_new"
+            android:textAlignment="center"
+            android:text="use_group"
+            android:visibility="visible"
+            android:textSize="22sp"
+            android:layout_below="@id/id_item"/>
         <!--android:layout_below="@id/tv_number_item"-->
         <!--android:fontFamily="@font/plainot"-->
 

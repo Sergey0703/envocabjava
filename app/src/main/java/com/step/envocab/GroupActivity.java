@@ -199,6 +199,9 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
         card.setCardElevation(100f);
         TextView textViewName
                 = (TextView) v.findViewById(R.id.tv_number_item);
+        TextView useGroup
+                = (TextView) v.findViewById(R.id.use_group);
+        String useGroupS = (String) useGroup.getText();
 
         String selectedName = (String) textViewName.getText();
         TextView textViewId
@@ -216,6 +219,8 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                 Bundle extras = new Bundle();
                 extras.putString("data",id);
                 extras.putString("passedName",selectedName);
+                extras.putString("passedTrain",useGroupS);
+
                 //startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
                 intent.putExtras(extras);
                 startActivity(intent);

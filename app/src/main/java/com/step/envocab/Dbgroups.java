@@ -22,6 +22,7 @@ public class Dbgroups {
    // private Integer id_word;
 
     private Boolean native1;
+
     private Integer use_group;
 
     public Integer getUse_group() {

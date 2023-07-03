@@ -1,5 +1,6 @@
 package com.step.envocab;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,9 +18,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class GroupWordsActivity extends BaseActivity implements GroupWordsRosterInterface{
@@ -36,9 +39,10 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private EditText groupWordFilter;
     private int layoutIdForListItem;
     private String theme;
+    SwitchCompat switchUseGroup;
 
 
-    String passedId="", passedName="";
+    String passedId="", passedName="", passedTrain="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
             Bundle extras = intent.getExtras();
             passedId=extras.getString("data");
             passedName=extras.getString("passedName");
+            passedTrain=extras.getString("passedTrain");
 //            passedId=intent.getStringExtra("data");
 //            passedName=intent.getStringExtra("passedName");
             Log.d(TAG,passedId );
@@ -99,6 +104,29 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
                 Log.d(TAG,  "= DialogN=");
                 insGroupWord();
+            }
+        });
+        switchUseGroup=findViewById(R.id.switch_use_group);
+        if(!passedTrain.equals("null") && Integer.parseInt(passedTrain)==1){
+            switchUseGroup.setChecked(true);
+        }else{
+            switchUseGroup.setChecked(false);
+        }
+        switchUseGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //System.out.println("Switch!!!!!!");
+                //onStop();
+                if (switchUseGroup.isChecked()) {
+                   // speechCategory.setText("All words on the date");
+                    useGroup(1);
+                    Log.d(TAG, "Checked");
+                } else {
+                  //  speechCategory.setText("Marked words");
+                    useGroup(0);
+                    Log.d(TAG, "Not use");
+                }
+
             }
         });
 
@@ -132,6 +160,24 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         });
 
         dataToSearchListGroupWords("");
+
+    }
+    public void useGroup(int ch){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (passedId != null) {
+
+                    AppDatabase.getInstance(getApplicationContext())
+                            .groupDao()
+                            .upGroupTrain(Integer.parseInt(passedId),ch );
+                    Log.d(TAG, "Update group=" + passedId);
+
+                }
+            }
+
+        }).start();
 
     }
     public void insGroupWord() {
