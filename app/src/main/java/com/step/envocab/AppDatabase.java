@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class}, version = 4)
+@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class}, version = 5)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WordDao wordDao();

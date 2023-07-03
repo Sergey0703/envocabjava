@@ -22,6 +22,16 @@ public class Dbgroups {
    // private Integer id_word;
 
     private Boolean native1;
+    private Integer use_group;
+
+    public Integer getUse_group() {
+        return use_group;
+    }
+
+    public void setUse_group(Integer use_group) {
+        this.use_group = use_group;
+    }
+
     private String description;
 
     public Dbgroups(String group, String description, Boolean native1){
