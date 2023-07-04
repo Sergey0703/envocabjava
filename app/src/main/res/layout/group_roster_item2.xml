@@ -59,7 +59,7 @@
             android:fontFamily="@font/school_book_new"
             android:textAlignment="center"
             android:text="id"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:textSize="22sp"
             android:layout_below="@id/tv_holder_number"/>
 
@@ -107,9 +107,21 @@
             android:fontFamily="@font/school_book_new"
             android:textAlignment="center"
             android:text="use_group"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:textSize="22sp"
             android:layout_below="@id/id_item"/>
+        <TextView
+        android:id="@+id/use_group_text"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="@font/school_book_new"
+        android:textAlignment="center"
+        android:text=""
+        android:visibility="visible"
+        android:textSize="22sp"
+        android:layout_below="@id/id_item"/>
         <!--android:layout_below="@id/tv_number_item"-->
         <!--android:fontFamily="@font/plainot"-->
 

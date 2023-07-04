@@ -141,10 +141,12 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
             public void run() {
                 listSearchGroups = AppDatabase.getInstance(getApplicationContext())
                         .groupDao()
-                        .getGroupsFiltered(str);
+                        .getGroupsFiltered3();
                 Log.d("DICT", "dataToSearchList=" + str);
                 Log.d("DICT", "listSearchGroups=" + listSearchGroups.size());
-
+            for(int i=0; listSearchGroups.size()>i; i++){
+               Log.d(TAG,"i="+listSearchGroups.get(i));
+            }
 
             }
         });
