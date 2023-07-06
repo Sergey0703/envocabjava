@@ -67,7 +67,7 @@
             android:textColor="@color/white"
             android:layout_below="@id/tv_transcription"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/plainot"
+            android:fontFamily="@font/shantell_sans_medium"
             android:textSize="20sp" />
         <!--android:fontFamily="@font/plainot"-->
 

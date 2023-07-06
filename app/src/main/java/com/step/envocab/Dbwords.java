@@ -26,11 +26,13 @@ public class Dbwords {
     public Date trainDate;
     private Boolean train1;
     private String transcript;
+    private String description;
 
-    public Dbwords(String word, String translate, String transcript){
+    public Dbwords(String word, String translate, String transcript, String description){
         this.word=word;
         this.translate=translate;
         this.transcript=transcript;
+        this.description=description;
         this.train1=false;
     }
 
@@ -40,6 +42,14 @@ public class Dbwords {
     }
     public Date getTrainDate() {
         return trainDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getTrain1() {

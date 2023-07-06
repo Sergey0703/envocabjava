@@ -74,7 +74,7 @@
             android:layout_toRightOf="@id/tv_number_item"
             android:layout_marginLeft="10dp"
             android:layout_centerHorizontal="false"
-            android:fontFamily="@font/plainot"
+            android:fontFamily="@font/shantell_sans_medium"
             android:textSize="18sp" />
         <!--android:layout_below="@id/tv_number_item"-->
         <!--android:fontFamily="@font/plainot"-->

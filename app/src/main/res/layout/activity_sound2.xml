@@ -147,13 +147,13 @@ android:background="@drawable/green_background2"-->
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
+
             android:layout_centerInParent="true"
             android:layout_marginBottom="5dp"
 
             android:background="@drawable/play_circle"
             android:scaleType="fitCenter"
             android:text=""
-
             app:backgroundTint="@color/blue_color2_font2"
             app:strokeColor="@color/white"
             app:strokeWidth="3dp" />

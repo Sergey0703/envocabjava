@@ -144,9 +144,9 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                         .getGroupsFiltered3();
                 Log.d("DICT", "dataToSearchList=" + str);
                 Log.d("DICT", "listSearchGroups=" + listSearchGroups.size());
-            for(int i=0; listSearchGroups.size()>i; i++){
-               Log.d(TAG,"i="+listSearchGroups.get(i));
-            }
+//            for(int i=0; listSearchGroups.size()>i; i++){
+//               Log.d(TAG,"i="+listSearchGroups.get(i));
+//            }
 
             }
         });

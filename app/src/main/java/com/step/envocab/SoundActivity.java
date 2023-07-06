@@ -238,8 +238,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 // if No error is found then only it will run
                 if (i != TextToSpeech.ERROR) {
                     // To Choose language of speech
-                    Locale locRu = new Locale("ru");
-                    textToSpeechTr.setLanguage(locRu);
+                    Locale loc = new Locale("uk","UA");
+                    textToSpeechTr.setLanguage(loc);
                 }
             }
         });

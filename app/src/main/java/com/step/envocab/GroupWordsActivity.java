@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,9 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private Handler handler = null;
     private String TAG="GroupWords";
     private List<GroupWithWords2> listSearchGroupWords;
-    private Button addButton;
+    private GroupRosterInterface groupRosterInterface;
+    private Button btnEditGroup;
+    private GroupDialog dialogGroup;
     private LinearLayoutManager layoutManager;
 
     private RecyclerView groupWordsRecycler;
@@ -96,16 +99,31 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
         nameGroup=findViewById(R.id.name_group);
         nameGroup.setText("Group: "+passedName);
-        addButton=findViewById(R.id.btn_add_group_word);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                Log.d(TAG,  "= DialogN=");
-                insGroupWord();
-            }
-        });
+        btnEditGroup = findViewById(R.id.btn_edit_group_word);
+        //  btnEditGroup.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+//                DisplayMetrics displaymetrics = new DisplayMetrics();
+//                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//                int width = displaymetrics.widthPixels * 3 / 4;
+//                int height = displaymetrics.heightPixels * 2 / 4;
+//
+//                Log.d(TAG,  "= DialogN=" + width);
+//                dialogGroup = new GroupDialog(GroupWordsActivity.this,  groupRosterInterface);
+//                dialogGroup.showDialog(GroupWordsActivity.this, width, height, theme,"Edit group",passedId,String.valueOf(nameGroup.getText())
+//                        ,null );
+          //  }
+       // });
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                Log.d(TAG,  "= DialogN=");
+//                insGroupWord();
+//            }
+//        });
         switchUseGroup=findViewById(R.id.switch_use_group);
         if(!passedTrain.equals("null") && Integer.parseInt(passedTrain)==1){
             switchUseGroup.setChecked(true);
@@ -323,7 +341,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
     @Override
     public void sendData(String id, String word, String translate, String transcript, Boolean train1) {
-
+         Log.d(TAG,"Gr="+word );
     }
 
     /////////////////////////////////////////////////////////////////////////////////////

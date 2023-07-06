@@ -251,9 +251,9 @@ public class MainActivity extends BaseActivity {
 
     public void insWord() {
         //System.out.println("Ins");
-        Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
-        InsertAsyncTask insertAsyncTask = new InsertAsyncTask();
-        insertAsyncTask.execute(word);
+//        Dbwords word = new Dbwords("NewTest2", "translate2", "transcript2");
+//        InsertAsyncTask insertAsyncTask = new InsertAsyncTask();
+//        insertAsyncTask.execute(word);
     }
 
     public void updateWord(Boolean up) {

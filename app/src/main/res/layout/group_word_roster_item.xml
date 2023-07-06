@@ -81,7 +81,7 @@
 
 
             android:layout_centerVertical="true"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/shantell_sans_medium"
             android:textSize="18sp"
             android:paddingBottom="0dp"
 

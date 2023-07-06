@@ -118,7 +118,7 @@ android:background="@drawable/green_background2"-->
         android:visibility="gone"
         android:textSize="30sp"
         android:textColor="@color/white"
-        android:text="No words to display, \n go back and mark today's words or try 'All marked words' switch above."
+        android:text="No words to display."
         />
     <RelativeLayout
         android:id="@+id/bottom_menu"
@@ -135,17 +135,21 @@ android:background="@drawable/green_background2"-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPlaySound"
 
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+
             android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+
             android:background="@drawable/play_circle"
-
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/white"
-            app:strokeWidth="3dp"
+            android:scaleType="fitCenter"
+            app:backgroundTint="@color/blue_color2_font2"
             app:cornerRadius="12dp"
+            app:strokeColor="@color/white"
 
-            />
+            app:strokeWidth="3dp" />
 
         <Button
             android:id="@+id/btnPrevDay"

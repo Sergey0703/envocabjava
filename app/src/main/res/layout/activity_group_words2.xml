@@ -89,7 +89,7 @@
             android:paddingLeft="5dp"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_add_group_word"
+            android:id="@+id/btn_edit_group_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -111,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="@id/text_switch"
             app:layout_constraintRight_toRightOf="parent"
 
-            android:visibility="visible"
+            android:visibility="invisible"
             />
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_use_group"
