@@ -111,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="@id/text_switch"
             app:layout_constraintRight_toRightOf="parent"
 
-            android:visibility="invisible"
+            android:visibility="visible"
             />
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_use_group"

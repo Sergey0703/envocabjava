@@ -282,11 +282,11 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 
                     Log.d("DialogGroupAdd", String.valueOf(idup));
                 }else {
-                    int idup = AppDatabase.getInstance(getApplicationContext())
-                            .groupDao()
-                            .upGroup(Integer.parseInt(id), group, description, native1);
+//                    int idup = AppDatabase.getInstance(getApplicationContext())
+//                            .groupDao()
+//                            .upGroup(Integer.parseInt(id), group, description, native1);
 
-                    Log.d("DialogGroup", String.valueOf(idup));
+  //                  Log.d("DialogGroup", String.valueOf(idup));
                 }
             }
         });

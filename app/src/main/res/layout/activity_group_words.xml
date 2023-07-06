@@ -19,13 +19,13 @@
             android:id="@+id/name_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Group name "
+            android:text=" Group name"
             android:textStyle="bold"
             android:textSize="28sp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+
 
             android:textColor="@color/white"
             android:gravity="center_vertical"
@@ -51,7 +51,7 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_group_word"
+            app:layout_constraintTop_toBottomOf="@id/text_switch"
             >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/group_word_filter"
@@ -69,7 +69,7 @@
             android:id="@+id/text_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Train group"
+            android:text="Train group "
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginRight="5dp"
@@ -102,6 +102,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_group"
             app:layout_constraintLeft_toRightOf="@id/text_switch"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
 
             />
         <TextView
@@ -114,14 +115,14 @@
             android:layout_marginRight="5dp"
             app:layout_constraintTop_toBottomOf="@id/name_group"
             app:layout_constraintLeft_toRightOf="@id/group_word_filter"
-            app:layout_constraintRight_toLeftOf="@id/btn_add_group_word"
+            app:layout_constraintRight_toLeftOf="@id/btn_edit_group_word"
             app:layout_constraintBottom_toTopOf="@id/group_words_recycler"
             android:textColor="@color/red_color_font2"
             android:gravity="center_vertical"
             android:visibility="gone"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_add_group_word"
+            android:id="@+id/btn_edit_group_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -140,7 +141,7 @@
             app:cornerRadius="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="invisible"
+            android:visibility="visible"
             />
         <!--android:background="@drawable/border_button"
         app:layout_constraintTop_toBottomOf="@id/name_group"

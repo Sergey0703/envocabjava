@@ -32,7 +32,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private List<GroupWithWords2> listSearchGroupWords;
     private GroupRosterInterface groupRosterInterface;
     private Button btnEditGroup;
-    private GroupDialog dialogGroup;
+    private GroupDialogEdit dialogGroup;
     private LinearLayoutManager layoutManager;
 
     private RecyclerView groupWordsRecycler;
@@ -98,23 +98,23 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 
 
         nameGroup=findViewById(R.id.name_group);
-        nameGroup.setText("Group: "+passedName);
+        nameGroup.setText(passedName.trim());
 
         btnEditGroup = findViewById(R.id.btn_edit_group_word);
-        //  btnEditGroup.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-//                DisplayMetrics displaymetrics = new DisplayMetrics();
-//                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//                int width = displaymetrics.widthPixels * 3 / 4;
-//                int height = displaymetrics.heightPixels * 2 / 4;
-//
-//                Log.d(TAG,  "= DialogN=" + width);
-//                dialogGroup = new GroupDialog(GroupWordsActivity.this,  groupRosterInterface);
-//                dialogGroup.showDialog(GroupWordsActivity.this, width, height, theme,"Edit group",passedId,String.valueOf(nameGroup.getText())
-//                        ,null );
-          //  }
-       // });
+          btnEditGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int width = displaymetrics.widthPixels * 3 / 4;
+                int height = displaymetrics.heightPixels * 2 / 4;
+
+                Log.d(TAG,  "= DialogN=" + width);
+                dialogGroup = new GroupDialogEdit(GroupWordsActivity.this, GroupWordsActivity.this);
+                dialogGroup.showDialog(GroupWordsActivity.this, width, height, theme,"Edit group",passedId,String.valueOf(nameGroup.getText())
+                        ,null );
+            }
+        });
 //        addButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -342,6 +342,31 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     @Override
     public void sendData(String id, String word, String translate, String transcript, Boolean train1) {
          Log.d(TAG,"Gr="+word );
+    }
+
+    @Override
+    public void sendGroup(String id, String group) {
+        Log.d(TAG,"Gr="+group );
+        handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                 int idup = AppDatabase.getInstance(getApplicationContext())
+                            .groupDao()
+                            .upGroup(Integer.parseInt(id), group.trim());
+                    Log.d("DialogGroup", String.valueOf(idup));
+              }
+        });
+        thread.start();
+        if (handler == null) return;
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                nameGroup.setText(group.trim());
+                //dataToSearchListGroup(groupFilter.getText().toString());
+                //dataToSearchListGroup("");
+            }
+        }, 500);
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
