@@ -145,7 +145,7 @@ android:background="@drawable/green_background2"-->
 
             android:background="@drawable/play_circle"
             android:scaleType="fitCenter"
-            app:backgroundTint="@color/blue_color2_font2"
+            app:backgroundTint="@color/green"
             app:cornerRadius="12dp"
             app:strokeColor="@color/white"
 

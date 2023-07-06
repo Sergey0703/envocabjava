@@ -73,6 +73,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     boolean loading = true;
     Animation animAlpha;
     private int layoutIdForListItem;
+    private String theme="";
 
     @Override
     protected void onPause() {
@@ -106,9 +107,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         if(s1) {
             setContentView(R.layout.activity_sound2);
             layoutIdForListItem=R.layout.word_list_item2;
+            theme="light";
         }else{
             setContentView(R.layout.activity_sound);
             layoutIdForListItem=R.layout.word_list_item;
+            theme="dark";
         }
 
 
@@ -215,7 +218,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     playSoundOn = false;
                     btnPlaySound.setBackgroundResource(R.drawable.play_circle);
-                    ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+                    if(theme.equals("light")) {
+                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.purple_500));
+                    }else {
+                        ViewCompat.setBackgroundTintList(btnPlaySound, ContextCompat.getColorStateList(getApplicationContext(), R.color.green));
+                    }
                 }
             }
         });
