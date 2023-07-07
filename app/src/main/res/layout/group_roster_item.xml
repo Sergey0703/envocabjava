@@ -114,12 +114,12 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/school_book_new"
+            android:textColor="@color/green"
+            android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:text=""
             android:visibility="visible"
-            android:textSize="22sp"
+            android:textSize="16sp"
             android:layout_below="@id/id_item"/>
         <!--android:layout_below="@id/tv_number_item"-->
         <!--android:fontFamily="@font/plainot"-->

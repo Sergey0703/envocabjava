@@ -40,8 +40,7 @@
 
             android:text="Speak translation ON"
             android:textColor="@color/white"
-            android:textOff="No"
-            android:textOn="Yes"
+
             android:textSize="20sp"
             android:layout_marginBottom="5dp"
 

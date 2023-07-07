@@ -134,14 +134,14 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
     }
 
     public void dataToSearchListGroup(String findStr) {
-        String str = findStr + '%';
+        String str = findStr.trim() + '%';
         //handler = new Handler();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 listSearchGroups = AppDatabase.getInstance(getApplicationContext())
                         .groupDao()
-                        .getGroupsFiltered3();
+                        .getGroupsFiltered3(str);
                 Log.d("DICT", "dataToSearchList=" + str);
                 Log.d("DICT", "listSearchGroups=" + listSearchGroups.size());
 //            for(int i=0; listSearchGroups.size()>i; i++){
@@ -169,7 +169,7 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 //                     //listWords.add();
 
                     searchGroupsRecycler.setHasFixedSize(true);
-                    groupsRosterAdapter = new GroupsRosterAdapter(listSearchGroups, GroupActivity.this,layoutIdForListItem);
+                    groupsRosterAdapter = new GroupsRosterAdapter(listSearchGroups, GroupActivity.this,layoutIdForListItem,theme);
                     searchGroupsRecycler.setAdapter(groupsRosterAdapter);
 
                 } else {

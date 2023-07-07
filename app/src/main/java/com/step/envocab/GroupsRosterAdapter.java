@@ -21,11 +21,13 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
     private List<Dbgroups> groupsList;
     private int layoutIdForListItem;
     Animation animAlpha;
+    private String theme="light";
 
-    public GroupsRosterAdapter(List<Dbgroups> groupsList, GroupRosterInterface groupRosterInterface, int layoutIdForListItem) {
+    public GroupsRosterAdapter(List<Dbgroups> groupsList, GroupRosterInterface groupRosterInterface, int layoutIdForListItem, String theme) {
         this.groupsList = groupsList;
         this.groupRosterInterface = groupRosterInterface;
         this.layoutIdForListItem=layoutIdForListItem;
+        this.theme=theme;
     }
 
 
@@ -49,11 +51,20 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
         holder.use_group.setText(String.valueOf(group.getUse_group()));
 
         if(group.getUse_group()!=null && group.getUse_group()>0) {
+
             holder.use_group_text.setText("This group is training");
-            holder.use_group_text.setTextColor(Color.parseColor("#3A5BAE"));
+            if(theme.equals("light")) {
+                holder.use_group_text.setTextColor(Color.parseColor("#3A5BAE"));
+            }else{
+                holder.use_group_text.setTextColor(Color.parseColor("#FF00FF00"));
+            }
         }else{
             holder.use_group_text.setText("This group is not currently training");
-            holder.use_group_text.setTextColor(Color.parseColor("#DE817B"));
+            if(theme.equals("light")) {
+                holder.use_group_text.setTextColor(Color.parseColor("#DE817B"));
+            }else{
+                holder.use_group_text.setTextColor(Color.parseColor("#FFFF0000"));
+            }
         }
         Log.d("RRR=",group.getGroup()+" " +String.valueOf(group.getId_group()));
 //        if (word.getTrain1() != null && word.getTrain1() == true) {

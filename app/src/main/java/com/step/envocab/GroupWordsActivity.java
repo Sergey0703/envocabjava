@@ -1,5 +1,6 @@
 package com.step.envocab;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +41,7 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
     private RecyclerView groupWordsRecycler;
     private GroupWordsRosterAdapter groupWordsRosterAdapter;
 
-    private TextView textCautionGroupWords, nameGroup;
+    private TextView textCautionGroupWords, nameGroup, textSwitchUseGroup;
     private EditText groupWordFilter;
     private int layoutIdForListItem;
     private String theme;
@@ -125,10 +128,14 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
 //            }
 //        });
         switchUseGroup=findViewById(R.id.switch_use_group);
+        textSwitchUseGroup=findViewById(R.id.text_switch);
         if(!passedTrain.equals("null") && Integer.parseInt(passedTrain)==1){
             switchUseGroup.setChecked(true);
+            textSwitchUseGroup.setText("Train group ON");
+
         }else{
             switchUseGroup.setChecked(false);
+            textSwitchUseGroup.setText("Train group OFF");
         }
         switchUseGroup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -138,10 +145,12 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                 if (switchUseGroup.isChecked()) {
                    // speechCategory.setText("All words on the date");
                     useGroup(1);
+                    textSwitchUseGroup.setText("Train group ON");
                     Log.d(TAG, "Checked");
                 } else {
                   //  speechCategory.setText("Marked words");
                     useGroup(0);
+                    textSwitchUseGroup.setText("Train group OFF");
                     Log.d(TAG, "Not use");
                 }
 
@@ -312,31 +321,51 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                     Long idns = AppDatabase.getInstance(getApplicationContext())
                             .groupsAndWordsDao()
                             .insertGroupWithWord(dbgroupsandwords);
+
                 }else{
                     int idns = AppDatabase.getInstance(getApplicationContext())
                             .groupsAndWordsDao()
                             .del(Integer.parseInt(id), Integer.parseInt(passedId));
+
                 }
 
-                if (handler == null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        dataToSearchListGroupWords(groupWordFilter.getText().toString());
-                    }
-                }, 200);
-//                searchWord = AppDatabase.getInstance(getApplicationContext())
-//                        .wordDao()
-//                        .findById(Integer.parseInt(id));
-//                Log.d("DICT", "idToSearchList=" + id);
-//                Log.d("DICT", "searchWord=" + searchWord.getWord());
-//                // ViewDialog alert = new ViewDialog();
-//                // alert.showDialog(DictActivity.this, "Window");
-
+               //here
 
             }
         });
         thread.start();
+        if (handler == null) return;
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                dataToSearchListGroupWords(groupWordFilter.getText().toString());
+                if(funct.equals("add")) {
+                    Toast.makeText(GroupWordsActivity.this, "Word added to group", Toast.LENGTH_SHORT).show();
+                    //displayToast();
+                }else {
+                    Toast.makeText(GroupWordsActivity.this, "Word deleted from group", Toast.LENGTH_LONG).show();
+                    //displayToast();
+                }
+            }
+        }, 200);
+    }
 
+    public void displayToast() {
+//        Toast toast = Toast.makeText(this, "Custom toast background color", Toast.LENGTH_SHORT);
+//        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+//        v.setTextColor(Color.RED);
+//        toast.show();
+
+        /*View toastView;
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Custom toast background color",
+                Toast.LENGTH_SHORT);
+
+        toastView = toast.getView();
+        toastView.setBackgroundColor(Color.parseColor("#FF0000"));
+        //toastView.setBackgroundColor(Color.RED);
+        //toastView.setBackgroundResource(R.drawable.toast_drawable);
+        toast.show();
+        */
     }
 
     @Override
