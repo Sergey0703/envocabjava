@@ -1,12 +1,15 @@
 package com.step.envocab;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -122,6 +125,7 @@ public class GroupWordsRosterAdapter extends RecyclerView.Adapter<GroupWordsRost
             });
 
         }
+
 
     }
 }

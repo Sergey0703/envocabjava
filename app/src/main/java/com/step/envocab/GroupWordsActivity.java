@@ -7,7 +7,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -292,8 +294,37 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         }, 100);
     }
 
-    @Override
-    public void onItemClick(int position, String funct) {
+    private void showSimpleDialog(int position, String funct){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        //builder.setMessage("Do you want to delete this word from group?");
+        //Setting message manually and performing action on button click
+        builder.setMessage("Do you want to delete this word from the group?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'Yes' Button
+                        //exit application
+                        //finish();
+                        //System.exit(0);
+                        makeFunct(position, funct);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'No' Button
+                        //Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        return;
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("");
+        alert.show();
+    }
+    public void makeFunct(int position, String funct){
         int top = position;
         Log.d(TAG, "position=" + top+" funct="+funct);
         View v = layoutManager.findViewByPosition(top);
@@ -323,13 +354,14 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                             .insertGroupWithWord(dbgroupsandwords);
 
                 }else{
+
                     int idns = AppDatabase.getInstance(getApplicationContext())
                             .groupsAndWordsDao()
                             .del(Integer.parseInt(id), Integer.parseInt(passedId));
 
                 }
 
-               //here
+                //here
 
             }
         });
@@ -342,12 +374,24 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
                     Toast.makeText(GroupWordsActivity.this, "Word added to group", Toast.LENGTH_SHORT).show();
                     //displayToast();
                 }else {
-                    Toast.makeText(GroupWordsActivity.this, "Word deleted from group", Toast.LENGTH_LONG).show();
+                    Toast.makeText(GroupWordsActivity.this, "Word deleted from group", Toast.LENGTH_SHORT).show();
                     //displayToast();
                 }
             }
         }, 200);
+
     }
+    @Override
+    public void onItemClick(int position, String funct) {
+
+
+        if(funct.equals("del")) {
+            showSimpleDialog(position, funct);
+        }else{
+           makeFunct(position, funct);
+        }
+
+     }
 
     public void displayToast() {
 //        Toast toast = Toast.makeText(this, "Custom toast background color", Toast.LENGTH_SHORT);
