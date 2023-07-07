@@ -72,6 +72,7 @@
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:text="Text"
+            android:textStyle="bold"
             android:layout_centerHorizontal="false"
             android:textSize="22sp" />
             <!-- style="@style/TextAppearance.Material3.TitleLarge" -->
@@ -116,7 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:fontFamily="@font/school_book_new"
+        android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:text=""
         android:visibility="visible"

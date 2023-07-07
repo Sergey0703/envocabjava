@@ -72,6 +72,7 @@
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:text="Text"
+            android:textStyle="bold"
             android:layout_centerHorizontal="false"
             android:textSize="22sp" />
             <!-- style="@style/TextAppearance.Material3.TitleLarge" -->
