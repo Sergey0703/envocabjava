@@ -59,8 +59,13 @@
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
-        app:errorEnabled="true">
-    <!--android:textColorHint="@color/black" -->
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        >
+    <!--android:textColorHint="@color/black" @+id/word_dialog-->
     <!-- app:boxBackgroundColor="@color/green"-->
     <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->
 
@@ -99,7 +104,12 @@
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        >
         <!-- android:textColorHint="@color/black" -->
         <!-- app:boxBackgroundColor="@color/green"-->
         <com.google.android.material.textfield.TextInputEditText
@@ -108,7 +118,9 @@
             android:layout_height="wrap_content"
 
             android:textSize="20sp"
-            android:inputType="text" />
+            android:inputType="text"
+
+            />
         <!--  android:textColor="@color/black" -->
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +147,12 @@
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        >
         <!--  android:textColorHint="@color/black" -->
         <!-- app:boxBackgroundColor="@color/green"-->
         <com.google.android.material.textfield.TextInputEditText

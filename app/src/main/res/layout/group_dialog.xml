@@ -38,12 +38,11 @@
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="@color/pink_color3"
 
-        android:backgroundTint="@color/pink_color2"
         android:textColor="@color/red_color_font2" />
-        <!-- android:gravity="right|center_vertical" -->
-
-
+        <!-- android:gravity="right|center_vertical"
+        -->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_group"
@@ -61,7 +60,12 @@
         app:boxBackgroundColor="@color/white"
 
         app:boxBackgroundMode="outline"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        >
     <!--android:textColorHint="@color/black" -->
     <!-- app:boxBackgroundColor="@color/green"-->
     <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->

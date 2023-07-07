@@ -98,10 +98,10 @@ public class WordDialog extends Dialog {
 
         btnSave = (Button) dialog.findViewById(R.id.btn_save);
         if(theme.equals("light")) {
-            titleWindow.setBackgroundColor(Color.parseColor("#3A5BAE"));
-            btnClose.setBackgroundColor(Color.parseColor("#3A5BAE"));
-            btnDialog.setBackgroundColor(Color.parseColor("#3A5BAE"));
-            btnSave.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            titleWindow.setBackgroundColor(Color.parseColor("#a2c4f7"));
+            btnClose.setBackgroundColor(Color.parseColor("#a2c4f7"));
+            btnDialog.setBackgroundColor(Color.parseColor("#a2c4f7"));
+            btnSave.setBackgroundColor(Color.parseColor("#a2c4f7"));
         }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

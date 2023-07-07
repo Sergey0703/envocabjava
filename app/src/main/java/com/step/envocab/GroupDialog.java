@@ -94,8 +94,8 @@ public class GroupDialog extends Dialog {
         btnSave = (Button) dialogGroup.findViewById(R.id.btn_save);
 
         if(theme.equals("light")){
-            titleWindow.setBackgroundColor(Color.parseColor("#3A5BAE"));
-            btnClose.setBackgroundColor(Color.parseColor("#3A5BAE"));
+            titleWindow.setBackgroundColor(Color.parseColor("#FFEAEA"));
+            btnClose.setBackgroundColor(Color.parseColor("#FFEAEA"));
             btnDialog.setBackgroundColor(Color.parseColor("#3A5BAE"));
             btnSave.setBackgroundColor(Color.parseColor("#3A5BAE"));
         }else{
