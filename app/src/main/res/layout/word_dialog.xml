@@ -26,20 +26,23 @@
 
     <Button
         android:id="@+id/btn_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="x"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+
         android:gravity="top|end"
-        android:textSize="20sp"
-        android:paddingRight="10dp"
-        android:paddingTop="0dp"
-        android:textAllCaps="false"
+
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/close_btn"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 
-        android:textColor="#ffffffff" />
-        <!-- android:gravity="right|center_vertical" -->
+        />
+        <!-- android:gravity="right|center_vertical"
+          android:textAllCaps="false"
+           android:textColor="#ffffffff"
+         -->
 
 
 

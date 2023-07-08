@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+
 public class GroupDialogEdit extends Dialog {
     private GroupWordsRosterInterface groupWordsRosterInterface;
 
@@ -93,13 +96,15 @@ public class GroupDialogEdit extends Dialog {
 
         if(theme.equals("light")){
             titleWindow.setBackgroundColor(Color.parseColor("#FFEAEA"));
-            btnClose.setBackgroundColor(Color.parseColor("#FFEAEA"));
+            //btnClose.setBackgroundColor(Color.parseColor("#FFEAEA"));
+            ViewCompat.setBackgroundTintList(btnClose, ContextCompat.getColorStateList(context, R.color.red_color_font2));
             btnDialog.setBackgroundColor(Color.parseColor("#3A5BAE"));
             btnSave.setBackgroundColor(Color.parseColor("#3A5BAE"));
         }else{
             titleWindow.setBackgroundColor(Color.parseColor("#183c18"));
             titleWindow.setTextColor(Color.parseColor("#ffffff"));
-            btnClose.setBackgroundColor(Color.parseColor("#183c18"));
+            //btnClose.setBackgroundColor(Color.parseColor("#183c18"));
+            ViewCompat.setBackgroundTintList(btnClose, ContextCompat.getColorStateList(context, R.color.white));
             btnDialog.setBackgroundColor(Color.parseColor("#183c18"));
             btnSave.setBackgroundColor(Color.parseColor("#183c18"));
         }

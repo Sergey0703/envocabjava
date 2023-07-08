@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 
 public class WordDialog extends Dialog {
     private WordRosterInterface wordRosterInterface;
@@ -99,9 +101,11 @@ public class WordDialog extends Dialog {
         btnSave = (Button) dialog.findViewById(R.id.btn_save);
         if(theme.equals("light")) {
             titleWindow.setBackgroundColor(Color.parseColor("#a2c4f7"));
-            btnClose.setBackgroundColor(Color.parseColor("#a2c4f7"));
+            ViewCompat.setBackgroundTintList(btnClose, ContextCompat.getColorStateList(context, R.color.white));
             btnDialog.setBackgroundColor(Color.parseColor("#a2c4f7"));
             btnSave.setBackgroundColor(Color.parseColor("#a2c4f7"));
+        }else{
+            ViewCompat.setBackgroundTintList(btnClose, ContextCompat.getColorStateList(context, R.color.white));
         }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
