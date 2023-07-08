@@ -80,6 +80,11 @@ public class BaseActivity extends AppCompatActivity {
             menuSoundTraining2.setEnabled(menuS);
             menuSoundTraining2.getIcon().setAlpha(alphaS);
         }
+        MenuItem menuExercises = menu.findItem(R.id.exercises);
+        if(menuExercises != null){
+            menuExercises.setEnabled(true);
+            menuSoundTraining2.getIcon().setAlpha(255);
+        }
         //super.onPrepareOptionsMenu(menu);
         MenuItem menuDict = menu.findItem(R.id.dict);
         if(menuDict != null){
@@ -123,6 +128,10 @@ public class BaseActivity extends AppCompatActivity {
         case R.id.soundTraining2:
             Intent intent4=new Intent(BaseActivity.this, SoundActivity.class);
             startActivity(intent4);
+            return true;
+        case R.id.exercises:
+            Intent intent9=new Intent(BaseActivity.this, ExercisesActivity.class);
+            startActivity(intent9);
             return true;
         case R.id.dict:
             Intent intent5=new Intent(BaseActivity.this, DictActivity.class);
