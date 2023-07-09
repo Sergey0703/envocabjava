@@ -21,7 +21,7 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
     private List<Dbexercises> exercisesList;
     private int layoutIdForListItem;
     Animation animAlpha;
-    private String theme="light";
+    private String theme="";
 
     public ExercisesRosterAdapter(List<Dbexercises> exercisesList, ExerciseRosterInterface exerciseRosterInterface, int layoutIdForListItem, String theme) {
         this.exercisesList = exercisesList;
@@ -48,7 +48,8 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
         Dbexercises exercise = exercisesList.get(position);
         holder.listItemNumberView.setText(exercise.getName());
         holder.id_item.setText(String.valueOf(exercise.getId_ex()));
-        //holder.use_group.setText(String.valueOf(group.getUse_group()));
+        holder.tech_name.setText(String.valueOf(exercise.getTech_name()));
+        holder.destination.setText(String.valueOf(exercise.getDestination()));
 
 
 
@@ -63,8 +64,9 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
     class ExerciseViewHolder extends RecyclerView.ViewHolder {
         TextView listItemNumberView;
         TextView viewHolderIndex;
-
         TextView id_item;
+        TextView tech_name;
+        TextView destination;
 
 
         public ExerciseViewHolder(@NonNull View itemView, ExerciseRosterInterface exerciseRosterInterface) {
@@ -73,6 +75,9 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
             id_item = itemView.findViewById(R.id.id_item);
+            tech_name = itemView.findViewById(R.id.tv_holder_tech_name);
+            destination = itemView.findViewById(R.id.text_destination);
+
 
 
 //            itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {

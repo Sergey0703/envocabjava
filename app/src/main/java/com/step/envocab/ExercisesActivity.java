@@ -2,10 +2,12 @@ package com.step.envocab;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +33,6 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercises);
 
         SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
         Boolean s1 = sh.getBoolean("themeApp", true);
@@ -122,6 +123,33 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
 
     @Override
     public void onItemClick(int position) {
+        int top = position;
+        Log.d(TAG, "position=" + top);
+        View v = layoutManager.findViewByPosition(top);
+        //v.startAnimation(animAlpha);
+        CardView card = (CardView) v.findViewById(R.id.cardWord);
+        //card.setCardElevation(100f);
+        TextView textName
+                = (TextView) v.findViewById(R.id.tv_number_item);
+        String name=String.valueOf(textName.getText());
+        TextView textDestination
+                = (TextView) v.findViewById(R.id.text_destination);
+        String destination=String.valueOf(textDestination.getText());
+
+        TextView textTechName
+                = (TextView) v.findViewById(R.id.tv_holder_tech_name);
+        String techName=String.valueOf(textTechName.getText());
+        Log.d(TAG,String.valueOf(textName.getText())+" destination="+destination+" tech_name="+techName);
+
+        Intent intent = new Intent(ExercisesActivity.this, TrainActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString("passedName",name);
+        extras.putString("passedTechName",techName);
+        extras.putString("passedDestination",destination);
+
+        //startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
+        intent.putExtras(extras);
+        startActivity(intent);
 
     }
 

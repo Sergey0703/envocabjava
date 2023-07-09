@@ -88,7 +88,7 @@
             android:textSize="22sp" /> -->
             <!--  android:layout_centerVertical="true" -->
         <TextView
-            android:id="@+id/tv_holder_number"
+            android:id="@+id/tv_holder_tech_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/red_color_font2"
@@ -101,20 +101,9 @@
             android:visibility="invisible"
             />
 
-        <TextView
-            android:id="@+id/use_group"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/school_book_new"
-            android:textAlignment="center"
-            android:text="use_group"
-            android:visibility="invisible"
-            android:textSize="22sp"
-            android:layout_below="@id/id_item"/>
         <TextView
-        android:id="@+id/use_group_text"
+        android:id="@+id/text_destination"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,7 +111,7 @@
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:text=""
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textSize="18sp"
         android:layout_below="@id/id_item"/>
         <!--android:layout_below="@id/tv_number_item"-->
