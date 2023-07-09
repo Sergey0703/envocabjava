@@ -11,10 +11,28 @@ import androidx.room.TypeConverters;
 @TypeConverters(Converters.class)
 public class Dbexercises {
 
-    public Dbexercises(String name, String tech_name) {
+    public Dbexercises(String name, String tech_name, String destination) {
 
         this.name = name;
         this.tech_name=tech_name;
+        this.destination=destination;
+
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public Integer getCounts() {
+        return counts;
+    }
+
+    public void setCounts(Integer counts) {
+        this.counts = counts;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -23,6 +41,9 @@ public class Dbexercises {
 
     private Integer id_ex;
     private String name;
+    private String tech_name;
+    private String destination;
+    private Integer counts;
 
     public String getTech_name() {
         return tech_name;
@@ -32,7 +53,7 @@ public class Dbexercises {
         this.tech_name = tech_name;
     }
 
-    private String tech_name;
+
 
     public void setId_ex(@NonNull Integer id_ex) {
         this.id_ex = id_ex;

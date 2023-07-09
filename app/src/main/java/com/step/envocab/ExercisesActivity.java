@@ -38,11 +38,11 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
 
         if(s1) {
             setContentView(R.layout.activity_exercises);
-            //layoutIdForListItem=R.layout.word_dict_roster_item2;
+            layoutIdForListItem=R.layout.exercises_roster_item2;
             theme="light";
         }else{
             setContentView(R.layout.activity_exercises);
-           // layoutIdForListItem=R.layout.word_roster_item;
+            layoutIdForListItem=R.layout.exercises_roster_item2;
             theme="dark";
         }
 
@@ -59,6 +59,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
             }
         });
 
+        Log.d(TAG,"start!!");
         textCautionExercises=findViewById(R.id.caution_exercise);
         //  layoutManager = new LinearLayoutManager(this);
         layoutManager=new GridLayoutManager(this,2);
@@ -80,7 +81,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
                         .exerciseDao()
                         .findExercises();
 
-                Log.d(TAG, "listSearchExercises=" + listSearchExercises.size());
+                Log.d(TAG, "listSearchExercises0=" + listSearchExercises.size());
 //            for(int i=0; listSearchGroups.size()>i; i++){
 //               Log.d(TAG,"i="+listSearchGroups.get(i));
 //            }
@@ -98,7 +99,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
                 //Log.d("DICT","listSearchWords2="+ listSearchWords);
                 if (listSearchExercises != null && listSearchExercises.size() != 0) {
 
-                    Log.d("DICT", "listSearchGroups=" + listSearchExercises.size());
+                    Log.d(TAG, "listSearchExs=" + listSearchExercises.size());
                     textCautionExercises.setVisibility(View.GONE);
                     searchExercisesRecycler.setVisibility(View.VISIBLE);
 

@@ -41,14 +41,15 @@
 
         />
     <item
-        android:id="@+id/dict"
-        android:icon="@drawable/icon_menu_book_white"
-        android:title="Dictionary"
+        android:id="@+id/exercises2"
+        android:icon="@drawable/icon_letter_white"
+        android:title="Exercises"
         app:showAsAction="always"
 
         />
+
     <item
-    android:id="@+id/dict2"
+    android:id="@+id/dict"
     android:icon="@drawable/icon_menu_book_24"
     android:title="Dictionary"
     app:showAsAction="withText"

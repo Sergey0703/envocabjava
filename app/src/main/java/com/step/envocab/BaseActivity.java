@@ -85,26 +85,28 @@ public class BaseActivity extends AppCompatActivity {
             menuExercises.setEnabled(true);
             menuSoundTraining2.getIcon().setAlpha(255);
         }
+
+        MenuItem menuExercises2 = menu.findItem(R.id.exercises2);
+        if(menuExercises2 != null){
+            menuExercises2.setEnabled(true);
+            menuExercises2.getIcon().setAlpha(255);
+        }
         //super.onPrepareOptionsMenu(menu);
         MenuItem menuDict = menu.findItem(R.id.dict);
         if(menuDict != null){
             menuDict.setEnabled(menuD);
             menuDict.getIcon().setAlpha(alphaD);
         }
-        MenuItem menuDict2 = menu.findItem(R.id.dict2);
-        if(menuDict2 != null){
-            menuDict2.setEnabled(menuD);
-            menuDict2.getIcon().setAlpha(alphaD);
-        }
+
         MenuItem menuGroup = menu.findItem(R.id.group);
-        if(menuDict2 != null){
-            menuDict2.setEnabled(menuG);
-            menuDict2.getIcon().setAlpha(alphaG);
+        if(menuGroup != null){
+            menuGroup.setEnabled(menuG);
+            menuGroup.getIcon().setAlpha(alphaG);
         }
         MenuItem menuPref = menu.findItem(R.id.preferencies);
         if(menuPref != null){
-            menuDict2.setEnabled(true);
-            menuDict2.getIcon().setAlpha(255);
+            menuPref.setEnabled(true);
+            menuPref.getIcon().setAlpha(255);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -133,14 +135,16 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent9=new Intent(BaseActivity.this, ExercisesActivity.class);
             startActivity(intent9);
             return true;
+        case R.id.exercises2:
+            Intent intent10=new Intent(BaseActivity.this, ExercisesActivity.class);
+            startActivity(intent10);
+            return true;
+
         case R.id.dict:
             Intent intent5=new Intent(BaseActivity.this, DictActivity.class);
             startActivity(intent5);
             return true;
-        case R.id.dict2:
-            Intent intent6=new Intent(BaseActivity.this, DictActivity.class);
-            startActivity(intent6);
-            return true;
+
         case R.id.group:
             Intent intent8=new Intent(BaseActivity.this, GroupActivity.class);
             startActivity(intent8);

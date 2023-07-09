@@ -15,6 +15,19 @@
         android:padding="5dp"
         tools:context="com.step.envocab.ExercisesActivity">
 
+        <TextView
+            android:id="@+id/text_exercises"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+
+            android:textSize="24sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/red_color_font2"
+            android:text="Exercises for memorizing words"
+            android:visibility="visible"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exercise_recycler_filter"
             android:layout_width="match_parent"
@@ -22,6 +35,7 @@
 
             android:layout_marginTop="10dp"
             android:layout_weight="8"
+            app:layout_constraintTop_toBottomOf="@id/text_exercises"
 
             />
         <TextView

@@ -9,8 +9,8 @@ import java.util.List;
 public interface ExerciseDao {
 
 
-    @Query("insert into dbexercises (`name`,`tech_name`) VALUES(:name,:tech_name)")
-    Long insExercise( String name, String tech_name);
+    @Query("insert into dbexercises (`name`,`tech_name`,`destination`) VALUES(:name,:tech_name,:destination)")
+    Long insExercise( String name, String tech_name, String destination);
 
     @Query("Select * FROM dbexercises WHERE id_ex LIKE :id_ex")
     Dbexercises findById(int id_ex);
