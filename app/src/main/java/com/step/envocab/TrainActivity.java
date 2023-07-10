@@ -226,18 +226,25 @@ public class TrainActivity extends BaseActivity {
 
 }
     public void checkTrain(String id,Button btn){
+        btnWord1.setEnabled(false);
+        btnWord2.setEnabled(false);
+        btnWord3.setEnabled(false);
+        btnWord4.setEnabled(false);
 
+        int delay=0;
         if(id_word.equals(id)){
             Log.d(TAG,"Win!!");
             btn.setBackgroundColor(Color.GREEN);
             color=R.color.green;
             checkOk=true;
+            delay=1000;
         }else{
             Log.d(TAG,"Lost!!!");
             btn.setBackgroundColor(Color.RED);
             btnOk.setBackgroundColor(Color.GREEN);
             color=R.color.red;
             checkOk=false;
+            delay=2000;
         }
 
         setColorCounter(checkCounter,color);
@@ -250,7 +257,7 @@ public class TrainActivity extends BaseActivity {
                     makeScreen();
 
                 }
-            }, 1500);
+            }, delay);
 
 
 
@@ -378,6 +385,10 @@ public class TrainActivity extends BaseActivity {
             }, 100);
 
             listCheckWords.clear();
+            btnWord1.setEnabled(true);
+            btnWord2.setEnabled(true);
+            btnWord3.setEnabled(true);
+            btnWord4.setEnabled(true);
 
         }
     }
