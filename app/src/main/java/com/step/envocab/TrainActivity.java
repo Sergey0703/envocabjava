@@ -15,9 +15,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,9 +33,11 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
+    TextToSpeech textToSpeech;
     private int color;
     private String theme = "";
     private String TAG = "Train";
@@ -43,10 +49,12 @@ public class TrainActivity extends BaseActivity {
     private LocalDateTime endOfDate;
     private Long startOfDay;
     private Long endOfDay;
+    private ImageButton btnSoundTr;
     private List<Dbwords> listWords, listCheckWords;
     private TextView textNameTrain, wordTrain, wordTranscript;
     private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
     private boolean checkOk;
+    Animation animAlpha;
     private int offset=0;
 
     private int checkCounter, limit = 10;
@@ -105,6 +113,8 @@ public class TrainActivity extends BaseActivity {
         btnWord3 = findViewById(R.id.btn_word3);
         btnWord4 = findViewById(R.id.btn_word4);
 
+        btnSoundTr=findViewById(R.id.btn_sound_tr);
+
         countIm1 = (ImageView) findViewById(R.id.count1);
         countIm2 = (ImageView) findViewById(R.id.count2);
         countIm3 = (ImageView) findViewById(R.id.count3);
@@ -116,6 +126,14 @@ public class TrainActivity extends BaseActivity {
         countIm9 = (ImageView) findViewById(R.id.count9);
         countIm10 = (ImageView) findViewById(R.id.count10);
 
+        btnSoundTr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                view.startAnimation(animAlpha);
+                playSpeech(wordTrain.getText().toString());
+            }
+        });
 
         checkCounter = 0;
         btnWord1.setOnClickListener(new View.OnClickListener() {
@@ -150,8 +168,23 @@ public class TrainActivity extends BaseActivity {
                 checkTrain(id_word4, btnWord4);
             }
         });
+        animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
 
+                // if No error is found then only it will run
+                if (i != TextToSpeech.ERROR) {
+                    // To Choose language of speech
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
         startTrain();
+    }
+
+    public void playSpeech(String txtSpeech) {
+        textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public void setColorCounter(int checkCounter, int color){
@@ -215,10 +248,9 @@ public class TrainActivity extends BaseActivity {
                 @Override
                 public void run() {
                     makeScreen();
-                   // btn.setBackgroundColor(Color.WHITE);
-                   // btnOk.setBackgroundColor(Color.WHITE);
+
                 }
-            }, 1000);
+            }, 1500);
 
 
 
@@ -233,7 +265,7 @@ public class TrainActivity extends BaseActivity {
                 checkCounter=0;
 
                 }
-            }, 1000);
+            }, 2000);
         }
     }
 
@@ -332,6 +364,18 @@ public class TrainActivity extends BaseActivity {
             btnWord4.setText(listCheckWords.get(3).getTranslate());
             btnWord4.setBackgroundColor(Color.WHITE);
             id_word4=String.valueOf(listCheckWords.get(3).getId());
+
+            btnSoundTr.performClick();
+            btnSoundTr.setPressed(true);
+            btnSoundTr.invalidate();
+            // delay completion till animation completes
+            btnSoundTr.postDelayed(new Runnable() {  //delay button
+                public void run() {
+                    btnSoundTr.setPressed(false);
+                    btnSoundTr.invalidate();
+                    //any other associated action
+                }
+            }, 100);
 
             listCheckWords.clear();
 

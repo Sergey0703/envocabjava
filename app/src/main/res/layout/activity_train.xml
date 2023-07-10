@@ -30,7 +30,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/red_color_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             />
         <TextView
             android:id="@+id/word_train"
@@ -48,32 +48,46 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/blue_color2_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="100dp"
             />
+        <ImageButton
+            android:id="@+id/btn_sound_tr"
+            android:layout_width="100dp"
+            android:layout_height="86dp"
+
+            android:background="@drawable/sound_br22"
+            android:contentDescription="Speech word"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicators"
+            ></ImageButton>
+
         <TextView
             android:id="@+id/word_transcript"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textSize="18sp"
-
-            app:layout_constraintTop_toBottomOf="@id/indicators"
-            app:layout_constraintLeft_toLeftOf="parent"
-
-            app:layout_constraintRight_toRightOf="parent"
-            android:textColor="@color/blue_color2_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="0dp"
-            />
+            android:text=""
+            android:textColor="@color/blue_color2_font2"
+
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/word_train" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/indicators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/word_train"
+            app:layout_constraintTop_toBottomOf="@id/word_transcript"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"
             android:padding="5dp">
             <ImageView
                 android:id="@+id/count1"
