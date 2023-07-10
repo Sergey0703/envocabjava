@@ -1,9 +1,14 @@
 package com.step.envocab;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,6 +18,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.time.LocalDate;
@@ -26,20 +32,24 @@ import java.util.List;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
-    private String theme="";
-    private String TAG="Train";
-    private String id_word="", id_word1, id_word2, id_word3, id_word4;
-    private Button btnWord1, btnWord2, btnWord3, btnWord4;
-    private String passedDestination="", passedTechName="", passedName="";
+    private int color;
+    private String theme = "";
+    private String TAG = "Train";
+    private String id_word = "", id_word1, id_word2, id_word3, id_word4;
+    private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk;
+    private String passedDestination = "", passedTechName = "", passedName = "";
     private LocalDate today, dateList;
     private LocalDateTime startOfDate;
     private LocalDateTime endOfDate;
     private Long startOfDay;
     private Long endOfDay;
     private List<Dbwords> listWords, listCheckWords;
-    TextView textNameTrain, wordTrain, wordTranscript;
+    private TextView textNameTrain, wordTrain, wordTranscript;
+    private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
+    private boolean checkOk;
+    private int offset=0;
 
-    private int checkCounter, limit=10;
+    private int checkCounter, limit = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +57,14 @@ public class TrainActivity extends BaseActivity {
         SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
         Boolean s1 = sh.getBoolean("themeApp", true);
 
-        if(s1) {
+        if (s1) {
             setContentView(R.layout.activity_train);
             //layoutIdForListItem=R.layout.exercises_roster_item2;
-            theme="light";
-        }else{
+            theme = "light";
+        } else {
             setContentView(R.layout.activity_train);
             //layoutIdForListItem=R.layout.exercises_roster_item2;
-            theme="dark";
+            theme = "dark";
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_toolbar);
@@ -70,36 +80,49 @@ public class TrainActivity extends BaseActivity {
             }
         });
 
-        Log.d(TAG,"start!!");
-        Intent intent =getIntent();
+        Log.d(TAG, "start!!");
+        Intent intent = getIntent();
 
-        if(intent.getExtras()!=null){
+        if (intent.getExtras() != null) {
             Bundle extras = intent.getExtras();
-            passedName=extras.getString("passedName");
-            passedTechName=extras.getString("passedTechName");
-            passedDestination=extras.getString("passedDestination");
+            passedName = extras.getString("passedName");
+            passedTechName = extras.getString("passedTechName");
+            passedDestination = extras.getString("passedDestination");
 //            passedId=intent.getStringExtra("data");
 //            passedName=intent.getStringExtra("passedName");
-            Log.d(TAG,"pass="+passedTechName+" "+passedDestination );
+            Log.d(TAG, "pass=" + passedTechName + " " + passedDestination);
         }
         today = LocalDate.now();
         dateList = today;
-        textNameTrain=findViewById(R.id.text_name_train);
-        passedName = passedName.substring(0, 1).toUpperCase() + passedName.substring(1);
+        textNameTrain = findViewById(R.id.text_name_train);
+        passedName = '"'+passedName.substring(0, 1).toUpperCase() + passedName.substring(1)+'"';
         textNameTrain.setText(passedName);
 
-        wordTrain=findViewById(R.id.word_train);
-        wordTranscript=findViewById(R.id.word_transcript);
+        wordTrain = findViewById(R.id.word_train);
+        wordTranscript = findViewById(R.id.word_transcript);
         btnWord1 = findViewById(R.id.btn_word1);
         btnWord2 = findViewById(R.id.btn_word2);
         btnWord3 = findViewById(R.id.btn_word3);
         btnWord4 = findViewById(R.id.btn_word4);
-        checkCounter=0;
+
+        countIm1 = (ImageView) findViewById(R.id.count1);
+        countIm2 = (ImageView) findViewById(R.id.count2);
+        countIm3 = (ImageView) findViewById(R.id.count3);
+        countIm4 = (ImageView) findViewById(R.id.count4);
+        countIm5 = (ImageView) findViewById(R.id.count5);
+        countIm6 = (ImageView) findViewById(R.id.count6);
+        countIm7 = (ImageView) findViewById(R.id.count7);
+        countIm8 = (ImageView) findViewById(R.id.count8);
+        countIm9 = (ImageView) findViewById(R.id.count9);
+        countIm10 = (ImageView) findViewById(R.id.count10);
+
+
+        checkCounter = 0;
         btnWord1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // view.startAnimation(animAlpha);
-                Log.d(TAG,"btn1");
+                // view.startAnimation(animAlpha);
+                Log.d(TAG, "btn1");
                 checkTrain(id_word1, btnWord1);
             }
         });
@@ -107,7 +130,7 @@ public class TrainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // view.startAnimation(animAlpha);
-                Log.d(TAG,"btn2");
+                Log.d(TAG, "btn2");
                 checkTrain(id_word2, btnWord2);
             }
         });
@@ -115,7 +138,7 @@ public class TrainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // view.startAnimation(animAlpha);
-                Log.d(TAG,"btn3");
+                Log.d(TAG, "btn3");
                 checkTrain(id_word3, btnWord3);
             }
         });
@@ -123,28 +146,77 @@ public class TrainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 // view.startAnimation(animAlpha);
-                Log.d(TAG,"btn4");
-                checkTrain(id_word4,btnWord4);
+                Log.d(TAG, "btn4");
+                checkTrain(id_word4, btnWord4);
             }
         });
 
         startTrain();
     }
+
+    public void setColorCounter(int checkCounter, int color){
+        Log.d(TAG,"color="+String.valueOf(color));
+    switch(checkCounter)
+
+    {
+        case 0:
+            countIm1.setColorFilter(getResources().getColor(color));
+            break;
+        case 1:
+            countIm2.setColorFilter(getResources().getColor(color));
+            break;
+        case 2:
+            countIm3.setColorFilter(getResources().getColor(color));
+            break;
+        case 3:
+            countIm4.setColorFilter(getResources().getColor(color));
+            break;
+        case 4:
+            countIm5.setColorFilter(getResources().getColor(color));
+            break;
+        case 5:
+            countIm6.setColorFilter(getResources().getColor(color));
+            break;
+        case 6:
+            countIm7.setColorFilter(getResources().getColor(color));
+            break;
+        case 7:
+            countIm8.setColorFilter(getResources().getColor(color));
+            break;
+        case 8:
+            countIm9.setColorFilter(getResources().getColor(color));
+            break;
+        case 9:
+            countIm10.setColorFilter(getResources().getColor(color));
+            break;
+    }
+
+}
     public void checkTrain(String id,Button btn){
+
         if(id_word.equals(id)){
             Log.d(TAG,"Win!!");
             btn.setBackgroundColor(Color.GREEN);
+            color=R.color.green;
+            checkOk=true;
         }else{
             Log.d(TAG,"Lost!!!");
             btn.setBackgroundColor(Color.RED);
+            btnOk.setBackgroundColor(Color.GREEN);
+            color=R.color.red;
+            checkOk=false;
         }
+
+        setColorCounter(checkCounter,color);
+
         checkCounter++;
         if(checkCounter<limit){
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     makeScreen();
-                    btn.setBackgroundColor(Color.WHITE);
+                   // btn.setBackgroundColor(Color.WHITE);
+                   // btnOk.setBackgroundColor(Color.WHITE);
                 }
             }, 1000);
 
@@ -153,6 +225,15 @@ public class TrainActivity extends BaseActivity {
         }else{
             //checkCounter=0;
             Log.d(TAG,"Game over!!!");
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                showSimpleDialog(limit);
+                btn.setBackgroundColor(Color.WHITE);
+                checkCounter=0;
+
+                }
+            }, 1000);
         }
     }
 
@@ -181,10 +262,10 @@ public class TrainActivity extends BaseActivity {
 //                            .wordsForListAll(startOfDay, endOfDay);
 //
 //                } else {
-                    Log.d(TAG, "Only BAD!!!!");
+                    //Log.d(TAG, "Only BAD!!!!");
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .wordsForListLimit(startOfDay, endOfDay, 0,limit);
+                            .wordsForListLimit(limit, offset);
                     //.wordsForListAllTest();
 //
 //                }
@@ -221,6 +302,15 @@ public class TrainActivity extends BaseActivity {
             Collections.shuffle(listCheckWords);
             //new Random().nextInt((max - min) + 1) + min
             int id_random= getRandom(0,3);
+            if(id_random==0){
+                btnOk=btnWord1;
+            }else if(id_random==1){
+                btnOk=btnWord2;
+            } else if(id_random==2){
+            btnOk=btnWord3;
+            }else if(id_random==3){
+                btnOk=btnWord4;
+            }
 
 
 
@@ -228,20 +318,67 @@ public class TrainActivity extends BaseActivity {
             listCheckWords.set(id_random,listWords.get(checkCounter));
 
             btnWord1.setText(listCheckWords.get(0).getTranslate());
+            btnWord1.setBackgroundColor(Color.WHITE);
             id_word1=String.valueOf(listCheckWords.get(0).getId());
 
             btnWord2.setText(listCheckWords.get(1).getTranslate());
+            btnWord2.setBackgroundColor(Color.WHITE);
             id_word2=String.valueOf(listCheckWords.get(1).getId());
 
             btnWord3.setText(listCheckWords.get(2).getTranslate());
+            btnWord3.setBackgroundColor(Color.WHITE);
             id_word3=String.valueOf(listCheckWords.get(2).getId());
 
             btnWord4.setText(listCheckWords.get(3).getTranslate());
+            btnWord4.setBackgroundColor(Color.WHITE);
             id_word4=String.valueOf(listCheckWords.get(3).getId());
 
             listCheckWords.clear();
 
         }
+    }
+
+    private void showSimpleDialog(int position){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        //builder.setMessage("Do you want to delete this word from group?");
+        //Setting message manually and performing action on button click
+        builder.setMessage("Do you want to continue this exercise?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'Yes' Button
+                        for(int i=0; i<limit; i++) {
+                            setColorCounter(i, R.color.yellow);
+                        }
+                        offset=offset+limit;
+                       // makeScreen();
+                        startTrain();
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'No' Button
+                        //Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        Intent intent = new Intent(TrainActivity.this, ExercisesActivity.class);
+//                        Bundle extras = new Bundle();
+//                        extras.putString("passedName",name);
+//                        extras.putString("passedTechName",techName);
+//                        extras.putString("passedDestination",destination);
+//
+//
+//                        intent.putExtras(extras);
+                        startActivity(intent);
+                      //  return;
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("");
+        alert.show();
     }
     private int getRandom(int min, int max) {
 

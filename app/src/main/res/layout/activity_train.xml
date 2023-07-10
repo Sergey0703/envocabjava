@@ -58,14 +58,114 @@
             android:textStyle="bold"
             android:textSize="18sp"
 
-            app:layout_constraintTop_toBottomOf="@id/word_train"
+            app:layout_constraintTop_toBottomOf="@id/indicators"
             app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/blue_color2_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/indicators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/word_train"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="5dp">
+            <ImageView
+                android:id="@+id/count1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+            />
+            <ImageView
+                android:id="@+id/count2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count1"
+                />
+            <ImageView
+                android:id="@+id/count3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count2"
+                />
+            <ImageView
+                android:id="@+id/count4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count3"
+                />
+            <ImageView
+                android:id="@+id/count5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count4"
+                />
+            <ImageView
+                android:id="@+id/count6"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count5"
+                />
+            <ImageView
+                android:id="@+id/count7"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count6"
+                />
+            <ImageView
+                android:id="@+id/count8"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count7"
+                />
+            <ImageView
+                android:id="@+id/count9"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count8"
+                />
+            <ImageView
+                android:id="@+id/count10"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/red_circle"
+                android:padding="5dp"
+                app:tint="@color/yellow"
+                app:layout_constraintLeft_toRightOf="@id/count9"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_word1"
