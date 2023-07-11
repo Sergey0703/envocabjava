@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
-        tools:context="com.step.envocab.TrainActivity">
+        tools:context="com.step.envocab.TrainActivityL">
 
         <TextView
             android:id="@+id/text_name_train"
@@ -51,6 +51,19 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="100dp"
             />
+        <LinearLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/layout_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/text_name_train"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
+        </LinearLayout>
         <ImageButton
             android:id="@+id/btn_sound_tr"
             android:layout_width="100dp"
@@ -88,6 +101,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="5dp"
+            android:visibility="visible"
             android:padding="5dp">
             <ImageView
                 android:id="@+id/count1"
@@ -96,7 +110,7 @@
                 app:srcCompat="@drawable/red_circle"
                 android:padding="5dp"
                 app:tint="@color/yellow"
-            />
+                />
             <ImageView
                 android:id="@+id/count2"
                 android:layout_width="24dp"
@@ -179,6 +193,19 @@
                 app:layout_constraintLeft_toRightOf="@id/count9"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/layout_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/btn_sound_tr"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
+        </LinearLayout>
 
 
         <com.google.android.material.button.MaterialButton
@@ -203,6 +230,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_word2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_word2"
@@ -221,6 +249,7 @@
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
             android:padding="10dp"
+            android:visibility="invisible"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word3"
@@ -244,6 +273,7 @@
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
             android:padding="10dp"
+            android:visibility="invisible"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word4"
@@ -268,6 +298,7 @@
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
             android:padding="10dp"
+            android:visibility="invisible"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toBottomOf="parent"

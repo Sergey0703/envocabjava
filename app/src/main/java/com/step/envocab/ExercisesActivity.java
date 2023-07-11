@@ -122,7 +122,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position)  {
         int top = position;
         Log.d(TAG, "position=" + top);
         View v = layoutManager.findViewByPosition(top);
@@ -135,21 +135,29 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
         TextView textDestination
                 = (TextView) v.findViewById(R.id.text_destination);
         String destination=String.valueOf(textDestination.getText());
+        destination="TrainActivityL";
 
         TextView textTechName
                 = (TextView) v.findViewById(R.id.tv_holder_tech_name);
         String techName=String.valueOf(textTechName.getText());
+
         Log.d(TAG,String.valueOf(textName.getText())+" destination="+destination+" tech_name="+techName);
+        Intent intent;
+            if(techName.equals("pickaword")||techName.equals("heartheword")) {
+                 intent = new Intent(ExercisesActivity.this, TrainActivity.class);
+            }else{
+                 intent = new Intent(ExercisesActivity.this, TrainActivityL.class);
+            }
+            Bundle extras = new Bundle();
+            extras.putString("passedName", name);
+            extras.putString("passedTechName", techName);
+            extras.putString("passedDestination", destination);
 
-        Intent intent = new Intent(ExercisesActivity.this, TrainActivity.class);
-        Bundle extras = new Bundle();
-        extras.putString("passedName",name);
-        extras.putString("passedTechName",techName);
-        extras.putString("passedDestination",destination);
-
-        //startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
-        intent.putExtras(extras);
-        startActivity(intent);
+            //startActivity(new Intent(GroupActivity.this,GroupWordsActivity.class).putExtra("data",id));
+            intent.putExtras(extras);
+            startActivity(intent);
+//        }catch (ClassNotFoundException ignored) {
+//        }
 
     }
 

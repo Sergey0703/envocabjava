@@ -46,7 +46,8 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         //holder.bind(position);
         Dbexercises exercise = exercisesList.get(position);
-        holder.listItemNumberView.setText(exercise.getName());
+       // holder.listItemNumberView.setText(exercise.getName());
+        holder.listItemNumberView.setText(exercise.getName().substring(0, 1).toUpperCase() + exercise.getName().substring(1));
         holder.id_item.setText(String.valueOf(exercise.getId_ex()));
         holder.tech_name.setText(String.valueOf(exercise.getTech_name()));
         holder.destination.setText(String.valueOf(exercise.getDestination()));
@@ -87,9 +88,13 @@ public class ExercisesRosterAdapter extends RecyclerView.Adapter<ExercisesRoster
                     if (exerciseRosterInterface != null) {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
-
+                            try {
+                                exerciseRosterInterface.onItemClick(pos);
+                            } catch (ClassNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
                             //v.startAnimation(animAlpha);
-                            exerciseRosterInterface.onItemClick(pos);
+                        //    exerciseRosterInterface.onItemClick(pos);
                             //Log.d("TAG",id);
                         }
                     }

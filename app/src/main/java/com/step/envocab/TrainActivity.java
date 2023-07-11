@@ -231,6 +231,11 @@ public class TrainActivity extends BaseActivity {
         btnWord3.setEnabled(false);
         btnWord4.setEnabled(false);
 
+        if(passedTechName.equals("heartheword")){
+            wordTrain.setVisibility(View.VISIBLE);
+            wordTranscript.setVisibility(View.VISIBLE);
+        }
+
         int delay=0;
         if(id_word.equals(id)){
             Log.d(TAG,"Win!!");
@@ -332,6 +337,10 @@ public class TrainActivity extends BaseActivity {
 
             //listCheckWords.addAll(listWords);
             listCheckWords = new ArrayList<>(listWords);
+            if(passedTechName.equals("heartheword")){
+                wordTrain.setVisibility(View.INVISIBLE);
+                wordTranscript.setVisibility(View.INVISIBLE);
+            }
             wordTrain.setText(listWords.get(checkCounter).getWord());
             Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
             wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
