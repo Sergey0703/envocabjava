@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/green_background2"
+    android:background="@drawable/gradient_blue"
     >
     <!--android:background="@drawable/green_background2"-->
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar2"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -205,7 +205,7 @@
             android:layout_width="100dp"
             android:layout_height="86dp"
 
-            android:background="@drawable/sound_br4"
+            android:background="@drawable/sound_br22"
             android:contentDescription="Speech word"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
@@ -347,8 +347,8 @@
 
             android:textColor="@color/white"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:backgroundTint="@color/main_green"
-            app:strokeColor="@color/yellow"
+            android:backgroundTint="@color/blue_color2_font2"
+            app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
             android:padding="10dp"

@@ -3,7 +3,9 @@ package com.step.envocab;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -32,7 +34,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
-    TextToSpeech textToSpeech;
+    private TextToSpeech textToSpeech;
+    private List<String> letters, lettersW;
     private int color;
     private LinearLayout layoutL, layoutW;
     private String theme = "";
@@ -42,11 +45,12 @@ public class TrainActivityL extends BaseActivity {
     private List<Dbwords> listWords, listCheckWords;
     private int offset=0;
     private TextView textMess;
+    private Button btnSkip;
     private ImageButton btnSoundTr;
     private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
 
     private int checkCounter, limit = 10;
-    //private List<String> lettersWord=new ArrayList<>();
+
     private List<Button> lettersWord=new ArrayList<>();
     private List<Button> lettersButton=new ArrayList<>();
     Animation animAlpha;
@@ -113,6 +117,58 @@ public class TrainActivityL extends BaseActivity {
         countIm8 = (ImageView) findViewById(R.id.count8);
         countIm9 = (ImageView) findViewById(R.id.count9);
         countIm10 = (ImageView) findViewById(R.id.count10);
+
+        btnSkip = findViewById(R.id.btn_word_skip);
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(btnSkip.getText().equals("Next")||btnSkip.getText().equals("NEXT")) {
+                btnSkip.setText("I don't know");
+
+                for(Button b2: lettersWord){
+                    ViewGroup layout = (ViewGroup) b2.getParent();
+                    if(null!=layout) //for safety only  as you are doing onClick
+                        layout.removeView(b2);
+                }
+                lettersWord.clear();
+
+
+                for(Button b3: lettersButton){
+                    ViewGroup layout = (ViewGroup) b3.getParent();
+                    if(null!=layout) //for safety only  as you are doing onClick
+                        layout.removeView(b3);
+                }
+                lettersButton.clear();
+                letters.clear();
+                lettersW.clear();
+
+                //makeScreenL();
+                checkCounter++;
+                if(checkCounter<limit){
+                    Log.d(TAG,"ch0="+checkCounter);
+
+                    makeScreenL();
+
+                }else{
+                    checkCounter=0;
+                    showSimpleDialog(limit);
+                    //btn.setBackgroundColor(Color.WHITE);
+
+                }
+            }else{
+                color = R.color.red;
+                setColorCounter(checkCounter, color);
+               // checkCounter++;
+                int jj=0;
+                for(Button b: lettersWord){
+                    b.setText(lettersW.get(jj));
+                    jj++;
+                }
+                btnSkip.setText("NEXT");
+            }
+        }
+        });
 
         btnSoundTr=findViewById(R.id.btn_sound_tr);
 
@@ -194,22 +250,23 @@ public class TrainActivityL extends BaseActivity {
 
             //listCheckWords.addAll(listWords);
             listCheckWords = new ArrayList<>(listWords);
-            if(passedTechName.equals("collecttheword")){
+          //  if(passedTechName.equals("collecttheword")){
                 wordTrain.setVisibility(View.INVISIBLE);
                 wordTranscript.setVisibility(View.INVISIBLE);
-            }
+         //   }
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
             Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
             wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
 
-            List<String> letters=new ArrayList<>();
+            letters=new ArrayList<>();
 
 
             for (int i = 0; i < wordTrainText.length(); i++) {
                 letters.add(String.valueOf(wordTrainText.charAt(i)));
             }
 
+            lettersW = new ArrayList<>(letters);
             int longLetters=letters.size();
             int rowX=0;
             double rowY=0;
@@ -340,45 +397,46 @@ public class TrainActivityL extends BaseActivity {
               wordC=wordC+l;
               Log.d(TAG,"WordC="+wordC);
               if(wordC.equals(wordTrain.getText())){
-                  btnSoundTr.performClick();
-                  btnSoundTr.setPressed(true);
-                  btnSoundTr.invalidate();
-                  // delay completion till animation completes
-                  btnSoundTr.postDelayed(new Runnable() {  //delay button
-                      public void run() {
-                          btnSoundTr.setPressed(false);
-                          btnSoundTr.invalidate();
-                          //any other associated action
-                      }
-                  }, 100);
+//                  btnSoundTr.performClick();
+//                  btnSoundTr.setPressed(true);
+//                  btnSoundTr.invalidate();
+//                  // delay completion till animation completes
+//                  btnSoundTr.postDelayed(new Runnable() {  //delay button
+//                      public void run() {
+//                          btnSoundTr.setPressed(false);
+//                          btnSoundTr.invalidate();
+//                          //any other associated action
+//                      }
+//                  }, 100);
                   Log.d(TAG,"Win!!!");
                   color=R.color.green;
                   setColorCounter(checkCounter,color);
-                  checkCounter++;
-                  /////////////////////////
-                  if(checkCounter<limit) {
-
-                      for(Button b3: lettersButton){
-                          ViewGroup layout = (ViewGroup) b3.getParent();
-                          if(null!=layout) //for safety only  as you are doing onClick
-                              layout.removeView(b3);
-                      }
-
-                      lettersButton.clear();
-                      new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                          @Override
-                          public void run() {
-                              for(Button b2: lettersWord){
-                                  ViewGroup layout = (ViewGroup) b2.getParent();
-                                  if(null!=layout) //for safety only  as you are doing onClick
-                                      layout.removeView(b2);
-                              }
-                              lettersWord.clear();
-                              makeScreenL();
-
-                          }
-                      }, 1000);
-                  }
+                  btnSkip.setText("NEXT");
+//                  checkCounter++;
+//                  /////////////////////////
+//                  if(checkCounter<limit) {
+//
+//                      for(Button b3: lettersButton){
+//                          ViewGroup layout = (ViewGroup) b3.getParent();
+//                          if(null!=layout) //for safety only  as you are doing onClick
+//                              layout.removeView(b3);
+//                      }
+//
+//                      lettersButton.clear();
+//                      new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                          @Override
+//                          public void run() {
+//                              for(Button b2: lettersWord){
+//                                  ViewGroup layout = (ViewGroup) b2.getParent();
+//                                  if(null!=layout) //for safety only  as you are doing onClick
+//                                      layout.removeView(b2);
+//                              }
+//                              lettersWord.clear();
+//                              makeScreenL();
+//
+//                          }
+//                      }, 1000);
+//                  }
 
                       ///////////////////////////
               }else{
@@ -406,6 +464,49 @@ public class TrainActivityL extends BaseActivity {
                 break;
             }
         }
+    }
+
+    private void showSimpleDialog(int position){
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        //builder.setMessage("Do you want to delete this word from group?");
+        //Setting message manually and performing action on button click
+        builder.setMessage("Do you want to continue this exercise?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'Yes' Button
+                        for(int i=0; i<limit; i++) {
+                            setColorCounter(i, R.color.yellow);
+                        }
+                        offset=offset+limit;
+                        // makeScreen();
+                        startTrain();
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'No' Button
+                        //Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        Intent intent = new Intent(TrainActivityL.this, ExercisesActivity.class);
+//                        Bundle extras = new Bundle();
+//                        extras.putString("passedName",name);
+//                        extras.putString("passedTechName",techName);
+//                        extras.putString("passedDestination",destination);
+//
+//
+//                        intent.putExtras(extras);
+                        startActivity(intent);
+                        //  return;
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("");
+        alert.show();
     }
 
     public void setColorCounter(int checkCounter, int color){

@@ -38,12 +38,12 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
         Boolean s1 = sh.getBoolean("themeApp", true);
 
         if(s1) {
-            setContentView(R.layout.activity_exercises);
+            setContentView(R.layout.activity_exercises2);
             layoutIdForListItem=R.layout.exercises_roster_item2;
             theme="light";
         }else{
             setContentView(R.layout.activity_exercises);
-            layoutIdForListItem=R.layout.exercises_roster_item2;
+            layoutIdForListItem=R.layout.exercises_roster_item;
             theme="dark";
         }
 

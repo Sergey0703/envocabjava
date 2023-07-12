@@ -11,7 +11,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -67,7 +69,7 @@ public class TrainActivity extends BaseActivity {
         Boolean s1 = sh.getBoolean("themeApp", true);
 
         if (s1) {
-            setContentView(R.layout.activity_train);
+            setContentView(R.layout.activity_train2);
             //layoutIdForListItem=R.layout.exercises_roster_item2;
             theme = "light";
         } else {
@@ -426,7 +428,14 @@ public class TrainActivity extends BaseActivity {
             Log.d(TAG, "id_random="+String.valueOf(id_random)+" checkCounter="+checkCounter+" word="+listWords.get(checkCounter).getWord());
             listCheckWords.set(id_random,listWords.get(checkCounter));
 
+           // val csl = ColorStateList.valueOf("#ffffff");
+           // my_button.strokeColor = csl
+
             btnWord1.setText(listCheckWords.get(0).getTranslate());
+            //btnWord1.setStroke(2, Color.WHITE);
+            //btnWord1.setStrokeColor(ContextCompat.getColor(this, R.color.your_color_xml));
+//            ShapeDrawable gradientDrawable = (ShapeDrawable)btnWord1.getBackground();
+//            gradientDrawable.setStroke(2, your_color);
             btnWord1.setBackgroundColor(Color.WHITE);
             id_word1=String.valueOf(listCheckWords.get(0).getId());
 
