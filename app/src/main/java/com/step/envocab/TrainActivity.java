@@ -39,10 +39,11 @@ import java.util.Random;
 public class TrainActivity extends BaseActivity {
     TextToSpeech textToSpeech;
     private int color;
+    private int id_random;
     private String theme = "";
     private String TAG = "Train";
     private String id_word = "", id_word1, id_word2, id_word3, id_word4;
-    private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk;
+    private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk, btnSkip;
     private String passedDestination = "", passedTechName = "", passedName = "";
     private LocalDate today, dateList;
     private LocalDateTime startOfDate;
@@ -112,6 +113,7 @@ public class TrainActivity extends BaseActivity {
         btnWord2 = findViewById(R.id.btn_word2);
         btnWord3 = findViewById(R.id.btn_word3);
         btnWord4 = findViewById(R.id.btn_word4);
+        btnSkip = findViewById(R.id.btn_word_skip);
 
         btnSoundTr=findViewById(R.id.btn_sound_tr);
 
@@ -166,6 +168,61 @@ public class TrainActivity extends BaseActivity {
                 // view.startAnimation(animAlpha);
                 Log.d(TAG, "btn4");
                 checkTrain(id_word4, btnWord4);
+            }
+        });
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // view.startAnimation(animAlpha);
+                Log.d(TAG, "btnSkip!="+btnSkip.getText());
+
+                //checkTrain(id_word1, btnWord1);
+                if(btnSkip.getText().equals("Next")||btnSkip.getText().equals("NEXT")){
+                    Log.d(TAG,"NEXT! "+checkCounter+" "+limit);
+
+                        Log.d(TAG,"makeScreen");
+                        checkCounter++;
+                    if(checkCounter<limit){
+                        Log.d(TAG,"ch0="+checkCounter);
+                        makeScreen();
+
+                    }else{
+                        checkCounter=0;
+                        showSimpleDialog(limit);
+                        //btn.setBackgroundColor(Color.WHITE);
+
+
+                    }
+                }else{
+                    //makeScreen();
+                    btnSkip.setText("NEXT");
+                    Log.d(TAG,"ch="+checkCounter);
+                    setColorCounter(checkCounter, R.color.red);
+                    wordTrain.setVisibility(View.VISIBLE);
+                    wordTranscript.setVisibility(View.VISIBLE);
+                    btnWord1.setEnabled(false);
+                    btnWord1.setAlpha(0.7f);
+
+                    btnWord2.setEnabled(false);
+                    btnWord2.setAlpha(0.7f);
+
+                    btnWord3.setEnabled(false);
+                    btnWord3.setAlpha(0.7f);
+
+                    btnWord4.setEnabled(false);
+                    btnWord4.setAlpha(0.7f);
+                    if(id_random==0){
+                        btnWord1.setBackgroundColor(Color.GREEN);
+                    }else if(id_random==1){
+                        btnWord2.setBackgroundColor(Color.GREEN);
+                    } else if(id_random==2){
+                        btnWord3.setBackgroundColor(Color.GREEN);
+                    }else if(id_random==3){
+                        btnWord4.setBackgroundColor(Color.GREEN);
+                    }
+
+
+                }
             }
         });
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
@@ -231,6 +288,11 @@ public class TrainActivity extends BaseActivity {
         btnWord3.setEnabled(false);
         btnWord4.setEnabled(false);
 
+        btnWord1.setAlpha(0.7f);
+        btnWord2.setAlpha(0.7f);
+        btnWord3.setAlpha(0.7f);
+        btnWord4.setAlpha(0.7f);
+
         if(passedTechName.equals("heartheword")){
             wordTrain.setVisibility(View.VISIBLE);
             wordTranscript.setVisibility(View.VISIBLE);
@@ -254,18 +316,16 @@ public class TrainActivity extends BaseActivity {
 
         setColorCounter(checkCounter,color);
 
-        checkCounter++;
+        //checkCounter++;
+        btnSkip.setText("NEXT");
+        /*
         if(checkCounter<limit){
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     makeScreen();
-
                 }
             }, delay);
-
-
-
         }else{
             //checkCounter=0;
             Log.d(TAG,"Game over!!!");
@@ -275,10 +335,9 @@ public class TrainActivity extends BaseActivity {
                 showSimpleDialog(limit);
                 btn.setBackgroundColor(Color.WHITE);
                 checkCounter=0;
-
                 }
             }, 2000);
-        }
+        } */
     }
 
     public void startTrain(){
@@ -332,6 +391,7 @@ public class TrainActivity extends BaseActivity {
 
     public void makeScreen(){
         if (listWords.size() != 0) {
+            btnSkip.setText("I don't know");
             //listCheckWords=listWords;
             //Collections.copy(listCheckWords, listWords);
 
@@ -341,6 +401,7 @@ public class TrainActivity extends BaseActivity {
                 wordTrain.setVisibility(View.INVISIBLE);
                 wordTranscript.setVisibility(View.INVISIBLE);
             }
+            Log.d(TAG,"Err="+checkCounter);
             wordTrain.setText(listWords.get(checkCounter).getWord());
             Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
             wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
@@ -349,7 +410,7 @@ public class TrainActivity extends BaseActivity {
 
             Collections.shuffle(listCheckWords);
             //new Random().nextInt((max - min) + 1) + min
-            int id_random= getRandom(0,3);
+            id_random= getRandom(0,3);
             if(id_random==0){
                 btnOk=btnWord1;
             }else if(id_random==1){
@@ -395,9 +456,13 @@ public class TrainActivity extends BaseActivity {
 
             listCheckWords.clear();
             btnWord1.setEnabled(true);
+            btnWord1.setAlpha(1);
             btnWord2.setEnabled(true);
+            btnWord2.setAlpha(1);
             btnWord3.setEnabled(true);
+            btnWord3.setAlpha(1);
             btnWord4.setEnabled(true);
+            btnWord4.setAlpha(1);
 
         }
     }

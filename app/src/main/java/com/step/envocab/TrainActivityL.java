@@ -41,6 +41,7 @@ public class TrainActivityL extends BaseActivity {
     private TextView textNameTrain, wordTrain, wordTranscript;
     private List<Dbwords> listWords, listCheckWords;
     private int offset=0;
+    private TextView textMess;
     private ImageButton btnSoundTr;
     private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
 
@@ -100,6 +101,7 @@ public class TrainActivityL extends BaseActivity {
 
         wordTrain = findViewById(R.id.word_train);
         wordTranscript = findViewById(R.id.word_transcript);
+        textMess=findViewById(R.id.text_mess);
 
         countIm1 = (ImageView) findViewById(R.id.count1);
         countIm2 = (ImageView) findViewById(R.id.count2);
@@ -122,6 +124,7 @@ public class TrainActivityL extends BaseActivity {
                 playSpeech(wordTrain.getText().toString());
             }
         });
+        btnSoundTr.setEnabled(false);
 
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -210,7 +213,7 @@ public class TrainActivityL extends BaseActivity {
             int longLetters=letters.size();
             int rowX=0;
             double rowY=0;
-            double inRow=6;
+            double inRow=7;
             if(longLetters<=inRow){
                rowX= longLetters;
                rowY=1;
@@ -227,16 +230,16 @@ public class TrainActivityL extends BaseActivity {
             for (int i = 0; i < rowY; i++) {
                 LinearLayout row = new LinearLayout(this);
                 row.setLayoutParams(new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        (LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT));
                 // row.setMa
                 for (int j = 0; j < rowX; j++) {
                     Button btnW = new Button(this);
                     btnW.setLayoutParams(new LinearLayout.LayoutParams
-                            (200, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            (150, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                     // LinearLayout.LayoutParams.MATCH_PARENT));
-                    btnW.setTextColor(Color.GREEN);
+                    btnW.setTextColor(Color.BLACK);
                     btnW.setTextSize(20);
                     //btnTag.setText( letters.get(lett));
 
@@ -284,16 +287,16 @@ public class TrainActivityL extends BaseActivity {
             for (int i = 0; i < rowY; i++) {
                 LinearLayout row = new LinearLayout(this);
                 row.setLayoutParams(new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        (LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT));
                // row.setMa
                 for (int j = 0; j < rowX; j++) {
                     Button btnTag = new Button(this);
                     btnTag.setLayoutParams(new LinearLayout.LayoutParams
-                            (200, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            (150, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                     // LinearLayout.LayoutParams.MATCH_PARENT));
-                    btnTag.setTextColor(Color.GREEN);
+                    btnTag.setTextColor(Color.BLACK);
                     btnTag.setTextSize(20);
                     btnTag.setText( letters.get(lett));
                     btnTag.setOnClickListener(new View.OnClickListener() {
@@ -329,6 +332,7 @@ public class TrainActivityL extends BaseActivity {
     public void collectW(String l){
         //lettersWord.add();
         String wordC="";
+
         for(Button b: lettersWord){
             wordC=wordC+b.getText();
           if(b.getText().equals("")){
@@ -377,13 +381,17 @@ public class TrainActivityL extends BaseActivity {
                   }
 
                       ///////////////////////////
+              }else{
+                  if(wordC.length()==wordTrain.getText().length()) {
+                      textMess.setVisibility(View.VISIBLE);
+                  }
               }
               break;
             }
         }
     }
     public void collectL(String l){
-
+        textMess.setVisibility(View.INVISIBLE);
         String wordC="";
         for(Button b: lettersButton){
             //wordC=wordC+b.getText();
