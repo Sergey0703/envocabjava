@@ -64,7 +64,7 @@ public class TrainActivityL extends BaseActivity {
         Boolean s1 = sh.getBoolean("themeApp", true);
 
         if (s1) {
-            setContentView(R.layout.activity_train_l);
+            setContentView(R.layout.activity_train_l2);
             //layoutIdForListItem=R.layout.exercises_roster_item2;
             theme = "light";
         } else {
@@ -125,6 +125,7 @@ public class TrainActivityL extends BaseActivity {
         public void onClick(View view) {
             if(btnSkip.getText().equals("Next")||btnSkip.getText().equals("NEXT")) {
                 btnSkip.setText("I don't know");
+                textMess.setVisibility(View.INVISIBLE);
 
                 for(Button b2: lettersWord){
                     ViewGroup layout = (ViewGroup) b2.getParent();
@@ -159,6 +160,7 @@ public class TrainActivityL extends BaseActivity {
             }else{
                 color = R.color.red;
                 setColorCounter(checkCounter, color);
+                textMess.setVisibility(View.INVISIBLE);
                // checkCounter++;
                 int jj=0;
                 for(Button b: lettersWord){
@@ -397,20 +399,24 @@ public class TrainActivityL extends BaseActivity {
               wordC=wordC+l;
               Log.d(TAG,"WordC="+wordC);
               if(wordC.equals(wordTrain.getText())){
-//                  btnSoundTr.performClick();
-//                  btnSoundTr.setPressed(true);
-//                  btnSoundTr.invalidate();
-//                  // delay completion till animation completes
-//                  btnSoundTr.postDelayed(new Runnable() {  //delay button
-//                      public void run() {
-//                          btnSoundTr.setPressed(false);
-//                          btnSoundTr.invalidate();
-//                          //any other associated action
-//                      }
-//                  }, 100);
+                  btnSoundTr.performClick();
+                  btnSoundTr.setPressed(true);
+                  btnSoundTr.invalidate();
+                  // delay completion till animation completes
+                  btnSoundTr.postDelayed(new Runnable() {  //delay button
+                      public void run() {
+                          btnSoundTr.setPressed(false);
+                          btnSoundTr.invalidate();
+                          //any other associated action
+                      }
+                  }, 100);
                   Log.d(TAG,"Win!!!");
                   color=R.color.green;
                   setColorCounter(checkCounter,color);
+
+                  textMess.setText("Word spelled correctly!");
+                  textMess.setTextColor(color);
+                  textMess.setVisibility(View.VISIBLE);
                   btnSkip.setText("NEXT");
 //                  checkCounter++;
 //                  /////////////////////////
@@ -442,6 +448,8 @@ public class TrainActivityL extends BaseActivity {
               }else{
                   if(wordC.length()==wordTrain.getText().length()) {
                       textMess.setVisibility(View.VISIBLE);
+                      textMess.setText("You made a mistake, try again");
+                      textMess.setTextColor(Color.RED);
                   }
               }
               break;

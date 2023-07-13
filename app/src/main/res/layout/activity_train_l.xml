@@ -202,8 +202,8 @@
 
         <ImageButton
             android:id="@+id/btn_sound_tr"
-            android:layout_width="100dp"
-            android:layout_height="86dp"
+            android:layout_width="90dp"
+            android:layout_height="100dp"
 
             android:background="@drawable/sound_br4"
             android:contentDescription="Speech word"
