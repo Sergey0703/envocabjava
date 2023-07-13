@@ -237,111 +237,54 @@
         </LinearLayout>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_word1"
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_word_w"
+            style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/btn_word_check"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="2dp"
+            android:hint="Input word"
+            app:hintTextAppearance="@style/TextLabel"
 
-            android:fontFamily="sans-serif"
-            android:text="word1"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            app:hintTextColor="@color/orange"
+            app:boxStrokeColor="@color/orange"
+            app:boxBackgroundColor="@color/white"
 
-            android:textColor="@color/blue_color2_font2"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/blue_color2_font2"
-            app:strokeWidth="3dp"
-            app:cornerRadius="20dp"
-            android:padding="10dp"
-
-            android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_word2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:boxBackgroundMode="outline"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             android:visibility="invisible"
-            />
+            >
+            <!--android:textColorHint="@color/black" @+id/word_dialog-->
+            <!-- app:boxBackgroundColor="@color/green"-->
+            <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/word_w"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
+
+                android:textSize="24sp"
+
+                android:inputType="text" />
+            <!--  android:textColor="@color/black" -->
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_word2"
+            android:id="@+id/btn_word_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:fontFamily="sans-serif"
-            android:text="word2"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            android:textColor="@color/blue_color2_font2"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/blue_color2_font2"
-            app:strokeWidth="3dp"
-            app:cornerRadius="20dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-
-            android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_word3"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_word3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="sans-serif"
-            android:text="word3"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            android:textColor="@color/blue_color2_font2"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/blue_color2_font2"
-            app:strokeWidth="3dp"
-            app:cornerRadius="20dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-
-            android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_word4"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_word4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="sans-serif"
-            android:text="word4"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            android:textColor="@color/blue_color2_font2"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@color/blue_color2_font2"
-            app:strokeWidth="3dp"
-            app:cornerRadius="20dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-
-            android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="20dp"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_word_skip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="sans-serif"
-            android:text="I don't know"
+            android:text="Check"
             android:textSize="20sp"
             android:textStyle="bold"
 
@@ -354,10 +297,36 @@
             android:padding="10dp"
 
             android:layout_marginTop="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="20dp"
+            android:visibility="invisible"
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_word_skip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="sans-serif"
+                android:text="I don't know"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                android:textColor="@color/white"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:backgroundTint="@color/blue_color2_font2"
+                app:strokeColor="@color/blue_color2_font2"
+                app:strokeWidth="3dp"
+                app:cornerRadius="20dp"
+                android:padding="10dp"
+
+                android:layout_marginTop="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="20dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>

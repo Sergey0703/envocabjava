@@ -13,16 +13,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,6 +39,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
+    private EditText textEditWord;
+    private TextInputLayout textInputWord;
     private TextToSpeech textToSpeech;
     private List<String> letters, lettersW;
     private int color;
@@ -45,7 +52,7 @@ public class TrainActivityL extends BaseActivity {
     private List<Dbwords> listWords, listCheckWords;
     private int offset=0;
     private TextView textMess;
-    private Button btnSkip;
+    private Button btnSkip, btnCheck;
     private ImageButton btnSoundTr;
     private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
 
@@ -118,56 +125,144 @@ public class TrainActivityL extends BaseActivity {
         countIm9 = (ImageView) findViewById(R.id.count9);
         countIm10 = (ImageView) findViewById(R.id.count10);
 
-        btnSkip = findViewById(R.id.btn_word_skip);
+        textInputWord = findViewById(R.id.text_input_word_w);
+        textEditWord=findViewById(R.id.word_w);
+        textEditWord.addTextChangedListener(new TextWatcher() {
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textMess.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        btnCheck = findViewById(R.id.btn_word_check);
+        if(passedTechName.equals("writeaword")) {
+            textInputWord.setVisibility(View.VISIBLE);
+            btnCheck.setVisibility(View.VISIBLE);
+        }
+
+
+
+
+        btnSkip = findViewById(R.id.btn_word_skip);
+        btnCheck.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "Checkkkk="+wordTrain.getText()+" textEditWord.getText()="+textEditWord.getText());
+            String strWordTrain=String.valueOf(wordTrain.getText()).trim().toLowerCase();
+            String strTextEdit=String.valueOf(textEditWord.getText()).trim().toLowerCase();
+         if(strWordTrain.equals(strTextEdit)){
+             Log.d(TAG, "Win11");
+             color = R.color.green;
+             setColorCounter(checkCounter, color);
+             //textMess.setVisibility(View.INVISIBLE);
+             btnSkip.setText("NEXT");
+
+             wordTrain.setVisibility(View.VISIBLE);
+
+         }else{
+             Log.d(TAG, "Lost11");
+             color = R.color.red;
+             textMess.setText("You made a mistake, try again");
+             textMess.setVisibility(View.VISIBLE);
+         }
+        }
+        });
         btnSkip.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(btnSkip.getText().equals("Next")||btnSkip.getText().equals("NEXT")) {
-                btnSkip.setText("I don't know");
-                textMess.setVisibility(View.INVISIBLE);
+            if (passedTechName.equals("writeaword")) {
+                if (btnSkip.getText().equals("Next") || btnSkip.getText().equals("NEXT")) {
+                    btnSkip.setText("I don't know");
+                    textEditWord.setText("");
+                    btnCheck.setEnabled(true);
+                    btnCheck.setAlpha(1);
 
-                for(Button b2: lettersWord){
-                    ViewGroup layout = (ViewGroup) b2.getParent();
-                    if(null!=layout) //for safety only  as you are doing onClick
-                        layout.removeView(b2);
+                    checkCounter++;
+                    if (checkCounter < limit) {
+                        Log.d(TAG, "ch0=" + checkCounter);
+
+                        makeScreenLW();
+
+                    } else {
+                        checkCounter = 0;
+                        showSimpleDialog(limit);
+                        //btn.setBackgroundColor(Color.WHITE);
+
+                    }
+
+                }else {
+                    btnCheck.setEnabled(false);
+                    btnCheck.setAlpha(0.6f);
+                    color = R.color.red;
+                    setColorCounter(checkCounter, color);
+                    textMess.setVisibility(View.INVISIBLE);
+                    btnSkip.setText("NEXT");
+
+                    wordTrain.setVisibility(View.VISIBLE);
+
+
+
                 }
-                lettersWord.clear();
+
+            } else {
+
+                if (btnSkip.getText().equals("Next") || btnSkip.getText().equals("NEXT")) {
+                    btnSkip.setText("I don't know");
+                    textMess.setVisibility(View.INVISIBLE);
+
+                    for (Button b2 : lettersWord) {
+                        ViewGroup layout = (ViewGroup) b2.getParent();
+                        if (null != layout) //for safety only  as you are doing onClick
+                            layout.removeView(b2);
+                    }
+                    lettersWord.clear();
 
 
-                for(Button b3: lettersButton){
-                    ViewGroup layout = (ViewGroup) b3.getParent();
-                    if(null!=layout) //for safety only  as you are doing onClick
-                        layout.removeView(b3);
+                    for (Button b3 : lettersButton) {
+                        ViewGroup layout = (ViewGroup) b3.getParent();
+                        if (null != layout) //for safety only  as you are doing onClick
+                            layout.removeView(b3);
+                    }
+                    lettersButton.clear();
+                    letters.clear();
+                    lettersW.clear();
+
+                    //makeScreenL();
+                    checkCounter++;
+                    if (checkCounter < limit) {
+                        Log.d(TAG, "ch0=" + checkCounter);
+
+                        makeScreenL();
+
+                    } else {
+                        checkCounter = 0;
+                        showSimpleDialog(limit);
+                        //btn.setBackgroundColor(Color.WHITE);
+
+                    }
+                } else {
+                    color = R.color.red;
+                    setColorCounter(checkCounter, color);
+                    textMess.setVisibility(View.INVISIBLE);
+                    // checkCounter++;
+                    int jj = 0;
+                    for (Button b : lettersWord) {
+                        b.setText(lettersW.get(jj));
+                        jj++;
+                    }
+                    btnSkip.setText("NEXT");
                 }
-                lettersButton.clear();
-                letters.clear();
-                lettersW.clear();
-
-                //makeScreenL();
-                checkCounter++;
-                if(checkCounter<limit){
-                    Log.d(TAG,"ch0="+checkCounter);
-
-                    makeScreenL();
-
-                }else{
-                    checkCounter=0;
-                    showSimpleDialog(limit);
-                    //btn.setBackgroundColor(Color.WHITE);
-
-                }
-            }else{
-                color = R.color.red;
-                setColorCounter(checkCounter, color);
-                textMess.setVisibility(View.INVISIBLE);
-               // checkCounter++;
-                int jj=0;
-                for(Button b: lettersWord){
-                    b.setText(lettersW.get(jj));
-                    jj++;
-                }
-                btnSkip.setText("NEXT");
             }
         }
         });
@@ -239,10 +334,38 @@ public class TrainActivityL extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                makeScreenL();
-
+                if(passedTechName.equals("collecttheword")) {
+                    makeScreenL();
+                }else{
+                    makeScreenLW();
+                }
             }
         }, 100);
+    }
+    public void makeScreenLW() {
+        if (listWords.size() != 0) {
+
+            wordTrain.setVisibility(View.INVISIBLE);
+            wordTranscript.setVisibility(View.INVISIBLE);
+            //   }
+            String wordTrainText=listWords.get(checkCounter).getWord().trim();
+            wordTrain.setText(wordTrainText);
+            Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
+            wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
+
+            btnSoundTr.performClick();
+            btnSoundTr.setPressed(true);
+            btnSoundTr.invalidate();
+            // delay completion till animation completes
+            btnSoundTr.postDelayed(new Runnable() {  //delay button
+                public void run() {
+                    btnSoundTr.setPressed(false);
+                    btnSoundTr.invalidate();
+                    //any other associated action
+                }
+            }, 100);
+
+        }
     }
 
     public void makeScreenL(){
@@ -333,60 +456,57 @@ public class TrainActivityL extends BaseActivity {
             //LinearLayout layoutL = new LinearLayout(this);
 
 
-//            Button btnShow = new Button(this);
-//            btnShow.setText(R.string.show_text);
-//            btnShow.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//            layoutL.addView(btnShow);
 
-            layoutL=findViewById(R.id.layout_letter);
-            layoutL.setOrientation(LinearLayout.VERTICAL);
-            Collections.shuffle(letters);
-            lett=0;
-            //layoutL.setMargins(20, 20, 30, 20);
-            for (int i = 0; i < rowY; i++) {
-                LinearLayout row = new LinearLayout(this);
-                row.setLayoutParams(new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT));
-               // row.setMa
-                for (int j = 0; j < rowX; j++) {
-                    Button btnTag = new Button(this);
-                    btnTag.setLayoutParams(new LinearLayout.LayoutParams
-                            (150, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                    // LinearLayout.LayoutParams.MATCH_PARENT));
-                    btnTag.setTextColor(Color.BLACK);
-                    btnTag.setTextSize(20);
-                    btnTag.setText( letters.get(lett));
-                    btnTag.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+    layoutL = findViewById(R.id.layout_letter);
+    layoutL.setOrientation(LinearLayout.VERTICAL);
+    Collections.shuffle(letters);
+    lett = 0;
+    //layoutL.setMargins(20, 20, 30, 20);
+    for (int i = 0; i < rowY; i++) {
+        LinearLayout row = new LinearLayout(this);
+        row.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        // row.setMa
+        for (int j = 0; j < rowX; j++) {
+            Button btnTag = new Button(this);
+            btnTag.setLayoutParams(new LinearLayout.LayoutParams
+                    (150, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                            String letW=btnTag.getText().toString();
-                            if(!letW.equals("")) {
-                                btnTag.setText("");
-                                Log.d(TAG, letW);
-                                collectW(letW);
-                                btnTag.setEnabled(false);
-                            }
-                            //lettersWord.add(letW);
-                           // Button b = (Button)findViewById(1);
-                            //Toast.makeText(MainActivity.this, R.string.welcome_message, Toast.LENGTH_LONG).show();
-                        }
-                    });
+            // LinearLayout.LayoutParams.MATCH_PARENT));
+            btnTag.setTextColor(Color.BLACK);
+            btnTag.setTextSize(20);
+            btnTag.setText(letters.get(lett));
+            btnTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                    //btnTag.setBackgroundColor(Color.WHITE);
-
-                    //btnTag.setId(j + 1 + (i * 4));
-                    row.addView(btnTag);
-                    lettersButton.add(btnTag);
-                    lett++;
-                    if(lett==longLetters) break;
+                    String letW = btnTag.getText().toString();
+                    if (!letW.equals("")) {
+                        btnTag.setText("");
+                        Log.d(TAG, letW);
+                        collectW(letW);
+                        btnTag.setEnabled(false);
+                    }
+                    //lettersWord.add(letW);
+                    // Button b = (Button)findViewById(1);
+                    //Toast.makeText(MainActivity.this, R.string.welcome_message, Toast.LENGTH_LONG).show();
                 }
-                layoutL.addView(row);
-            }
+            });
 
+            //btnTag.setBackgroundColor(Color.WHITE);
+
+            //btnTag.setId(j + 1 + (i * 4));
+            row.addView(btnTag);
+            lettersButton.add(btnTag);
+            lett++;
+            if (lett == longLetters) break;
         }
+        layoutL.addView(row);
+          }
+         }
+
     }
     public void collectW(String l){
         //lettersWord.add();
