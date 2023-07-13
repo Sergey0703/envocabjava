@@ -145,14 +145,15 @@ public class TrainActivityL extends BaseActivity {
             }
         });
 
+        btnSoundTr=findViewById(R.id.btn_sound_tr);
         btnCheck = findViewById(R.id.btn_word_check);
         if(passedTechName.equals("writeaword")) {
             textInputWord.setVisibility(View.VISIBLE);
             btnCheck.setVisibility(View.VISIBLE);
+            btnSoundTr.setEnabled(true);
+        }else{
+            btnSoundTr.setEnabled(false);
         }
-
-
-
 
         btnSkip = findViewById(R.id.btn_word_skip);
         btnCheck.setOnClickListener(new View.OnClickListener() {
@@ -277,7 +278,7 @@ public class TrainActivityL extends BaseActivity {
                 playSpeech(wordTrain.getText().toString());
             }
         });
-        btnSoundTr.setEnabled(false);
+       // btnSoundTr.setEnabled(false);
 
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
