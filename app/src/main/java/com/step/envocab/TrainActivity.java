@@ -33,13 +33,16 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
-    TextToSpeech textToSpeech;
+    private TextToSpeech textToSpeech;
+    private Date currentTime;
     private int color;
     private int id_random;
     private String theme = "";
@@ -477,6 +480,39 @@ public class TrainActivity extends BaseActivity {
     }
 
     private void showSimpleDialog(int position){
+        currentTime = Calendar.getInstance().getTime();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (Dbwords word : listWords) {
+                    if (word != null) {
+                      //  Log.d(TAG, "findBy=" + uid + " word=" + word.getWord());
+                        currentTime = Calendar.getInstance().getTime();
+//                        Log.d(TAG, "currentTime=" + currentTime);
+//                        word.setTrain1(up);
+//                        word.setTrainDate(currentTime);
+                        AppDatabase.getInstance(getApplicationContext())
+                                .countDao()
+                                .insertOrUpdate(1, word.getId(), 1, true, currentTime);
+
+                        Log.d(TAG, "Update count=" + word.getWord());
+                    }
+                }
+                List<Dbcounts> ww=AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .getCounts();
+                for (Dbcounts w : ww) {
+                    Log.d(TAG, "Update count=" + w.getId_word());
+                }
+            }
+
+        }).start();
+
+
+
+
+
+
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         //builder.setMessage("Do you want to delete this word from group?");

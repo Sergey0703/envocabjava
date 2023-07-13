@@ -9,15 +9,16 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class, Dbexercises.class}, version = 9)
+@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class, Dbexercises.class, Dbcounts.class}, version = 10)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WordDao wordDao();
     public abstract GroupDao groupDao();
     public abstract GroupsAndWordsDao groupsAndWordsDao();
     public abstract ExerciseDao exerciseDao();
-    private static volatile AppDatabase INSTANCE;
 
+    public abstract CountDao countDao();
+    private static volatile AppDatabase INSTANCE;
 //    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
 //        @Override
 //        public void migrate(SupportSQLiteDatabase database) {
