@@ -22,9 +22,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.time.LocalDate;
@@ -41,8 +44,11 @@ import java.util.Locale;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
+    private ArrayAdapter<String> adapter;
+    private List<String> listGroups;
     private TextToSpeech textToSpeech;
     private Date currentTime;
+    private Spinner spinner;
     private int color;
     private int id_random;
     private String theme = "";
@@ -51,6 +57,7 @@ public class TrainActivity extends BaseActivity {
     private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk, btnSkip;
     private String passedDestination = "", passedTechName = "", passedName = "";
     private LocalDate today, dateList;
+    private Long id_group;
     private LocalDateTime startOfDate;
     private LocalDateTime endOfDate;
     private Long startOfDay;
@@ -62,6 +69,7 @@ public class TrainActivity extends BaseActivity {
     private boolean checkOk;
     Animation animAlpha;
     private int offset=0;
+    private String[] countries;
 
     private int checkCounter, limit = 10;
 
@@ -132,6 +140,28 @@ public class TrainActivity extends BaseActivity {
         countIm8 = (ImageView) findViewById(R.id.count8);
         countIm9 = (ImageView) findViewById(R.id.count9);
         countIm10 = (ImageView) findViewById(R.id.count10);
+
+
+        spinner = findViewById(R.id.spinner_tr);
+
+        AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                // Получаем выбранный объект
+                String item = (String)parent.getItemAtPosition(position);
+                id_group = (Long)parent.getItemIdAtPosition(position);
+                Log.d(TAG, "item="+item+" id_item="+String.valueOf(id_group));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        };
+        spinner.setOnItemSelectedListener(itemSelectedListener);
+
+
+
 
         btnSoundTr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +272,8 @@ public class TrainActivity extends BaseActivity {
                 }
             }
         });
-        startTrain();
+        makeSpin();
+        //startTrain();
     }
 
     public void playSpeech(String txtSpeech) {
@@ -309,14 +340,14 @@ public class TrainActivity extends BaseActivity {
             btn.setBackgroundColor(Color.GREEN);
             color=R.color.green;
             checkOk=true;
-            delay=1000;
+
         }else{
             Log.d(TAG,"Lost!!!");
             btn.setBackgroundColor(Color.RED);
             btnOk.setBackgroundColor(Color.GREEN);
             color=R.color.red;
             checkOk=false;
-            delay=2000;
+
         }
 
         setColorCounter(checkCounter,color);
@@ -344,8 +375,36 @@ public class TrainActivity extends BaseActivity {
             }, 2000);
         } */
     }
+    public void makeSpin(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                listGroups = AppDatabase.getInstance(getApplicationContext())
+                        .groupDao()
+                        .getGroupsForSpinner();
+            }
+        });
+        thread.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                 listGroups.add(0,"You can select Group");
+                //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+                adapter = new ArrayAdapter(TrainActivity.this, R.layout.spinner_item_tr, listGroups);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Применяем адаптер к элементу spinner
+                spinner.setAdapter(adapter);
+
+                startTrain();
+            }
+        }, 100);
+
+    }
 
     public void startTrain(){
+
         checkCounter=0;
         startOfDate = dateList.atStartOfDay();
         endOfDate = LocalTime.MAX.atDate(dateList);
@@ -357,30 +416,12 @@ public class TrainActivity extends BaseActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                if (allStudyWords.isChecked()) {
-//                    Log.d(TAG, "All BAD!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .wordsForListAll(0);
-//                    //System.out.println("Size=" + listWords.size());
-//                } else if (speechCategory.isChecked()) {
-//                    Log.d(TAG, "All word!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .wordsForListAll(startOfDay, endOfDay);
-//
-//                } else {
-                    //Log.d(TAG, "Only BAD!!!!");
+                id_group=spinner.getSelectedItemId();
+                Log.d(TAG, "id_gr="+id_group);
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .wordsForListLimit(limit, offset);
-                    //.wordsForListAllTest();
-//
-//                }
-//                listWordsForAdd = listWords;
-//                if (listWords.size() < 4) {
-//                    listWords.addAll(listWordsForAdd);
-//                }
+
             }
         });
         thread.start();

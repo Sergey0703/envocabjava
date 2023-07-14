@@ -20,6 +20,10 @@ public interface WordDao {
 
     @Query("insert into Dbwords ('word','translate','transcript','train1') VALUES(:word,:trans,:transcript,:train)")
     Long insWord( String word, String trans, String transcript, Boolean train);
+
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords INNER JOIN (SELECT id_group , COUNT(*) description from dbgroupsandwords WHERE dbgroupsandwords.`id_group` LIKE :filter GROUP BY id_group) AS sel ON dbgroups.id_group = sel.id_group ")
+    List<Dbwords> getWordsTrain(String filter);
+
     @Query("Select * FROM Dbwords WHERE id LIKE :id")
     Dbwords findById(int id);
 

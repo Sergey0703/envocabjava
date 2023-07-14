@@ -11,6 +11,8 @@ import java.util.List;
 public interface GroupDao {
     //@Insert
    // void insertGroup(Dbgroups group);
+    @Query("SELECT `group` from Dbgroups ORDER BY id_group")
+    List<String> getGroupsForSpinner();
 
     @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY id_group")
     List<Dbgroups> getGroupsFiltered(String filter);
