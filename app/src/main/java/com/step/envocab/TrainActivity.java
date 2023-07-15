@@ -147,6 +147,8 @@ public class TrainActivity extends BaseActivity {
 
 
         spinner = findViewById(R.id.spinner_tr);
+        checkLastGroup();
+
 
         AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
@@ -280,6 +282,22 @@ public class TrainActivity extends BaseActivity {
         //startTrain();
     }
 
+    public void checkLastGroup() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                id_group=  AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .lastGroup(id_exercise);
+
+                Log.d(TAG, "LastGr==" + id_group);
+
+            }
+
+        }).start();
+        //return lastGroup;
+    }
     public void playSpeech(String txtSpeech) {
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
@@ -415,7 +433,8 @@ public class TrainActivity extends BaseActivity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinner.setAdapter(adapter);
-
+                int id_gr=id_group.intValue();
+                spinner.setSelection(id_gr);
                // startTrain();
             }
         }, 100);

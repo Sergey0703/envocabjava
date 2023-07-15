@@ -16,6 +16,9 @@ public interface CountDao {
     @Query("SELECT * from Dbcounts WHERE id_exercice=:id_exercise ORDER BY id_count  ")
     List<Dbcounts> getCounts(int id_exercise);
 
+    @Query("SELECT id_group from Dbcounts WHERE id_exercice=:id_exercise ORDER BY trainDate DESC  ")
+    Long lastGroup(int id_exercise);
+
     @Query("SELECT * from Dbcounts WHERE id_exercice = :id_exercise AND id_word=:id_word AND id_group=:id_group ORDER BY id_count")
     Dbcounts getCountsFiltered(Integer id_exercise, Integer id_word, Long id_group);
 
