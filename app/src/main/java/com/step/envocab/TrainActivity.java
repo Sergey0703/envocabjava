@@ -24,11 +24,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,10 +48,12 @@ import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
     private ArrayAdapter<String> adapter;
+    TextInputLayout textSpinner2;
+    private AutoCompleteTextView spinner2;
     private List<String> listGroups;
     private TextToSpeech textToSpeech;
     private Date currentTime;
-    private Spinner spinner;
+    //private Spinner spinner;
     private int color;
     private int id_random;
     private String theme = "";
@@ -146,26 +151,44 @@ public class TrainActivity extends BaseActivity {
         countIm10 = (ImageView) findViewById(R.id.count10);
 
 
-        spinner = findViewById(R.id.spinner_tr);
+        //spinner = findViewById(R.id.spinner_tr);
+        spinner2 = findViewById(R.id.spinner_tr2);
+        textSpinner2=findViewById(R.id.text_spinner2);
+
         checkLastGroup();
 
+        spinner2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                // Получаем выбранный объект
-                String item = (String)parent.getItemAtPosition(position);
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                Object item = parent.getItemAtPosition(position);
+//                if (item instanceof StudentInfo){
+//                    StudentInfo student=(StudentInfo) item;
+//                    doSomethingWith(student);
+//                }
+                String item2 = (String)parent.getItemAtPosition(position);
                 id_group = (Long)parent.getItemIdAtPosition(position);
-                Log.d(TAG, "item="+item+" id_item="+String.valueOf(id_group));
+                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
                 startTrain();
             }
+        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        };
-        spinner.setOnItemSelectedListener(itemSelectedListener);
+//        AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                // Получаем выбранный объект
+//                String item = (String)parent.getItemAtPosition(position);
+//                id_group = (Long)parent.getItemIdAtPosition(position);
+//                Log.d(TAG, "item="+item+" id_item="+String.valueOf(id_group));
+//                startTrain();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        };
+//        spinner.setOnItemSelectedListener(itemSelectedListener);
 
 
         btnSoundTr.setOnClickListener(new View.OnClickListener() {
@@ -370,7 +393,7 @@ public class TrainActivity extends BaseActivity {
             wordTranscript.setVisibility(View.VISIBLE);
         }
 
-        int delay=0;
+
         if(id_word.equals(id)){
             Log.d(TAG,"Win!!");
             btn.setBackgroundColor(Color.GREEN);
@@ -420,6 +443,7 @@ public class TrainActivity extends BaseActivity {
                 listGroups = AppDatabase.getInstance(getApplicationContext())
                         .groupDao()
                         .getGroupsForSpinner();
+                listGroups.add(0,"Without groups");
             }
         });
         thread.start();
@@ -427,34 +451,38 @@ public class TrainActivity extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                 listGroups.add(0,"You can select Group");
+
                 //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
                 adapter = new ArrayAdapter(TrainActivity.this, R.layout.spinner_item_tr, listGroups);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
-                spinner.setAdapter(adapter);
+                spinner2.setAdapter(adapter);
                 int id_gr=id_group.intValue();
-                spinner.setSelection(id_gr);
-               // startTrain();
-            }
-        }, 100);
+                //spinner2.setSelection(2);
+                spinner2.setText(spinner2.getAdapter().getItem(id_gr).toString(), false);
+                textSpinner2.setHint("Select Group");
 
+            }
+        }, 10);
+        startTrain();
     }
 
     public void startTrain(){
 
         checkCounter=0;
-        startOfDate = dateList.atStartOfDay();
-        endOfDate = LocalTime.MAX.atDate(dateList);
-
-        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-        startOfDay = zdtStart.toInstant().toEpochMilli();
-        endOfDay = zdtEnd.toInstant().toEpochMilli();
+//        startOfDate = dateList.atStartOfDay();
+//        endOfDate = LocalTime.MAX.atDate(dateList);
+//
+//        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+//        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+//        startOfDay = zdtStart.toInstant().toEpochMilli();
+//        endOfDay = zdtEnd.toInstant().toEpochMilli();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                id_group=spinner.getSelectedItemId();
+               // id_group=spinner2.getSele();
+               // id_group=spinner2.getSelectedItemId();
+               // id_group=1L;
                 Log.d(TAG, "id_gr="+id_group);
                 if(id_group==0) {
                     Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);

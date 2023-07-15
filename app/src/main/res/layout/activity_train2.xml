@@ -32,6 +32,36 @@
             android:gravity="center_vertical"
             android:layout_marginTop="2dp"
             />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+
+            app:hintTextColor="@color/orange"
+            app:boxStrokeColor="@color/orange"
+            app:boxBackgroundColor="@color/white"
+
+            app:boxBackgroundMode="outline"
+            app:errorEnabled="true"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+
+            app:layout_constraintTop_toBottomOf="@id/text_name_train"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+            <AutoCompleteTextView
+                android:id="@+id/spinner_tr2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+
+                />
+       </com.google.android.material.textfield.TextInputLayout>
         <Spinner
             android:id="@+id/spinner_tr"
             android:layout_width="wrap_content"
@@ -39,6 +69,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_name_train"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:visibility="invisible"
 
             />
         <TextView
@@ -51,13 +82,13 @@
 
             android:textAllCaps = "true"
 
-            app:layout_constraintTop_toBottomOf="@id/spinner_tr"
+            app:layout_constraintTop_toBottomOf="@id/text_spinner2"
             app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/blue_color2_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="100dp"
             />
         <ImageButton
@@ -76,8 +107,8 @@
 
         <TextView
             android:id="@+id/word_transcript"
-            android:layout_width="1dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text=""
             android:textColor="@color/blue_color2_font2"
@@ -96,7 +127,7 @@
             app:layout_constraintTop_toBottomOf="@id/word_transcript"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="0dp"
             android:padding="5dp">
             <ImageView
                 android:id="@+id/count1"
@@ -307,7 +338,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="0dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

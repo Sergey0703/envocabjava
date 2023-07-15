@@ -2,12 +2,14 @@
 
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="26dip"
     android:gravity="center"
     android:textColor="@color/orange"
     android:padding="5dip"
+    android:maxLines="1"
+    android:textAppearance="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
 
 
     />
