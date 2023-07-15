@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,23 +37,33 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
+    private ArrayAdapter<String> adapter;
+    TextInputLayout textSpinner2;
+    private AutoCompleteTextView spinner2;
+    private List<String> listGroups;
     private EditText textEditWord;
     private TextInputLayout textInputWord;
     private TextToSpeech textToSpeech;
     private List<String> letters, lettersW;
     private int color;
+    private Date currentTime;
     private LinearLayout layoutL, layoutW;
     private String theme = "";
     private String TAG = "Train";
-    private String passedDestination = "", passedTechName = "", passedName = "";
+    private String passedIdItem="", passedDestination = "", passedTechName = "", passedName = "";
+    private int id_exercise;
     private TextView textNameTrain, wordTrain, wordTranscript;
     private List<Dbwords> listWords, listCheckWords;
+    private Long id_group;
     private int offset=0;
+    private String id_word = "";
     private TextView textMess;
     private Button btnSkip, btnCheck;
     private ImageButton btnSoundTr;
@@ -98,6 +111,7 @@ public class TrainActivityL extends BaseActivity {
 
         if (intent.getExtras() != null) {
             Bundle extras = intent.getExtras();
+            passedIdItem = extras.getString("passedIdItem");
             passedName = extras.getString("passedName");
             passedTechName = extras.getString("passedTechName");
             passedDestination = extras.getString("passedDestination");
@@ -105,6 +119,7 @@ public class TrainActivityL extends BaseActivity {
 //            passedName=intent.getStringExtra("passedName");
             Log.d(TAG, "pass=" + passedTechName + " " + passedDestination);
         }
+        id_exercise = Integer.parseInt(passedIdItem);
 
         textNameTrain = findViewById(R.id.text_name_train);
         passedName = '"'+passedName.substring(0, 1).toUpperCase() + passedName.substring(1)+'"';
@@ -124,6 +139,48 @@ public class TrainActivityL extends BaseActivity {
         countIm8 = (ImageView) findViewById(R.id.count8);
         countIm9 = (ImageView) findViewById(R.id.count9);
         countIm10 = (ImageView) findViewById(R.id.count10);
+
+        spinner2 = findViewById(R.id.spinner_trL2);
+        textSpinner2=findViewById(R.id.text_spinnerL2);
+
+        checkLastGroup();
+
+        spinner2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                Object item = parent.getItemAtPosition(position);
+//                if (item instanceof StudentInfo){
+//                    StudentInfo student=(StudentInfo) item;
+//                    doSomethingWith(student);
+//                }
+                String item2 = (String)parent.getItemAtPosition(position);
+                id_group = (Long)parent.getItemIdAtPosition(position);
+                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
+
+                for (Button b2 : lettersWord) {
+                    ViewGroup layout = (ViewGroup) b2.getParent();
+                    if (null != layout) //for safety only  as you are doing onClick
+                        layout.removeView(b2);
+                }
+                lettersWord.clear();
+
+
+                for (Button b3 : lettersButton) {
+                    ViewGroup layout = (ViewGroup) b3.getParent();
+                    if (null != layout) //for safety only  as you are doing onClick
+                        layout.removeView(b3);
+                }
+                lettersButton.clear();
+                if(lettersW!=null) {
+                    letters.clear();
+                }
+                if(lettersW!=null) {
+                    lettersW.clear();
+                }
+                startTrain();
+            }
+        });
+
 
         textInputWord = findViewById(R.id.text_input_word_w);
         textEditWord=findViewById(R.id.word_w);
@@ -166,6 +223,7 @@ public class TrainActivityL extends BaseActivity {
              Log.d(TAG, "Win11");
              color = R.color.green;
              setColorCounter(checkCounter, color);
+             setCount(id_word, false);
              //textMess.setVisibility(View.INVISIBLE);
              btnSkip.setText("NEXT");
 
@@ -207,6 +265,7 @@ public class TrainActivityL extends BaseActivity {
                     btnCheck.setAlpha(0.6f);
                     color = R.color.red;
                     setColorCounter(checkCounter, color);
+                    setCount(id_word,false);
                     textMess.setVisibility(View.INVISIBLE);
                     btnSkip.setText("NEXT");
 
@@ -255,6 +314,8 @@ public class TrainActivityL extends BaseActivity {
                 } else {
                     color = R.color.red;
                     setColorCounter(checkCounter, color);
+                    Log.d(TAG, "SET COUNT id_word="+id_word);
+                    setCount(id_word,false);
                     textMess.setVisibility(View.INVISIBLE);
                     // checkCounter++;
                     int jj = 0;
@@ -293,41 +354,90 @@ public class TrainActivityL extends BaseActivity {
             }
         });
 
-        startTrain();
+        makeSpin();
+    }
+    public void checkLastGroup() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                id_group= AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .lastGroup(id_exercise);
+
+                Log.d(TAG, "LastGr==" + id_group);
+                if(id_group==null){
+                    id_group=0L;
+                }
+
+            }
+
+        }).start();
+        //return lastGroup;
     }
     public void playSpeech(String txtSpeech) {
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
+
+    public void makeSpin(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                listGroups = AppDatabase.getInstance(getApplicationContext())
+                        .groupDao()
+                        .getGroupsForSpinner();
+                listGroups.add(0,"Without groups");
+            }
+        });
+        thread.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+                adapter = new ArrayAdapter(TrainActivityL.this, R.layout.spinner_item_tr, listGroups);
+                //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Применяем адаптер к элементу spinner
+                spinner2.setAdapter(adapter);
+                int id_gr=id_group.intValue();
+                //spinner2.setSelection(2);
+                spinner2.setText(spinner2.getAdapter().getItem(id_gr).toString(), false);
+                textSpinner2.setHint("Select Group");
+
+            }
+        }, 10);
+        startTrain();
+    }
+
     public void startTrain(){
         checkCounter=0;
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                if (allStudyWords.isChecked()) {
-//                    Log.d(TAG, "All BAD!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .wordsForListAll(0);
-//                    //System.out.println("Size=" + listWords.size());
-//                } else if (speechCategory.isChecked()) {
-//                    Log.d(TAG, "All word!!!!");
-//                    listWords = AppDatabase.getInstance(getApplicationContext())
-//                            .wordDao()
-//                            .wordsForListAll(startOfDay, endOfDay);
-//
-//                } else {
-                //Log.d(TAG, "Only BAD!!!!");
-                listWords = AppDatabase.getInstance(getApplicationContext())
-                        .wordDao()
-                        .wordsForListLimit(limit, offset);
-                //.wordsForListAllTest();
-//
-//                }
-//                listWordsForAdd = listWords;
-//                if (listWords.size() < 4) {
-//                    listWords.addAll(listWordsForAdd);
-//                }
+                Log.d(TAG, "id_gr="+id_group);
+                if(id_group==null){
+                    id_group=0L;
+                }
+                if(id_group==0) {
+                    Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .getWordsTrainWithoutGroup2(id_exercise, limit);
+                }else {
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .getWordsTrain2(id_exercise, id_group, limit);
+                }
+
+                Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);
+                for(Dbwords w: listWords){
+                    Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate());
+                }
+
+
             }
         });
         thread.start();
@@ -352,6 +462,7 @@ public class TrainActivityL extends BaseActivity {
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
             Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
+            id_word = String.valueOf(listWords.get(checkCounter).getId());
             wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
 
             btnSoundTr.performClick();
@@ -380,6 +491,7 @@ public class TrainActivityL extends BaseActivity {
                 wordTrain.setVisibility(View.INVISIBLE);
                 wordTranscript.setVisibility(View.INVISIBLE);
          //   }
+            id_word = String.valueOf(listWords.get(checkCounter).getId());
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
             Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
@@ -534,7 +646,7 @@ public class TrainActivityL extends BaseActivity {
                   Log.d(TAG,"Win!!!");
                   color=R.color.green;
                   setColorCounter(checkCounter,color);
-
+                  setCount(id_word,true);
                   textMess.setText("Word spelled correctly!");
                   textMess.setTextColor(color);
                   textMess.setVisibility(View.VISIBLE);
@@ -637,7 +749,21 @@ public class TrainActivityL extends BaseActivity {
         alert.setTitle("");
         alert.show();
     }
+    public void setCount(String ind, boolean resTrain){
+        Log.d(TAG,"word_id="+ind);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                currentTime = Calendar.getInstance().getTime();
+                AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .insertOrUpdate(id_exercise, Integer.parseInt(ind), id_group, resTrain, currentTime);
+                Log.d(TAG, "Update count=" + ind+" word="+wordTrain.getText()+" id_group="+id_group);
+            }
 
+        }).start();
+
+    }
     public void setColorCounter(int checkCounter, int color){
         Log.d(TAG,"color="+String.valueOf(color));
         switch(checkCounter)

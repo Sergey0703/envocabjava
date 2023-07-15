@@ -310,11 +310,14 @@ public class TrainActivity extends BaseActivity {
             @Override
             public void run() {
 
-                id_group=  AppDatabase.getInstance(getApplicationContext())
+                id_group= AppDatabase.getInstance(getApplicationContext())
                         .countDao()
                         .lastGroup(id_exercise);
 
                 Log.d(TAG, "LastGr==" + id_group);
+                if(id_group==null){
+                    id_group=0L;
+                }
 
             }
 
