@@ -141,7 +141,11 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
                 = (TextView) v.findViewById(R.id.tv_holder_tech_name);
         String techName=String.valueOf(textTechName.getText());
 
-        Log.d(TAG,String.valueOf(textName.getText())+" destination="+destination+" tech_name="+techName);
+        TextView textIdItem
+                = (TextView) v.findViewById(R.id.id_item);
+        String id_item=String.valueOf(textIdItem.getText());
+
+        Log.d(TAG,String.valueOf(textName.getText())+" destination="+destination+" tech_name="+techName+" id_item="+id_item);
         Intent intent;
             if(techName.equals("pickaword")||techName.equals("heartheword")) {
                  intent = new Intent(ExercisesActivity.this, TrainActivity.class);
@@ -149,6 +153,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
                  intent = new Intent(ExercisesActivity.this, TrainActivityL.class);
             }
             Bundle extras = new Bundle();
+            extras.putString("passedIdItem", id_item);
             extras.putString("passedName", name);
             extras.putString("passedTechName", techName);
             extras.putString("passedDestination", destination);

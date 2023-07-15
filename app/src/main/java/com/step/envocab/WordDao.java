@@ -21,9 +21,21 @@ public interface WordDao {
     @Query("insert into Dbwords ('word','translate','transcript','train1') VALUES(:word,:trans,:transcript,:train)")
     Long insWord( String word, String trans, String transcript, Boolean train);
 
-    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords INNER JOIN (SELECT id_group , COUNT(*) description from dbgroupsandwords WHERE dbgroupsandwords.`id_group` LIKE :filter GROUP BY id_group) AS sel ON dbgroups.id_group = sel.id_group ")
-    List<Dbwords> getWordsTrain(String filter);
+//    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id WHERE dbwords.id NOT IN (SELECT id_word FROM dbcounts WHERE id_group=:id_group AND id_exercice=:id_exercise AND id_word IS NOT NULL ) Limit :limit   ")
+//    List<Dbwords> getWordsTrain(int id_exercise, Long id_group, int limit);
 
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords " +
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            "LEFT JOIN (SELECT id_word, id_group, trainDate FROM dbcounts WHERE id_exercice=:id_exercise AND id_group=:id_group) AS sel2 ON dbwords.id=sel2.id_word " +
+            "ORDER BY sel2.trainDate ASC Limit :limit   ")
+    List<Dbwords> getWordsTrain2(int id_exercise, Long id_group, int limit);
+
+//    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords WHERE dbwords.id NOT IN (SELECT id_word FROM dbcounts WHERE id_exercice=:id_exercise AND id_word IS NOT NULL ) Limit :limit  ")
+//    List<Dbwords> getWordsTrainWithoutGroup(int id_exercise, int limit);
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords LEFT JOIN (SELECT id_word, trainDate FROM dbcounts WHERE id_exercice=:id_exercise) AS sel ON dbwords.id=sel.id_word ORDER BY sel.trainDate ASC Limit :limit  ")
+    List<Dbwords> getWordsTrainWithoutGroup2(int id_exercise, int limit);
+    @Query("SELECT * FROM Dbwords Limit :limit OFFSET :offset")
+    List<Dbwords> wordsForListLimit( int limit, int offset);
     @Query("Select * FROM Dbwords WHERE id LIKE :id")
     Dbwords findById(int id);
 
@@ -51,9 +63,6 @@ public interface WordDao {
     int countAll();
     @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
     List<Dbwords> wordsForList(Long startDate, Long endDate, int train);
-
-    @Query("SELECT * FROM Dbwords Limit :limit OFFSET :offset")
-    List<Dbwords> wordsForListLimit( int limit, int offset);
 
     @Query("SELECT * FROM Dbwords WHERE  trainDate BETWEEN :startDate AND :endDate")
     List<Dbwords> wordsForListAll(Long startDate, Long endDate);

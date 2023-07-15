@@ -53,9 +53,11 @@ public class TrainActivity extends BaseActivity {
     private int id_random;
     private String theme = "";
     private String TAG = "Train";
+    private String passedDestination, passedIdItem;
     private String id_word = "", id_word1, id_word2, id_word3, id_word4;
     private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk, btnSkip;
-    private String passedDestination = "", passedTechName = "", passedName = "";
+    private String  passedTechName = "", passedName = "";
+    private int id_exercise;
     private LocalDate today, dateList;
     private Long id_group;
     private LocalDateTime startOfDate;
@@ -107,13 +109,15 @@ public class TrainActivity extends BaseActivity {
 
         if (intent.getExtras() != null) {
             Bundle extras = intent.getExtras();
+            passedIdItem = extras.getString("passedIdItem");
             passedName = extras.getString("passedName");
             passedTechName = extras.getString("passedTechName");
-            passedDestination = extras.getString("passedDestination");
+            passedDestination=extras.getString("passedDestination");
 //            passedId=intent.getStringExtra("data");
 //            passedName=intent.getStringExtra("passedName");
-            Log.d(TAG, "pass=" + passedTechName + " " + passedDestination);
+            Log.d(TAG, "pass=" + passedTechName + " " + id_exercise+" passedDestination="+passedDestination+" id="+passedIdItem);
         }
+        id_exercise = Integer.parseInt(passedIdItem);
         today = LocalDate.now();
         dateList = today;
         textNameTrain = findViewById(R.id.text_name_train);
@@ -152,6 +156,7 @@ public class TrainActivity extends BaseActivity {
                 String item = (String)parent.getItemAtPosition(position);
                 id_group = (Long)parent.getItemIdAtPosition(position);
                 Log.d(TAG, "item="+item+" id_item="+String.valueOf(id_group));
+                startTrain();
             }
 
             @Override
@@ -397,7 +402,7 @@ public class TrainActivity extends BaseActivity {
                 // Применяем адаптер к элементу spinner
                 spinner.setAdapter(adapter);
 
-                startTrain();
+               // startTrain();
             }
         }, 100);
 
@@ -418,10 +423,21 @@ public class TrainActivity extends BaseActivity {
             public void run() {
                 id_group=spinner.getSelectedItemId();
                 Log.d(TAG, "id_gr="+id_group);
+                if(id_group==0) {
+                    Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .wordsForListLimit(limit, offset);
+                            .getWordsTrainWithoutGroup2(id_exercise, limit);
+                }else {
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .getWordsTrain2(id_exercise, id_group, limit);
+                }
 
+                Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);
+                for(Dbwords w: listWords){
+                    Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate());
+                }
             }
         });
         thread.start();
@@ -534,17 +550,18 @@ public class TrainActivity extends BaseActivity {
 //                        word.setTrainDate(currentTime);
                         AppDatabase.getInstance(getApplicationContext())
                                 .countDao()
-                                .insertOrUpdate(1, word.getId(), 1, true, currentTime);
+                                .insertOrUpdate(id_exercise, word.getId(), id_group, true, currentTime);
 
                         Log.d(TAG, "Update count=" + word.getWord());
                     }
                 }
                 List<Dbcounts> ww=AppDatabase.getInstance(getApplicationContext())
                         .countDao()
-                        .getCounts();
+                        .getCounts(id_exercise);
                 for (Dbcounts w : ww) {
                     Log.d(TAG, "Update count=" + w.getId_word());
                 }
+                Log.d(TAG,"s="+String.valueOf(ww.size()));
             }
 
         }).start();
