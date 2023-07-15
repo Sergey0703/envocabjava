@@ -166,8 +166,6 @@ public class TrainActivity extends BaseActivity {
         spinner.setOnItemSelectedListener(itemSelectedListener);
 
 
-
-
         btnSoundTr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,6 +236,7 @@ public class TrainActivity extends BaseActivity {
                     btnSkip.setText("NEXT");
                     Log.d(TAG,"ch="+checkCounter);
                     setColorCounter(checkCounter, R.color.red);
+                    setCount(id_word, false);
                     wordTrain.setVisibility(View.VISIBLE);
                     wordTranscript.setVisibility(View.VISIBLE);
                     btnWord1.setEnabled(false);
@@ -285,6 +284,20 @@ public class TrainActivity extends BaseActivity {
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    public void setCount(String ind, boolean resTrain){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                currentTime = Calendar.getInstance().getTime();
+                AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .insertOrUpdate(id_exercise, Integer.parseInt(ind), id_group, resTrain, currentTime);
+                Log.d(TAG, "Update count=" + ind+" word="+wordTrain.getText());
+            }
+
+        }).start();
+
+    }
     public void setColorCounter(int checkCounter, int color){
         Log.d(TAG,"color="+String.valueOf(color));
     switch(checkCounter)
@@ -356,6 +369,7 @@ public class TrainActivity extends BaseActivity {
         }
 
         setColorCounter(checkCounter,color);
+        setCount(id_word,checkOk);
 
         //checkCounter++;
         btnSkip.setText("NEXT");
@@ -537,38 +551,7 @@ public class TrainActivity extends BaseActivity {
     }
 
     private void showSimpleDialog(int position){
-        currentTime = Calendar.getInstance().getTime();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (Dbwords word : listWords) {
-                    if (word != null) {
-                      //  Log.d(TAG, "findBy=" + uid + " word=" + word.getWord());
-                        currentTime = Calendar.getInstance().getTime();
-//                        Log.d(TAG, "currentTime=" + currentTime);
-//                        word.setTrain1(up);
-//                        word.setTrainDate(currentTime);
-                        AppDatabase.getInstance(getApplicationContext())
-                                .countDao()
-                                .insertOrUpdate(id_exercise, word.getId(), id_group, true, currentTime);
-
-                        Log.d(TAG, "Update count=" + word.getWord());
-                    }
-                }
-                List<Dbcounts> ww=AppDatabase.getInstance(getApplicationContext())
-                        .countDao()
-                        .getCounts(id_exercise);
-                for (Dbcounts w : ww) {
-                    Log.d(TAG, "Update count=" + w.getId_word());
-                }
-                Log.d(TAG,"s="+String.valueOf(ww.size()));
-            }
-
-        }).start();
-
-
-
-
+        //currentTime = Calendar.getInstance().getTime();
 
 
         AlertDialog.Builder builder;
