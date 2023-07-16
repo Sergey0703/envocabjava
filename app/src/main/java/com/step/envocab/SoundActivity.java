@@ -12,9 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -30,16 +34,30 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
 
+    TextInputLayout textSpinnerS;
+    private AutoCompleteTextView spinnerS;
+    private List<String> listGroups;
+    private ArrayAdapter<String> adapter;
+    private Date currentTime;
+    private Date lastTrain;
+    private int limit = 10;
+    private int offset = 0;
     private Handler handler = null;
     private Handler ihandler = null;
     private Handler mHandler = new Handler();
@@ -54,7 +72,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     Button btnPlaySound;
     Button btnPrevDay;
     Button btnNextDay;
-
+    private int id_group;
+    private int id_exercise=5;
 
     TextToSpeech textToSpeech;
     TextToSpeech textToSpeechTr;
@@ -137,6 +156,32 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
 
+        spinnerS = findViewById(R.id.spinner_s);
+        textSpinnerS=findViewById(R.id.text_spinner_s);
+
+        checkLastGroup();
+
+        spinnerS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                Object item = parent.getItemAtPosition(position);
+//                if (item instanceof StudentInfo){
+//                    StudentInfo student=(StudentInfo) item;
+//                    doSomethingWith(student);
+//                }
+                String item2 = (String)parent.getItemAtPosition(position);
+                id_group = (int) parent.getItemIdAtPosition(position);
+//                if(id_group==null){
+//                    id_group=0;
+//                }
+                //int id_gr=id_group.intValue();
+                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
+                makeSpin();
+
+            }
+        });
+
+
         allStudyWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -194,7 +239,21 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animAlpha);
-                dataToList("next");
+                btnNextDay.setEnabled(false);
+                if(id_group==0){
+                    dataToList("next");
+                }else {
+                    setCount();
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataToList("next");
+
+                        }
+                    }, 500);
+
+                }
+                btnNextDay.setEnabled(true);
             }
         });
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
@@ -250,54 +309,189 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 }
             }
         });
-        dataToList("");
+        makeSpin();
+       // dataToList("");
     }
+    public void checkLastGroup() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                id_group= (int)AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .lastGroup(id_exercise);
 
-    public void dataToList(String nav) {
-        Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
-        if (nav == "prev") {
-            dateList = dateList.minusDays(1);
-        } else if (nav == "next") {
-            if (!dateList.isEqual(today)) dateList = dateList.plusDays(1);
-        }
-        Log.d(TAG, "dateList=" + String.valueOf(dateList));
-        startOfDate = dateList.atStartOfDay();
-        endOfDate = LocalTime.MAX.atDate(dateList);
+                Log.d(TAG, "LastGr==" + id_group);
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
 
-        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-        startOfDay = zdtStart.toInstant().toEpochMilli();
-        endOfDay = zdtEnd.toInstant().toEpochMilli();
+            }
+
+        }).start();
+        //return lastGroup;
+    }
+    public void makeSpin(){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (allStudyWords.isChecked()) {
-                    Log.d(TAG, "All BAD!!!!");
-                    listWords = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .wordsForListAll(0);
-                    //System.out.println("Size=" + listWords.size());
-                } else if (speechCategory.isChecked()) {
-                    Log.d(TAG, "All word!!!!");
-                    listWords = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .wordsForListAll(startOfDay, endOfDay);
 
-                } else {
-                    Log.d(TAG, "Only BAD!!!!");
-                    listWords = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .wordsForList(startOfDay, endOfDay, 0);
-                    //.wordsForListAllTest();
-
-                }
-                listWordsForAdd = listWords;
-                if (listWords.size() < 4) {
-                    listWords.addAll(listWordsForAdd);
-                }
+                listGroups = AppDatabase.getInstance(getApplicationContext())
+                        .groupDao()
+                        .getGroupsForSpinner();
+                listGroups.add(0,"Without groups");
             }
         });
         thread.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+                adapter = new ArrayAdapter(SoundActivity.this, R.layout.spinner_item_tr, listGroups);
+                //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Применяем адаптер к элементу spinner
+                spinnerS.setAdapter(adapter);
+               // id_group=0L;
+               // int id_gr=id_group.intValue();
+                //spinner2.setSelection(2);
+                spinnerS.setText(spinnerS.getAdapter().getItem(id_group).toString(), false);
+                textSpinnerS.setHint("Select Group");
+
+            }
+        }, 100);
+        dataToList("");
+    }
+
+    public void setCount(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(Dbwords word: listWords) {
+                    int ind=word.getId();
+                    currentTime = Calendar.getInstance().getTime();
+                    AppDatabase.getInstance(getApplicationContext())
+                            .countDao()
+                            .insertOrUpdate(id_exercise, ind, (long)id_group, true, currentTime);
+                    Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
+                }
+            }
+
+        }).start();
+       // dataToList("");
+    }
+
+
+
+
+    public void dataToList(String nav) {
+        if(id_group==0) {
+            Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
+            if (nav == "prev") {
+                dateList = dateList.minusDays(1);
+            } else if (nav == "next") {
+                if (!dateList.isEqual(today)) dateList = dateList.plusDays(1);
+            }
+            Log.d(TAG, "dateList=" + String.valueOf(dateList));
+            startOfDate = dateList.atStartOfDay();
+            endOfDate = LocalTime.MAX.atDate(dateList);
+
+            ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+            ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+            startOfDay = zdtStart.toInstant().toEpochMilli();
+            endOfDay = zdtEnd.toInstant().toEpochMilli();
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (allStudyWords.isChecked()) {
+                        Log.d(TAG, "All BAD!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAll(0);
+                        //System.out.println("Size=" + listWords.size());
+                    } else if (speechCategory.isChecked()) {
+                        Log.d(TAG, "All word!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAll(startOfDay, endOfDay);
+
+                    } else {
+                        Log.d(TAG, "Only BAD!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForList(startOfDay, endOfDay, 0);
+                        //.wordsForListAllTest();
+
+                    }
+                    listWordsForAdd = listWords;
+                    if (listWords.size() < 4) {
+                        listWords.addAll(listWordsForAdd);
+                    }
+                }
+            });
+            thread.start();
+        }else {
+            if (nav == "prev") {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+//                    listWords = AppDatabase.getInstance(getApplicationContext())
+//                            .wordDao()
+//                            .getWordsSound(id_group, limit, offset);
+
+                        currentTime = Calendar.getInstance().getTime();
+                        Log.d(TAG,"curr="+currentTime +" lastTrain="+lastTrain);
+                        if(lastTrain!=null ){
+                          currentTime=lastTrain;
+                        }
+                        Log.d(TAG,"curr="+currentTime );
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .getWordsTrainPrev(id_exercise, (long) id_group,currentTime ,limit);
+                        //Collections.sort(listWords, Collections.reverseOrder());
+                        Collections.reverse(listWords);
+                        Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
+                        listWordsForAdd = listWords;
+                        if (listWords.size() < 4) {
+                            listWords.addAll(listWordsForAdd);
+                        }
+                    }
+                });
+                thread.start();
+
+            } else {
+
+
+            Log.d(TAG, "After next");
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+//                    listWords = AppDatabase.getInstance(getApplicationContext())
+//                            .wordDao()
+//                            .getWordsSound(id_group, limit, offset);
+                    listWords = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .getWordsTrain2(id_exercise, (long) id_group, limit);
+                    Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
+
+                    for(Dbwords ww:listWords){
+                        Log.d(TAG, "word="+ww.getWord()+" "+ ww.getTrainDate());
+                    }
+                    if(listWords!=null) {
+                        lastTrain = listWords.get(listWords.size() - 1).getTrainDate();
+                    }
+                    listWordsForAdd = listWords;
+
+                    if (listWords.size() < 4) {
+                        listWords.addAll(listWordsForAdd);
+                    }
+                }
+            });
+            thread.start();
+        }
+        }
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override

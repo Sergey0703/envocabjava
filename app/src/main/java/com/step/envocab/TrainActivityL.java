@@ -54,6 +54,7 @@ public class TrainActivityL extends BaseActivity {
     private List<String> letters, lettersW;
     private int color;
     private Date currentTime;
+
     private LinearLayout layoutL, layoutW;
     private String theme = "";
     private String TAG = "Train";
@@ -61,7 +62,7 @@ public class TrainActivityL extends BaseActivity {
     private int id_exercise;
     private TextView textNameTrain, wordTrain, wordTranscript;
     private List<Dbwords> listWords, listCheckWords;
-    private Long id_group;
+    private long id_group;
     private int offset=0;
     private String id_word = "";
     private TextView textMess;
@@ -361,14 +362,14 @@ public class TrainActivityL extends BaseActivity {
             @Override
             public void run() {
 
-                id_group= AppDatabase.getInstance(getApplicationContext())
+                id_group= (int)AppDatabase.getInstance(getApplicationContext())
                         .countDao()
                         .lastGroup(id_exercise);
 
                 Log.d(TAG, "LastGr==" + id_group);
-                if(id_group==null){
-                    id_group=0L;
-                }
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
 
             }
 
@@ -401,9 +402,9 @@ public class TrainActivityL extends BaseActivity {
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinner2.setAdapter(adapter);
-                int id_gr=id_group.intValue();
+                //int id_gr=id_group.intValue();
                 //spinner2.setSelection(2);
-                spinner2.setText(spinner2.getAdapter().getItem(id_gr).toString(), false);
+                spinner2.setText(spinner2.getAdapter().getItem((int)id_group).toString(), false);
                 textSpinner2.setHint("Select Group");
 
             }
@@ -418,9 +419,9 @@ public class TrainActivityL extends BaseActivity {
             @Override
             public void run() {
                 Log.d(TAG, "id_gr="+id_group);
-                if(id_group==null){
-                    id_group=0L;
-                }
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
                 if(id_group==0) {
                     Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);
                     listWords = AppDatabase.getInstance(getApplicationContext())
