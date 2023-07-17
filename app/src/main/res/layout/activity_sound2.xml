@@ -23,14 +23,42 @@
         android:elevation="2dp"
 
         >
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_spinner_s"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginHorizontal="5dp"
+            android:hint=""
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
 
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/orange"
+            app:errorEnabled="true"
+
+            app:hintTextColor="@color/orange">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_s"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/speechTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/text_spinner_s"
 
-            android:layout_alignParentTop="true"
+
             android:layout_centerHorizontal="true"
             android:layout_marginStart="5dp"
 
