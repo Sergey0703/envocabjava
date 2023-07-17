@@ -234,8 +234,8 @@
 
         <ImageButton
             android:id="@+id/btn_sound_tr"
-            android:layout_width="100dp"
-            android:layout_height="86dp"
+            android:layout_width="80dp"
+            android:layout_height="68dp"
 
             android:background="@drawable/sound_br22"
             android:contentDescription="Speech word"
@@ -245,7 +245,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_bias="0.6"
             ></ImageButton>
 
 
@@ -328,11 +328,11 @@
             app:cornerRadius="20dp"
             android:padding="10dp"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="0dp"
             android:visibility="invisible"
             />
 
@@ -354,11 +354,11 @@
                 app:cornerRadius="20dp"
                 android:padding="10dp"
 
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="0dp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
