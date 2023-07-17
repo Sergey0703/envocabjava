@@ -464,6 +464,13 @@ public class TrainActivityL extends BaseActivity {
 
             wordTrain.setVisibility(View.INVISIBLE);
             wordTranscript.setVisibility(View.INVISIBLE);
+
+            btnSkip.setAlpha(1f);
+            btnSkip.setEnabled(true);
+            btnCheck.setAlpha(1f);
+            btnCheck.setEnabled(true);
+
+            textInputWord.setVisibility(View.VISIBLE);
             //   }
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
@@ -483,6 +490,14 @@ public class TrainActivityL extends BaseActivity {
                 }
             }, 100);
 
+        }else{
+            btnSkip.setAlpha(0f);
+            btnSkip.setEnabled(false);
+            btnCheck.setAlpha(0f);
+            btnCheck.setEnabled(false);
+            wordTrain.setVisibility(View.VISIBLE);
+            wordTrain.setText("No words found, try another group");
+            textInputWord.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -497,6 +512,8 @@ public class TrainActivityL extends BaseActivity {
                 wordTrain.setVisibility(View.INVISIBLE);
                 wordTranscript.setVisibility(View.INVISIBLE);
          //   }
+            btnSkip.setAlpha(1f);
+            btnSkip.setEnabled(true);
             id_word = String.valueOf(listWords.get(checkCounter).getId());
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
@@ -624,7 +641,12 @@ public class TrainActivityL extends BaseActivity {
         }
         layoutL.addView(row);
           }
-         }
+         }else{
+            btnSkip.setAlpha(0f);
+            btnSkip.setEnabled(false);
+            wordTrain.setVisibility(View.VISIBLE);
+            wordTrain.setText("No words found, try another group");
+        }
 
     }
     public void collectW(String l){

@@ -196,7 +196,8 @@
 
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/blue_color2_font2"
-            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="100dp"
             />
@@ -268,33 +269,32 @@
         </LinearLayout>
 
 
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_word_w"
             style="@style/TextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/btn_word_check"
+            android:layout_height="65dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="2dp"
             android:hint="Input word"
-            app:hintTextAppearance="@style/TextLabel"
-
-            app:hintTextColor="@color/orange"
-            app:boxStrokeColor="@color/orange"
+            android:visibility="visible"
             app:boxBackgroundColor="@color/white"
 
             app:boxBackgroundMode="outline"
-            app:errorEnabled="true"
             app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
+
+            app:boxCornerRadiusTopEnd="8dp"
             app:boxCornerRadiusTopStart="8dp"
-            android:visibility="invisible"
+            app:boxStrokeColor="@color/orange"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/TextLabel"
+            app:hintTextColor="@color/orange"
+            app:layout_constraintBottom_toTopOf="@id/btn_word_check"
             >
             <!--android:textColorHint="@color/black" @+id/word_dialog-->
             <!-- app:boxBackgroundColor="@color/green"-->
+            <!--tools:layout_editor_absoluteX="10dp"-->
             <!-- android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"-->
 
             <com.google.android.material.textfield.TextInputEditText
@@ -303,9 +303,9 @@
                 android:layout_height="wrap_content"
                 android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
 
-                android:textSize="22sp"
+                android:inputType="text"
 
-                android:inputType="text" />
+                android:textSize="22sp" />
             <!--  android:textColor="@color/black" -->
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -327,7 +327,7 @@
             app:cornerRadius="20dp"
             android:padding="10dp"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -355,11 +355,11 @@
             app:cornerRadius="20dp"
             android:padding="10dp"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="0dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
