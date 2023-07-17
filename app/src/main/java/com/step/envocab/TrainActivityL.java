@@ -178,6 +178,7 @@ public class TrainActivityL extends BaseActivity {
                 if(lettersW!=null) {
                     lettersW.clear();
                 }
+
                 startTrain();
             }
         });
@@ -414,7 +415,7 @@ public class TrainActivityL extends BaseActivity {
 
     public void startTrain(){
         checkCounter=0;
-
+        btnSkip.setText("I don't know");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -499,7 +500,7 @@ public class TrainActivityL extends BaseActivity {
             id_word = String.valueOf(listWords.get(checkCounter).getId());
             String wordTrainText=listWords.get(checkCounter).getWord().trim();
             wordTrain.setText(wordTrainText);
-            Log.d(TAG,"W="+listWords.get(checkCounter).getWord());
+            Log.d(TAG,"W="+listWords.get(checkCounter).getWord()+" checkCounter="+checkCounter);
             wordTranscript.setText("["+listWords.get(checkCounter).getTranscript()+"]");
 
             letters=new ArrayList<>();
