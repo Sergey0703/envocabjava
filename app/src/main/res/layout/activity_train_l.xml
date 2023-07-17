@@ -232,8 +232,8 @@
 
         <ImageButton
             android:id="@+id/btn_sound_tr"
-            android:layout_width="90dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="72dp"
 
             android:background="@drawable/sound_br4"
             android:contentDescription="Speech word"
@@ -243,7 +243,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_bias="0.6"
             ></ImageButton>
 
 
@@ -302,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:digits="- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'"
 
-                android:textSize="24sp"
+                android:textSize="22sp"
 
                 android:inputType="text" />
             <!--  android:textColor="@color/black" -->
