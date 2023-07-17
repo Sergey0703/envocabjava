@@ -23,9 +23,10 @@
         android:elevation="2dp"
 
         >
+        <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_spinner_s"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_alignParentTop="true"
@@ -33,6 +34,7 @@
             android:hint=""
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
+
 
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"

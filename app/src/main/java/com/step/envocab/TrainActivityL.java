@@ -446,6 +446,10 @@ public class TrainActivityL extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (listWords.size() != 0) {
+                    for(int i=0; i<listWords.size(); i++) {
+                        setColorCounter(i, R.color.yellow);
+                    }}
                 if(passedTechName.equals("collecttheword")) {
                     makeScreenL();
                 }else{

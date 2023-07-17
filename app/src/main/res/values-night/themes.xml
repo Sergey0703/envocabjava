@@ -23,6 +23,11 @@
         <item name="android:itemTextAppearance">@style/ChangeMenu</item>
         <item name="android:itemBackground">@color/white</item>
     </style>
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/orange</item>
+        <item name="boxStrokeWidth">2dp</item>
+
+    </style>
     <style name="ChangeMenu" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@color/black</item>
 

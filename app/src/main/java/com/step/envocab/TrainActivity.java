@@ -472,6 +472,7 @@ public class TrainActivity extends BaseActivity {
 
     public void startTrain(){
 
+
         checkCounter=0;
 //        startOfDate = dateList.atStartOfDay();
 //        endOfDate = LocalTime.MAX.atDate(dateList);
@@ -509,6 +510,10 @@ public class TrainActivity extends BaseActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (listWords.size() != 0) {
+                for(int i=0; i<listWords.size(); i++) {
+                    setColorCounter(i, R.color.yellow);
+                }}
                    makeScreen();
 
                 }
@@ -517,6 +522,7 @@ public class TrainActivity extends BaseActivity {
 
     public void makeScreen(){
         if (listWords.size() != 0) {
+
             btnSkip.setText("I don't know");
             //listCheckWords=listWords;
             //Collections.copy(listCheckWords, listWords);
@@ -613,9 +619,9 @@ public class TrainActivity extends BaseActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'Yes' Button
-                        for(int i=0; i<limit; i++) {
-                            setColorCounter(i, R.color.yellow);
-                        }
+//                        for(int i=0; i<limit; i++) {
+//                            setColorCounter(i, R.color.yellow);
+//                        }
                         offset=offset+limit;
                        // makeScreen();
                         startTrain();
