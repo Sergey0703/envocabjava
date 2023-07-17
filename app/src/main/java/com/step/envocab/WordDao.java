@@ -32,9 +32,12 @@ public interface WordDao {
     List<Dbwords> getWordsTrain2(int id_exercise, Long id_group, int limit);
 
     @Query("SELECT id, word, translate, transcript, sel.trainDate from dbwords INNER JOIN " +
-            "(SELECT trainDate, id_word FROM dbcounts WHERE dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate>:trainDate ORDER BY trainDate DESC LIMIT :limit)" +
-            " AS sel ON dbwords.id =sel.id_word ")
-    List<Dbwords> getWordsTrainPrev(Integer id_exercise, Long id_group, Date trainDate,Integer limit);
+            "(SELECT trainDate, id_word FROM dbcounts WHERE dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate<:trainDate ORDER BY dbcounts.trainDate DESC LIMIT :limit Offset :offset )" +
+            " AS sel ON dbwords.id =sel.id_word  ")
+    List<Dbwords> getWordsTrainPrev(Integer id_exercise, Long id_group, Long trainDate,Integer limit, int offset );
+
+    @Query("Select * FROM Dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
+    Dbwords getCounts(Long trainDate);
 
     @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate, dbwords.trainDate from dbwords " +
             "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +

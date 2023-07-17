@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
     TextView dashWordsTodayCount;
     TextView dashWordsTodayBadCount;
 
-    Long trainDateLong;
+    private Long trainDateLong;
     Switch switchSound;
     //   ImageView menuIcon;
 
@@ -364,7 +364,7 @@ public class MainActivity extends BaseActivity {
                                 dateWithoutTime = sdf.format(word.getTrainDate());
                                 Log.d(TAG, "dateWithoutTime=" + dateWithoutTime);
                                 dashTrainDate.setText(dateWithoutTime);
-                               // trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
+                                trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
 
                             } else {
                                 dashTrainDate.setText("");
