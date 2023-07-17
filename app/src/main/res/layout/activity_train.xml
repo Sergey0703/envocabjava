@@ -85,8 +85,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:gravity="center_vertical"
+
             android:layout_marginTop="2dp"
             android:layout_marginBottom="100dp"
             />

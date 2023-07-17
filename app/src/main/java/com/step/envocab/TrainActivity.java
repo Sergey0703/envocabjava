@@ -524,6 +524,8 @@ public class TrainActivity extends BaseActivity {
         if (listWords.size() != 0) {
 
             btnSkip.setText("I don't know");
+            btnSkip.setEnabled(true);
+            btnSkip.setAlpha(1f);
             //listCheckWords=listWords;
             //Collections.copy(listCheckWords, listWords);
 
@@ -532,6 +534,8 @@ public class TrainActivity extends BaseActivity {
             if(passedTechName.equals("heartheword")){
                 wordTrain.setVisibility(View.INVISIBLE);
                 wordTranscript.setVisibility(View.INVISIBLE);
+            }else{
+                wordTranscript.setVisibility(View.VISIBLE);
             }
             Log.d(TAG,"Err="+checkCounter);
             wordTrain.setText(listWords.get(checkCounter).getWord());
@@ -602,6 +606,22 @@ public class TrainActivity extends BaseActivity {
             btnWord3.setAlpha(1);
             btnWord4.setEnabled(true);
             btnWord4.setAlpha(1);
+
+        }else{
+            btnWord1.setEnabled(false);
+            btnWord1.setAlpha(0f);
+            btnWord2.setEnabled(false);
+            btnWord2.setAlpha(0f);
+            btnWord3.setEnabled(false);
+            btnWord3.setAlpha(0f);
+            btnWord4.setEnabled(false);
+            btnWord4.setAlpha(0f);
+            btnSkip.setEnabled(false);
+            btnSkip.setAlpha(0f);
+            wordTranscript.setVisibility(View.INVISIBLE);
+            wordTrain.setVisibility(View.VISIBLE);
+            wordTrain.setText("No words found, try another group");
+           // btnSoundTr.setVisibility(View.INVISIBLE);
 
         }
     }
