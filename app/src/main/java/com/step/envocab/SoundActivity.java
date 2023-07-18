@@ -65,7 +65,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     private Runnable runnable;
     private Context context;
     private static final String TAG = "SoundActivity";
-    boolean isLoading = false;
+    //boolean isLoading = false;
     private RecyclerView wordsList;
     private WordsAdapter wordsAdapter;
     private List<Dbwords> listWords, listWordsForAdd;
@@ -374,7 +374,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     Date currentTimeUp = Calendar.getInstance().getTime();
                     AppDatabase.getInstance(getApplicationContext())
                             .countDao()
-                            .insertOrUpdate(id_exercise, ind, (long)id_group, true, currentTimeUp);
+                            .insertOrUpdate(id_exercise, ind, id_group, true, currentTimeUp);
                   //  lastTrain=currentTimeUp;
                     Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
                 }
@@ -453,7 +453,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         Log.d(TAG,"curr="+currentTime+" offset="+offset );
                         listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainPrev(id_exercise, (long) id_group,trainDateLong ,limit,offset);
+                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset);
 
                         for(Dbwords ww:listWords){
                             Log.d(TAG, "GET prev="+ww.getWord()+" "+ ww.getTrainDate()+" offset="+offset);
@@ -490,7 +490,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                             AppDatabase.getInstance(getApplicationContext())
                                     .countDao()
-                                    .insertOrUpdate(id_exercise, ind, (long) id_group, true, currentTimeUp);
+                                    .insertOrUpdate(id_exercise, ind, id_group, true, currentTimeUp);
 
                             Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
                         }
@@ -504,7 +504,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                            .getWordsSound(id_group, limit, offset);
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrain2(id_exercise, (long) id_group, limit);
+                            .getWordsTrain2(id_exercise,  id_group, limit, null, false);
                     Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
 
                     for(Dbwords ww:listWords){

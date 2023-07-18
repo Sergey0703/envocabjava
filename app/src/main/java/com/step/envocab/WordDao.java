@@ -25,16 +25,16 @@ public interface WordDao {
 //    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id WHERE dbwords.id NOT IN (SELECT id_word FROM dbcounts WHERE id_group=:id_group AND id_exercice=:id_exercise AND id_word IS NOT NULL ) Limit :limit   ")
 //    List<Dbwords> getWordsTrain(int id_exercise, Long id_group, int limit);
 
-    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate, sel2.trainDate from dbwords " +
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate, sel2.trainDate, sel2.train1 from dbwords " +
             "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
-            "LEFT JOIN (SELECT id_word, id_group, trainDate FROM dbcounts WHERE id_exercice=:id_exercise AND id_group=:id_group) AS sel2 ON dbwords.id=sel2.id_word " +
-            "ORDER BY sel2.trainDate ASC Limit :limit   ")
-    List<Dbwords> getWordsTrain2(int id_exercise, Long id_group, int limit);
+            "LEFT JOIN (SELECT id_word, id_group, trainDate, train AS train1 FROM dbcounts WHERE id_exercice=:id_exercise AND id_group=:id_group  ) AS sel2 ON dbwords.id=sel2.id_word " +
+            "WHERE :isnull IS NULL OR sel2.train1 LIKE :train1 ORDER BY sel2.trainDate ASC Limit :limit   ")
+    List<Dbwords> getWordsTrain2(int id_exercise, int id_group, int limit, Integer isnull, boolean train1);
 
     @Query("SELECT id, word, translate, transcript, sel.trainDate from dbwords INNER JOIN " +
             "(SELECT trainDate, id_word FROM dbcounts WHERE dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate<:trainDate ORDER BY dbcounts.trainDate DESC LIMIT :limit Offset :offset )" +
             " AS sel ON dbwords.id =sel.id_word  ")
-    List<Dbwords> getWordsTrainPrev(Integer id_exercise, Long id_group, Long trainDate,Integer limit, int offset );
+    List<Dbwords> getWordsTrainPrev(Integer id_exercise, int id_group, Long trainDate,Integer limit, int offset );
 
     @Query("Select * FROM Dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
     Dbwords getCounts(Long trainDate);

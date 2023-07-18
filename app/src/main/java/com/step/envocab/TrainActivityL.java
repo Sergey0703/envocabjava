@@ -62,7 +62,7 @@ public class TrainActivityL extends BaseActivity {
     private int id_exercise;
     private TextView textNameTrain, wordTrain, wordTranscript;
     private List<Dbwords> listWords, listCheckWords;
-    private long id_group;
+    private int id_group=0;
     private int offset=0;
     private String id_word = "";
     private TextView textMess;
@@ -155,7 +155,7 @@ public class TrainActivityL extends BaseActivity {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
-                id_group = (Long)parent.getItemIdAtPosition(position);
+                id_group = (int)parent.getItemIdAtPosition(position);
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
 
                 for (Button b2 : lettersWord) {
@@ -431,7 +431,7 @@ public class TrainActivityL extends BaseActivity {
                 }else {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrain2(id_exercise, id_group, limit);
+                            .getWordsTrain2(id_exercise, id_group, limit, null, false);
                 }
 
                 Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);

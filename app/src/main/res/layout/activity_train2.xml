@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="name"
             android:textStyle="bold"
-            android:textSize="28sp"
+            android:textSize="26sp"
 
             android:inputType = "textCapSentences"
 
@@ -63,6 +63,35 @@
 
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/only_marked_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_spinner2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:checked="false"
+            android:fadeScrollbars="false"
+            android:fontFamily="sans-serif"
+
+
+            android:letterSpacing="0"
+            android:text="Only marked words "
+            android:textColor="@color/blue_color2_font2"
+
+
+            android:textSize="20sp"
+            android:textStyle="normal"
+
+            android:theme="@style/SwitchThemeOverlay2"
+            />
         <Spinner
             android:id="@+id/spinner_tr"
             android:layout_width="wrap_content"
@@ -83,7 +112,7 @@
 
             android:textAllCaps = "true"
 
-            app:layout_constraintTop_toBottomOf="@id/text_spinner2"
+            app:layout_constraintTop_toBottomOf="@id/only_marked_words"
             app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
