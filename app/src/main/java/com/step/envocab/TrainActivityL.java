@@ -199,6 +199,28 @@ public class TrainActivityL extends BaseActivity {
                     filterWord=null;
                     Log.d(TAG, "All words ");
                 }
+
+                for (Button b2 : lettersWord) {
+                    ViewGroup layout = (ViewGroup) b2.getParent();
+                    if (null != layout) //for safety only  as you are doing onClick
+                        layout.removeView(b2);
+                }
+                lettersWord.clear();
+
+
+                for (Button b3 : lettersButton) {
+                    ViewGroup layout = (ViewGroup) b3.getParent();
+                    if (null != layout) //for safety only  as you are doing onClick
+                        layout.removeView(b3);
+                }
+                lettersButton.clear();
+                if(lettersW!=null) {
+                    letters.clear();
+                }
+                if(lettersW!=null) {
+                    lettersW.clear();
+                }
+
                 startTrain();
             }
         });
