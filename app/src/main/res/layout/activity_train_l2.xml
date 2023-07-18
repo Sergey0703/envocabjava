@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="name"
             android:textStyle="bold"
-            android:textSize="28sp"
+            android:textSize="26sp"
 
             android:inputType = "textCapSentences"
 
@@ -30,14 +30,14 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/red_color_font2"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_spinnerL2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_width="419dp"
+            android:layout_height="55dp"
             android:hint=""
 
             app:boxBackgroundColor="@color/white"
@@ -63,11 +63,40 @@
 
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/only_marked_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_spinnerL2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:checked="false"
+            android:fadeScrollbars="false"
+            android:fontFamily="sans-serif"
+
+
+            android:letterSpacing="0"
+            android:text="Only marked words "
+            android:textColor="@color/blue_color2_font2"
+
+
+            android:textSize="20sp"
+            android:textStyle="normal"
+
+            android:theme="@style/SwitchThemeOverlay2"
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/indicators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text_spinnerL2"
+            app:layout_constraintTop_toBottomOf="@id/only_marked_words"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="5dp"

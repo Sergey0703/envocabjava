@@ -63,11 +63,33 @@
 
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/only_marked_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_spinnerL2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:fadeScrollbars="true"
+            android:text="Only marked words "
+            android:textColor="@color/white"
+            android:textOff="No"
+            android:textOn="Yes"
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold|italic"
+            android:thumbTint="@color/yellow"
+            android:trackTint="@color/red"
+            android:theme="@style/SwitchThemeOverlay"
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/indicators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text_spinnerL2"
+            app:layout_constraintTop_toBottomOf="@id/only_marked_words"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="5dp"
