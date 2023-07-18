@@ -1,6 +1,7 @@
 package com.step.envocab;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +46,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
+    private SwitchCompat onlyMarkedWords;
+    private Integer filterWord=null;
     private ArrayAdapter<String> adapter;
     TextInputLayout textSpinner2;
     private AutoCompleteTextView spinner2;
@@ -183,7 +187,21 @@ public class TrainActivityL extends BaseActivity {
             }
         });
 
+        onlyMarkedWords = findViewById(R.id.only_marked_words);
+        onlyMarkedWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                //onStop();
+                if (onlyMarkedWords.isChecked()) {
+                    filterWord=1;
+                    Log.d(TAG, "Only words for study");
+                } else {
+                    filterWord=null;
+                    Log.d(TAG, "All words ");
+                }
+                startTrain();
+            }
+        });
         textInputWord = findViewById(R.id.text_input_word_w);
         textEditWord=findViewById(R.id.word_w);
         textEditWord.addTextChangedListener(new TextWatcher() {
@@ -431,9 +449,16 @@ public class TrainActivityL extends BaseActivity {
                 }else {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrain2(id_exercise, id_group, limit, null, false);
+                            .getWordsTrain2(id_exercise, id_group, limit, filterWord, false);
                 }
+                if(listWords.size()>0 & listWords.size()<limit){
 
+                    List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size());
+                    listWords.addAll(listWordsAdd);
+
+                }
                 Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);
                 for(Dbwords w: listWords){
                     Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate());
