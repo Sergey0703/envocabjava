@@ -14,13 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.ActionBar;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -38,6 +46,14 @@ import java.util.Locale;
 //my first Test version
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends BaseActivity {
+    private int id_exercise = 6;
+    private SwitchCompat onlyMarkedWords;
+    private ArrayAdapter<String> adapter;
+    private TextInputLayout textSpinner2;
+    private AutoCompleteTextView spinner2;
+    private List<String> listGroups;
+    private Integer filterWord=null;
+    private int id_group=0;
     private static final String TAG = "MainActivity";
     //final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
     //DataBaseHelper databaseHelper;
@@ -214,7 +230,102 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        onlyMarkedWords = findViewById(R.id.only_marked_words);
+
+        spinner2 = findViewById(R.id.spinner_tr2);
+        textSpinner2=findViewById(R.id.text_spinner2);
+
+        checkLastGroup();
+
+        spinner2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+                Object item = parent.getItemAtPosition(position);
+//                if (item instanceof StudentInfo){
+//                    StudentInfo student=(StudentInfo) item;
+//                    doSomethingWith(student);
+//                }
+                String item2 = (String)parent.getItemAtPosition(position);
+                id_group = (int)parent.getItemIdAtPosition(position);
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
+                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
+                takeWord("");
+            }
+        });
+        onlyMarkedWords.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //onStop();
+                if (onlyMarkedWords.isChecked()) {
+                    filterWord=1;
+                    Log.d(TAG, "Only words for study");
+                } else {
+                    filterWord=null;
+                    Log.d(TAG, "All words ");
+                }
+                takeWord("");
+            }
+        });
+
+        makeSpin();
+       // takeWord("");
+    }
+    public void makeSpin(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                listGroups = AppDatabase.getInstance(getApplicationContext())
+                        .groupDao()
+                        .getGroupsForSpinner();
+                listGroups.add(0,"Without groups");
+            }
+        });
+        thread.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+                adapter = new ArrayAdapter(MainActivity.this, R.layout.spinner_item_tr, listGroups);
+                //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Применяем адаптер к элементу spinner
+                spinner2.setAdapter(adapter);
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
+                //int id_gr=id_group.intValue();
+                //spinner2.setSelection(2);
+                spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+                textSpinner2.setHint("Select Group");
+
+            }
+        }, 10);
         takeWord("");
+    }
+
+    public void checkLastGroup() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                id_group= AppDatabase.getInstance(getApplicationContext())
+                        .countDao()
+                        .lastGroup(id_exercise);
+
+                Log.d(TAG, "LastGr==" + id_group);
+//                if(id_group==null){
+//                    id_group=0L;
+//                }
+
+            }
+
+        }).start();
+        //return lastGroup;
     }
 
     //    public void showMenu(View v){

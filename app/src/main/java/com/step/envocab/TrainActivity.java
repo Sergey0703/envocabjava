@@ -51,7 +51,7 @@ import java.util.Random;
 public class TrainActivity extends BaseActivity {
     private SwitchCompat onlyMarkedWords;
     private ArrayAdapter<String> adapter;
-    TextInputLayout textSpinner2;
+    private TextInputLayout textSpinner2;
     private AutoCompleteTextView spinner2;
     private List<String> listGroups;
     private TextToSpeech textToSpeech;

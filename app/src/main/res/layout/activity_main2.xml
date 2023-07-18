@@ -188,8 +188,69 @@
             app:layout_constraintStart_toStartOf="@+id/dashWord"
             app:layout_constraintBottom_toBottomOf="@+id/dashTranslate"
          />
-
 -->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_spinner2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:hint=""
+
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="8dp"
+
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/orange"
+            app:errorEnabled="true"
+            app:hintTextColor="@color/orange"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/switchSound">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_tr2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="none"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/only_marked_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_spinner2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:checked="false"
+            android:fadeScrollbars="false"
+            android:fontFamily="sans-serif"
+
+
+            android:letterSpacing="0"
+            android:text="Only marked words "
+            android:textColor="@color/blue_color2_font2"
+
+
+            android:textSize="20sp"
+            android:textStyle="normal"
+
+            android:theme="@style/SwitchThemeOverlay2"
+            />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardWord"
             android:layout_height="0dp"
@@ -197,7 +258,7 @@
             android:layout_width="match_parent"
             app:cardElevation="0dp"
             app:cardCornerRadius="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:padding="0dp"
             app:strokeColor="@color/white"
             app:strokeWidth="1dp"
@@ -209,7 +270,7 @@
             app:cardUseCompatPadding="true"
 
 
-            app:layout_constraintTop_toBottomOf="@id/switchSound"
+            app:layout_constraintTop_toBottomOf="@id/only_marked_words"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btnWordTranslate"
@@ -475,7 +536,7 @@
         android:id="@+id/switchSound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:checked="true"
         android:fadeScrollbars="true"
         android:text="Auto Sound"
