@@ -84,6 +84,7 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
 
                 Log.d(TAG, "listSearchExercises0=" + listSearchExercises.size());
                 listSearchExercises.remove(4);
+                listSearchExercises.remove(4);
 //            for(int i=0; listSearchGroups.size()>i; i++){
 //               Log.d(TAG,"i="+listSearchGroups.get(i));
 //            }

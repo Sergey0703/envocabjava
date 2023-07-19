@@ -31,10 +31,15 @@ public interface WordDao {
             "WHERE :isnull IS NULL OR sel2.train1 LIKE :train1 ORDER BY sel2.trainDate ASC Limit :limit   ")
     List<Dbwords> getWordsTrain2(int id_exercise, int id_group, int limit, Integer isnull, boolean train1);
 
-    @Query("SELECT id, word, translate, transcript, sel.trainDate from dbwords INNER JOIN " +
-            "(SELECT trainDate, id_word FROM dbcounts WHERE dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate<:trainDate ORDER BY dbcounts.trainDate DESC LIMIT :limit Offset :offset )" +
+    @Query("SELECT id, word, translate, transcript, sel.trainDate, sel.train1 from dbwords INNER JOIN " +
+            "(SELECT train AS train1, trainDate, id_word FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate<:trainDate ORDER BY dbcounts.trainDate DESC LIMIT :limit Offset :offset )" +
             " AS sel ON dbwords.id =sel.id_word  ")
-    List<Dbwords> getWordsTrainPrev(Integer id_exercise, int id_group, Long trainDate,Integer limit, int offset );
+    List<Dbwords> getWordsTrainPrev(Integer id_exercise, int id_group, Long trainDate,Integer limit, int offset, Integer isnull, boolean train1 );
+
+    @Query("SELECT id, word, translate, transcript, sel.trainDate, sel.train1 from dbwords INNER JOIN " +
+            "(SELECT train AS train1, trainDate, id_word FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate>:trainDate ORDER BY dbcounts.trainDate ASC LIMIT :limit Offset :offset )" +
+            " AS sel ON dbwords.id =sel.id_word  ")
+    List<Dbwords> getWordsTrainNext(Integer id_exercise, int id_group, Long trainDate,Integer limit, int offset,Integer isnull, boolean train1 );
 
     @Query("Select * FROM Dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
     Dbwords getCounts(Long trainDate);
@@ -72,6 +77,10 @@ public interface WordDao {
 
     @Query("SELECT COUNT(*) FROM Dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
     int countToday(Long startDate,Long endDate, int train);
+
+    @Query("SELECT COUNT(*) FROM dbcounts WHERE id_exercice=:id_exercise AND train LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
+    int countTodayGroup(Long startDate,Long endDate,  int train, int id_exercise);
+
 
     @Query("SELECT COUNT(*) FROM Dbwords ")
     int countAll();

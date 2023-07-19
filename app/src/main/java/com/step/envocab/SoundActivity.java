@@ -50,6 +50,7 @@ import java.util.Locale;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
     private Long trainDateLong;
+    private Integer filterWord=null;
 
     TextInputLayout textSpinnerS;
     private AutoCompleteTextView spinnerS;
@@ -177,6 +178,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                }
                 //int id_gr=id_group.intValue();
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
+                allStudyWords.setChecked(false);
+                filterWord=null;
                 makeSpin();
 
             }
@@ -189,10 +192,12 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 onStop();
                 if (allStudyWords.isChecked()) {
                     speechCategory.setVisibility(View.INVISIBLE);
+                    filterWord=null;
                     Log.d(TAG, "Words only by date");
                 } else {
                     speechCategory.setVisibility(View.VISIBLE);
                     Log.d(TAG, "All words for study");
+                    filterWord=1;
                 }
                 dataToList("");
             }
@@ -453,7 +458,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         Log.d(TAG,"curr="+currentTime+" offset="+offset );
                         listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset);
+                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset, filterWord, false);
 
                         for(Dbwords ww:listWords){
                             Log.d(TAG, "GET prev="+ww.getWord()+" "+ ww.getTrainDate()+" offset="+offset);

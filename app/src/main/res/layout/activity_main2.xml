@@ -347,7 +347,7 @@
 
             android:layout_marginBottom="0dp"
             android:text="date"
-            android:textColor="@color/red_color_font2"
+            android:textColor="@color/blue_color2_font2"
             android:textSize="20sp"
             android:layout_below="@+id/dashTranscript"
             ></TextView>
@@ -355,26 +355,27 @@
        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTranscript"
         -->
-    <TextView
-        android:id="@+id/dashTranslate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="translate"
-        android:layout_margin="0dp"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:letterSpacing="0"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/blue_color2_font2"
+        <TextView
+            android:id="@+id/dashTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dashTrainDate"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif"
 
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/dashTrainDate"
-        >
-        <!--
+            android:letterSpacing="0"
+            android:text="translate"
+            android:textColor="@color/red_color_font2"
+            android:textSize="26sp"
+            android:textStyle="bold">
+            <!--
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTrainDate"
         -->
-    </TextView>
+        </TextView>
         <ImageButton
             android:id="@+id/btnSound"
             android:layout_width="100dp"
