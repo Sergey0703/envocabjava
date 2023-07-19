@@ -173,9 +173,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
                 id_group = (int) parent.getItemIdAtPosition(position);
-//                if(id_group==null){
-//                    id_group=0;
-//                }
+                if(id_group==0){
+                    allStudyWords.setVisibility(View.INVISIBLE);
+                }
                 //int id_gr=id_group.intValue();
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
                 allStudyWords.setChecked(false);
@@ -192,12 +192,12 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 onStop();
                 if (allStudyWords.isChecked()) {
                     speechCategory.setVisibility(View.INVISIBLE);
-                    filterWord=null;
+                    filterWord=1;
                     Log.d(TAG, "Words only by date");
                 } else {
                     speechCategory.setVisibility(View.VISIBLE);
                     Log.d(TAG, "All words for study");
-                    filterWord=1;
+                    filterWord=null;
                 }
                 dataToList("");
             }
@@ -458,7 +458,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         Log.d(TAG,"curr="+currentTime+" offset="+offset );
                         listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset, filterWord, false);
+                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset, null, false);
 
                         for(Dbwords ww:listWords){
                             Log.d(TAG, "GET prev="+ww.getWord()+" "+ ww.getTrainDate()+" offset="+offset);
@@ -510,7 +510,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .getWordsTrain2(id_exercise,  id_group, limit, null, false);
-                    Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
+                    Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise+" filterWord="+filterWord);
 
                     for(Dbwords ww:listWords){
                         Log.d(TAG, "GET word="+ww.getWord()+" "+ ww.getTrainDate());

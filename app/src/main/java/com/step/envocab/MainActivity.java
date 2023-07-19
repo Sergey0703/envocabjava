@@ -471,7 +471,7 @@ public class MainActivity extends BaseActivity {
                             currentTimeW=Calendar.getInstance().getTime();
                         }
                         long trainDateLong = Converters.dateToTimestamp(currentTimeW);
-                        Log.d(TAG,"curr="+currentTimeW+" offset=" );
+                        Log.d(TAG,"curr="+currentTimeW+" filterWord="+filterWord );
                         List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .getWordsTrainNext(id_exercise,  id_group,trainDateLong ,1,0, filterWord, false);

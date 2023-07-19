@@ -15,8 +15,8 @@
     <RelativeLayout
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:maxHeight="140dp"
+        android:layout_height="150dp"
+        android:maxHeight="150dp"
         android:layout_weight="1"
 
         android:padding="0dp"
@@ -128,6 +128,7 @@
             android:textStyle="normal"
             android:theme="@style/SwitchThemeOverlay2"
             android:layout_marginTop="5dp"
+            android:visibility="invisible"
              />
 
         <!--app:backgroundTint="@color/green"-->
