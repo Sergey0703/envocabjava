@@ -79,6 +79,21 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
             //viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);
 
 //            itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {
+            itemView.findViewById(R.id.btnSoundDict).setOnClickListener(new View.OnClickListener() {
+                //itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (wordRosterInterface != null) {
+                        int pos = getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION) {
+
+                            //v.startAnimation(animAlpha);
+                            wordRosterInterface.onItemClick(pos, "sound");
+                            //Log.d("TAG",id);
+                        }
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,7 +102,7 @@ public class WordsRosterAdapter extends RecyclerView.Adapter<WordsRosterAdapter.
                         if (pos != RecyclerView.NO_POSITION) {
 
                             //v.startAnimation(animAlpha);
-                            wordRosterInterface.onItemClick(pos);
+                            wordRosterInterface.onItemClick(pos,"item");
                             //Log.d("TAG",id);
                         }
                     }

@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -20,14 +21,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DictActivity extends BaseActivity implements WordRosterInterface {
+    TextToSpeech textToSpeech;
     private Runnable runnable;
     private String theme="light";
 
@@ -46,6 +52,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
     private Handler handler = null;
 
     private Button btnSaveD, btnNew;
+    private Animation animAlpha;
 
     protected void onStop() {
         super.onStop();
@@ -96,6 +103,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         layoutManager = new LinearLayoutManager(this);
         searchRecycler = findViewById(R.id.recyclerFilter);
         searchRecycler.setLayoutManager(layoutManager);
+        animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
 
         textCautionDict=findViewById(R.id.caution_dict);
 
@@ -116,8 +124,18 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
             }
         });
 
-        //dataToSearchList();
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                // if No error is found then only it will run
+                if (i != TextToSpeech.ERROR) {
+                    // To Choose language of speech
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
     }
 
     public void onResume() {
@@ -207,10 +225,12 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
         }, 100);
     }
-
+    public void playSpeech(String txtSpeech) {
+        textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
+    }
     /////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String act) {
         int top = position;
 //        if (handler != null) return;
 //        //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
@@ -221,7 +241,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 //
 //            @Override
 //            public void run() {
-        Log.d(TAG, "position=" + top);
+        Log.d(TAG, "position=" + top+" act="+act);
         View v = layoutManager.findViewByPosition(top);
         //v.startAnimation(animAlpha);
         CardView card = (CardView) v.findViewById(R.id.cardWord);
@@ -235,6 +255,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
         String id = (String) textViewId.getText();
         Log.d(TAG, top + "= onScrollStateChanged=" + selectedName + " id=" + id);
+        ImageButton im=(ImageButton) v.findViewById(R.id.btnSoundDict);
 
         handler = new Handler();
         Thread thread = new Thread(new Runnable() {
@@ -254,23 +275,33 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
         thread.start();
 
         if (handler == null) return;
+        if(act.equals("sound")) {
 
-
-        handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                DisplayMetrics displaymetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-                int width = displaymetrics.widthPixels * 3 / 4;
-                int height = displaymetrics.heightPixels * 3 / 4;
-
-                Log.d(TAG, +top + "= Dialog=" + width);
-                dialog = new WordDialog(DictActivity.this,  DictActivity.this);
-                dialog.showDialog(DictActivity.this, width, height,theme,"Edit word", String.valueOf(searchWord.getId()),
-                        searchWord.getWord(), searchWord.getTranslate(),
-                        searchWord.getTranscript(),searchWord.getTrain1());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    im.startAnimation(animAlpha);
+                    playSpeech(searchWord.getWord());
                 }
-        },100);
+            }, 100);
+
+        }else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    DisplayMetrics displaymetrics = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                    int width = displaymetrics.widthPixels * 3 / 4;
+                    int height = displaymetrics.heightPixels * 3 / 4;
+
+                    Log.d(TAG, +top + "= Dialog=" + width);
+                    dialog = new WordDialog(DictActivity.this, DictActivity.this);
+                    dialog.showDialog(DictActivity.this, width, height, theme, "Edit word", String.valueOf(searchWord.getId()),
+                            searchWord.getWord(), searchWord.getTranslate(),
+                            searchWord.getTranscript(), searchWord.getTrain1());
+                }
+            }, 100);
+        }
     }
 
     @Override
