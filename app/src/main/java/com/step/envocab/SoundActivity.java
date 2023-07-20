@@ -172,7 +172,12 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
+                try {
                 id_group = (int) parent.getItemIdAtPosition(position);
+                }catch(NullPointerException e){
+                    id_group=0;
+                }
+
                 if(id_group==0){
                     allStudyWords.setVisibility(View.INVISIBLE);
                 }

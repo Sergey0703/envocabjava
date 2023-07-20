@@ -120,7 +120,7 @@
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:text=""
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textSize="18sp"
         android:layout_below="@id/id_item"/>
         <!--android:layout_below="@id/tv_number_item"-->

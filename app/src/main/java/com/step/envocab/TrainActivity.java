@@ -172,7 +172,11 @@ public class TrainActivity extends BaseActivity {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
-                id_group = (int)parent.getItemIdAtPosition(position);
+                try {
+                    id_group = (int) parent.getItemIdAtPosition(position);
+                }catch(NullPointerException e){
+                id_group=0;
+               }
 //                if(id_group==null){
 //                    id_group=0L;
 //                }

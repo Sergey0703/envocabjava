@@ -1,5 +1,6 @@
 package com.step.envocab;
 
+import androidx.constraintlayout.widget.Group;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -11,7 +12,11 @@ import java.util.List;
 public interface GroupDao {
     //@Insert
    // void insertGroup(Dbgroups group);
-    @Query("SELECT `group` from Dbgroups ORDER BY id_group")
+//    @Query("SELECT `group` from Dbgroups ORDER BY id_group")
+//    List<String> getGroupsForSpinner();
+
+    @Query("SELECT dbgroups.`group` from Dbgroups INNER JOIN (SELECT id_group ,COUNT (*) description from dbgroupsandwords GROUP BY id_group) " +
+            "AS sel ON dbgroups.id_group=sel.id_group WHERE sel.description>0 ORDER BY dbgroups.id_group ")
     List<String> getGroupsForSpinner();
 
     @Query("SELECT * from Dbgroups WHERE `group` LIKE :filter ORDER BY id_group")
@@ -40,49 +45,5 @@ public interface GroupDao {
 
     @Query("Select * FROM dbgroups WHERE use_group >0")
     List<Dbgroups> findUseGroup();
-
-//    //@Modifying
-//    @Query("update Dbwords set word=:word, translate = :trans, transcript =:transcript, train1 =:train where id = :id")
-//    int upWord(Integer id, String word, String trans, String transcript, Boolean train);
-//
-//    @Query("insert into Dbwords ('word','translate','transcript','train1') VALUES(:word,:trans,:transcript,:train)")
-//    Long insWord( String word, String trans, String transcript, Boolean train);
-
-//
-//    @Query("Select * FROM Dbwords ORDER BY trainDate ASC Limit 1")
-//    Dbwords findLast();
-//
-//    @Query("Select * FROM Dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
-//    Dbwords findNext(Long trainDate);
-//
-//    @Query("Select * FROM Dbwords WHERE trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
-//    Dbwords findPrev(Long trainDate);
-//
-//    @Query("Select * FROM Dbwords ORDER BY trainDate DESC Limit 1")  //
-//    Dbwords findPrevAdd();
-//    @Update
-//    void updateWord(Dbwords word);
-//
-//    @Query("SELECT * FROM Dbwords ORDER BY trainDate ASC ")
-//    List<Dbwords> getAll();
-//
-//    @Query("SELECT COUNT(*) FROM Dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
-//    int countToday(Long startDate,Long endDate, int train);
-//
-//    @Query("SELECT COUNT(*) FROM Dbwords ")
-//    int countAll();
-//    @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
-//    List<Dbwords> wordsForList(Long startDate, Long endDate, int train);
-//
-//    @Query("SELECT * FROM Dbwords WHERE  trainDate BETWEEN :startDate AND :endDate")
-//    List<Dbwords> wordsForListAll(Long startDate, Long endDate);
-//
-//    @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train")
-//    List<Dbwords> wordsForListAll(int train);
-//
-//    // Dao query with filter
-//    @Query("SELECT * from Dbwords WHERE word LIKE :filter ORDER BY word")
-//    List<Dbwords> getItemsFiltered(String filter);
-
 
 }

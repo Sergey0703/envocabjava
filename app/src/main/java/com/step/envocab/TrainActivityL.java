@@ -159,7 +159,11 @@ public class TrainActivityL extends BaseActivity {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
+            try {
                 id_group = (int)parent.getItemIdAtPosition(position);
+            }catch(NullPointerException e){
+                id_group=0;
+            }
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
 
                 for (Button b2 : lettersWord) {

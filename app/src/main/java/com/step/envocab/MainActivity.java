@@ -248,7 +248,14 @@ public class MainActivity extends BaseActivity {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
-                id_group = (int)parent.getItemIdAtPosition(position);
+//                if(position==null){
+////                    id_group=0L;
+//                }
+                try {
+                    id_group = (int) parent.getItemIdAtPosition(position);
+                }catch(NullPointerException e){
+                    id_group=0;
+                }
                 onlyMarkedWords.setChecked(false);
                 filterWord=null;
 //                if(id_group==null){
