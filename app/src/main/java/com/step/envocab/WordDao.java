@@ -51,8 +51,8 @@ public interface WordDao {
 
 //    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords WHERE dbwords.id NOT IN (SELECT id_word FROM dbcounts WHERE id_exercice=:id_exercise AND id_word IS NOT NULL ) Limit :limit  ")
 //    List<Dbwords> getWordsTrainWithoutGroup(int id_exercise, int limit);
-    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords LEFT JOIN (SELECT id_word, trainDate FROM dbcounts WHERE id_exercice=:id_exercise) AS sel ON dbwords.id=sel.id_word ORDER BY sel.trainDate ASC Limit :limit  ")
-    List<Dbwords> getWordsTrainWithoutGroup2(int id_exercise, int limit);
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords LEFT JOIN (SELECT id_word, trainDate FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND id_exercice=:id_exercise) AS sel ON dbwords.id=sel.id_word ORDER BY sel.trainDate ASC Limit :limit  ")
+    List<Dbwords> getWordsTrainWithoutGroup2(int id_exercise, int limit,Integer isnull, boolean train1);
     @Query("SELECT * FROM Dbwords Limit :limit OFFSET :offset")
     List<Dbwords> wordsForListLimit( int limit, int offset);
     @Query("Select * FROM Dbwords WHERE id LIKE :id")

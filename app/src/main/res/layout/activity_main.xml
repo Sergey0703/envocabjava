@@ -350,7 +350,7 @@
         android:layout_centerHorizontal="true"
         android:checked="false"
         android:fadeScrollbars="true"
-        android:text="Only marked words "
+        android:text="Repeat marked words "
         android:textColor="@color/white"
         android:textOff="No"
         android:textOn="Yes"

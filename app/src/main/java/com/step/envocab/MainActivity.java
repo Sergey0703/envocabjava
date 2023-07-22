@@ -2,6 +2,7 @@ package com.step.envocab;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
 
 import android.os.AsyncTask;
@@ -251,11 +252,13 @@ public class MainActivity extends BaseActivity {
 //                if(position==null){
 ////                    id_group=0L;
 //                }
-                try {
-                    id_group = (int) parent.getItemIdAtPosition(position);
-                }catch(NullPointerException e){
-                    id_group=0;
-                }
+//                try {
+//                    id_group = (int) parent.getItemIdAtPosition(position);
+//                }catch(NullPointerException e){
+//                    id_group=0;
+//                }
+                Long id_group0 = parent.getItemIdAtPosition(position);
+                id_group=id_group0==null?0:id_group0.intValue();
                 onlyMarkedWords.setChecked(false);
                 filterWord=null;
 //                if(id_group==null){
@@ -305,11 +308,9 @@ public class MainActivity extends BaseActivity {
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinner2.setAdapter(adapter);
-//                if(id_group==null){
-//                    id_group=0L;
-//                }
-                //int id_gr=id_group.intValue();
-                //spinner2.setSelection(2);
+
+                spinner2.setTextColor(Color.rgb(255, 165, 0));
+                spinner2.setTextSize(22);
                 spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
                 textSpinner2.setHint("Select Group");
 

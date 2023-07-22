@@ -2,6 +2,7 @@ package com.step.envocab;
 
 import static java.security.AccessController.getContext;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,6 +32,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,6 +44,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -49,14 +53,16 @@ import java.util.Locale;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
+    private Boolean markWords[];
     private SwitchCompat onlyMarkedWords;
     private ArrayAdapter<String> adapter;
     private TextInputLayout textSpinner2;
     private AutoCompleteTextView spinner2;
     private List<String> listGroups;
+
     private TextToSpeech textToSpeech;
     private Date currentTime;
-    //private Spinner spinner;
+    private Spinner spinner;
     private int color;
     private int id_random;
     private String theme = "";
@@ -156,7 +162,7 @@ public class TrainActivity extends BaseActivity {
 
         onlyMarkedWords = findViewById(R.id.only_marked_words);
 
-        //spinner = findViewById(R.id.spinner_tr);
+       // spinner = findViewById(R.id.spinner_tr);
         spinner2 = findViewById(R.id.spinner_tr2);
         textSpinner2=findViewById(R.id.text_spinner2);
 
@@ -171,16 +177,21 @@ public class TrainActivity extends BaseActivity {
 //                    StudentInfo student=(StudentInfo) item;
 //                    doSomethingWith(student);
 //                }
+
                 String item2 = (String)parent.getItemAtPosition(position);
-                try {
-                    id_group = (int) parent.getItemIdAtPosition(position);
-                }catch(NullPointerException e){
-                id_group=0;
-               }
+                Long id_group0 = parent.getItemIdAtPosition(position);
+                id_group=id_group0==null?0:id_group0.intValue();
+
+//                try {
+//
+//                    }
+//                }catch(NullPointerException e){
+//                id_group=0;
+//               }
 //                if(id_group==null){
 //                    id_group=0L;
 //                }
-                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
+                Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group)+" position="+position);
                 startTrain();
             }
         });
@@ -205,7 +216,8 @@ public class TrainActivity extends BaseActivity {
 //
 //                // Получаем выбранный объект
 //                String item = (String)parent.getItemAtPosition(position);
-//                id_group = (Long)parent.getItemIdAtPosition(position);
+//                //if(parent.getItemIdAtPosition(position)==null)
+//                Long id_group2 = parent.getItemIdAtPosition(position);
 //                Log.d(TAG, "item="+item+" id_item="+String.valueOf(id_group));
 //                startTrain();
 //            }
@@ -288,6 +300,7 @@ public class TrainActivity extends BaseActivity {
                     Log.d(TAG,"ch="+checkCounter);
                     setColorCounter(checkCounter, R.color.red);
                     setCount(id_word, false);
+                    markWords[checkCounter]=false;
                     wordTrain.setVisibility(View.VISIBLE);
                     wordTranscript.setVisibility(View.VISIBLE);
                     btnWord1.setEnabled(false);
@@ -362,7 +375,7 @@ public class TrainActivity extends BaseActivity {
                 AppDatabase.getInstance(getApplicationContext())
                         .countDao()
                         .insertOrUpdate(id_exercise, Integer.parseInt(ind), id_group, resTrain, currentTime);
-                Log.d(TAG, "Update count=" + ind+" word="+wordTrain.getText());
+                Log.d(TAG, "Update count=" + ind+" word="+wordTrain.getText()+" train="+resTrain);
             }
 
         }).start();
@@ -440,6 +453,8 @@ public class TrainActivity extends BaseActivity {
 
         setColorCounter(checkCounter,color);
         setCount(id_word,checkOk);
+        markWords[checkCounter]=checkOk;
+
 
         //checkCounter++;
         btnSkip.setText("NEXT");
@@ -484,6 +499,7 @@ public class TrainActivity extends BaseActivity {
                 //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
                 adapter = new ArrayAdapter(TrainActivity.this, R.layout.spinner_item_tr, listGroups);
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                //adapter.setDropDownViewResource(R.layout.spinner_item_tr);
                 // Применяем адаптер к элементу spinner
                 spinner2.setAdapter(adapter);
 //                if(id_group==null){
@@ -492,6 +508,8 @@ public class TrainActivity extends BaseActivity {
                 //int id_gr=id_group.intValue();
                 //spinner2.setSelection(2);
                 spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+                spinner2.setTextColor(Color.rgb(255, 165, 0));
+                spinner2.setTextSize(22);
                 textSpinner2.setHint("Select Group");
 
             }
@@ -500,7 +518,13 @@ public class TrainActivity extends BaseActivity {
     }
 
     public void startTrain(){
-
+        //if (listWords.size() != 0) {
+            for(int i=0; i<limit; i++) {
+                setColorCounter(i, R.color.yellow);
+            }
+            if(markWords!=null) {
+                Arrays.fill(markWords, null);
+            }
 
         checkCounter=0;
 //        startOfDate = dateList.atStartOfDay();
@@ -525,7 +549,7 @@ public class TrainActivity extends BaseActivity {
                     Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrainWithoutGroup2(id_exercise, limit);
+                            .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
                 }else {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -536,7 +560,7 @@ public class TrainActivity extends BaseActivity {
 
                     List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size());
+                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size(), filterWord, false);
                    listWords.addAll(listWordsAdd);
 
                }
@@ -545,6 +569,7 @@ public class TrainActivity extends BaseActivity {
                 for(Dbwords w: listWords){
                     Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate()+" train="+w.getTrain1());
                 }
+                markWords=new Boolean[listWords.size()];
             }
         });
         thread.start();
@@ -560,10 +585,7 @@ public class TrainActivity extends BaseActivity {
     }
 
     public void makeScreen(){
-        if (listWords.size() != 0) {
-            for(int i=0; i<listWords.size(); i++) {
-                setColorCounter(i, R.color.yellow);
-            }}
+
         if (listWords.size() != 0) {
 
             btnSkip.setText("I don't know");
@@ -671,14 +693,68 @@ public class TrainActivity extends BaseActivity {
 
     private void showSimpleDialog(int position){
         //currentTime = Calendar.getInstance().getTime();
+        //TextView text = (TextView) findViewById(R.id.text_dialog2);
 
 
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_label_editor, null);
+
+        ListView textList =  dialogView.findViewById(R.id.text_list);
+        TextView textRes =  dialogView.findViewById(R.id.text_dialog);
+        //TextView wordsResult3 = (TextView) dialogView.findViewById(R.id.text_dialog3);
+        String textWords[]=new String[listWords.size()];
+        String translWords[]=new String[listWords.size()];
+
+        int countM=0;
+        for(boolean b:markWords){
+            Log.d(TAG,"b="+b);
+            if (b==true){
+                countM++;
+            }
+        }
+        if(countM==10){
+            textRes.setText("Excellent!");
+        }else if(countM>7 & countM<10){
+            textRes.setText("Very good!");
+        }else if(countM>4 & countM<7){
+            textRes.setText("Try again!");
+        }else{
+            textRes.setText("Exercises will help!");
+        }
+
+       int i=0;
+        for(Dbwords w: listWords){
+
+            textWords[i]=w.getWord() ;
+            translWords[i]=" - "+w.getTranslate() ;
+            i++;
+       }
+
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), textWords, translWords, markWords);
+        textList.setAdapter(customAdapter);
+//        ArrayAdapter<String> arr;
+//       // arr = new ArrayAdapter<String>(this,android.R.id.list,tutorials);
+//        arr = new ArrayAdapter<String>(this,R.layout.list_view,R.id.textView,textWords);
+//        textList.setAdapter(arr);
+
+//        if (word.getTrain1() != null && word.getTrain1() == true) {
+//            dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+//        } else {
+//            dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+//        }
+ //       String res="";
+//        for(Dbwords w: listWords){
+//           // w.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+//            res=res+w.getWord()+"-"+w.getTranslate() +"\n";
+//        }
+//        wordsResult2.setText(res);
+        builder.setView(dialogView);
         //builder.setMessage("Do you want to delete this word from group?");
         //Setting message manually and performing action on button click
-        builder.setMessage("Do you want to continue this exercise?")
-                .setCancelable(false)
+       // builder.setMessage("Do you want to continue this exercise?")
+        builder.setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'Yes' Button

@@ -241,7 +241,7 @@
 
 
             android:letterSpacing="0"
-            android:text="Only marked words "
+            android:text="Repeat marked words "
             android:textColor="@color/blue_color2_font2"
 
 

@@ -17,6 +17,7 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -30,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,6 +41,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -46,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
+    private Boolean markWords[];
     private SwitchCompat onlyMarkedWords;
     private Integer filterWord=null;
     private ArrayAdapter<String> adapter;
@@ -159,11 +163,13 @@ public class TrainActivityL extends BaseActivity {
 //                    doSomethingWith(student);
 //                }
                 String item2 = (String)parent.getItemAtPosition(position);
-            try {
-                id_group = (int)parent.getItemIdAtPosition(position);
-            }catch(NullPointerException e){
-                id_group=0;
-            }
+//            try {
+//                id_group = (int)parent.getItemIdAtPosition(position);
+//            }catch(NullPointerException e){
+//                id_group=0;
+//            }
+                Long id_group0 = parent.getItemIdAtPosition(position);
+                id_group=id_group0==null?0:id_group0.intValue();
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
 
                 for (Button b2 : lettersWord) {
@@ -270,6 +276,7 @@ public class TrainActivityL extends BaseActivity {
              color = R.color.green;
              setColorCounter(checkCounter, color);
              setCount(id_word, false);
+             markWords[checkCounter]=false;
              //textMess.setVisibility(View.INVISIBLE);
              btnSkip.setText("NEXT");
 
@@ -312,6 +319,7 @@ public class TrainActivityL extends BaseActivity {
                     color = R.color.red;
                     setColorCounter(checkCounter, color);
                     setCount(id_word,false);
+                    markWords[checkCounter]=false;
                     textMess.setVisibility(View.INVISIBLE);
                     btnSkip.setText("NEXT");
 
@@ -362,6 +370,7 @@ public class TrainActivityL extends BaseActivity {
                     setColorCounter(checkCounter, color);
                     Log.d(TAG, "SET COUNT id_word="+id_word);
                     setCount(id_word,false);
+                    markWords[checkCounter]=false;
                     textMess.setVisibility(View.INVISIBLE);
                     // checkCounter++;
                     int jj = 0;
@@ -447,8 +456,8 @@ public class TrainActivityL extends BaseActivity {
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinner2.setAdapter(adapter);
-                //int id_gr=id_group.intValue();
-                //spinner2.setSelection(2);
+                spinner2.setTextColor(Color.rgb(255, 165, 0));
+                spinner2.setTextSize(22);
                 spinner2.setText(spinner2.getAdapter().getItem((int)id_group).toString(), false);
                 textSpinner2.setHint("Select Group");
 
@@ -459,6 +468,9 @@ public class TrainActivityL extends BaseActivity {
 
     public void startTrain(){
         checkCounter=0;
+        if(markWords!=null) {
+            Arrays.fill(markWords, null);
+        }
         btnSkip.setText("I don't know");
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -471,7 +483,7 @@ public class TrainActivityL extends BaseActivity {
                     Log.d(TAG, "id_gr2="+id_group+" "+id_exercise);
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrainWithoutGroup2(id_exercise, limit);
+                            .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
                 }else {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -481,7 +493,7 @@ public class TrainActivityL extends BaseActivity {
 
                     List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
-                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size());
+                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size(),filterWord, false);
                     listWords.addAll(listWordsAdd);
 
                 }
@@ -489,7 +501,7 @@ public class TrainActivityL extends BaseActivity {
                 for(Dbwords w: listWords){
                     Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate());
                 }
-
+                markWords=new Boolean[listWords.size()];
 
             }
         });
@@ -726,6 +738,7 @@ public class TrainActivityL extends BaseActivity {
                   color=R.color.green;
                   setColorCounter(checkCounter,color);
                   setCount(id_word,true);
+                  markWords[checkCounter]=true;
                   textMess.setText("Word spelled correctly!");
                   textMess.setTextColor(color);
                   textMess.setVisibility(View.VISIBLE);
@@ -789,10 +802,47 @@ public class TrainActivityL extends BaseActivity {
     private void showSimpleDialog(int position){
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.alert_label_editor, null);
+
+        ListView textList =  dialogView.findViewById(R.id.text_list);
+        TextView textRes =  dialogView.findViewById(R.id.text_dialog);
+        //TextView wordsResult3 = (TextView) dialogView.findViewById(R.id.text_dialog3);
+        String textWords[]=new String[listWords.size()];
+        String translWords[]=new String[listWords.size()];
+
+        int countM=0;
+        for(boolean b:markWords){
+            Log.d(TAG,"b="+b);
+            if (b==true){
+                countM++;
+            }
+        }
+        if(countM==10){
+            textRes.setText("Excellent!");
+        }else if(countM>7 & countM<10){
+            textRes.setText("Very good!");
+        }else if(countM>4 & countM<7){
+            textRes.setText("Try again!");
+        }else{
+            textRes.setText("Exercises will help!");
+        }
+
+        int i=0;
+        for(Dbwords w: listWords){
+
+            textWords[i]=w.getWord() ;
+            translWords[i]=" - "+w.getTranslate() ;
+            i++;
+        }
+
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), textWords, translWords, markWords);
+        textList.setAdapter(customAdapter);
+        builder.setView(dialogView);
         //builder.setMessage("Do you want to delete this word from group?");
         //Setting message manually and performing action on button click
-        builder.setMessage("Do you want to continue this exercise?")
-                .setCancelable(false)
+        //builder.setMessage("Do you want to continue this exercise?")
+                builder.setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'Yes' Button
