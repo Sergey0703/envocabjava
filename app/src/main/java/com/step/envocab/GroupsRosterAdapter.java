@@ -80,6 +80,7 @@ public class GroupsRosterAdapter extends RecyclerView.Adapter<GroupsRosterAdapte
 
     @Override
     public int getItemCount() {
+        if(groupsList==null) return 0;
         return groupsList.size();
 
     }

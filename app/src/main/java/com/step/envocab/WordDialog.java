@@ -23,16 +23,16 @@ import androidx.core.view.ViewCompat;
 
 public class WordDialog extends Dialog {
     private WordRosterInterface wordRosterInterface;
-    EditText trans,nameWord;
-    SwitchCompat train1Switch;
-    Button btnDialog,btnClose, btnSave, btnCancel;
-    Dialog dialog;
+    private EditText trans,nameWord;
+    private SwitchCompat train1Switch;
+    private Button btnDialog,btnClose, btnSave, btnCancel;
+    private Dialog dialog;
 
-    TextView titleWindow;
+    private TextView titleWindow;
 
-    Handler handler;
-    Context context;
-    Boolean marked;
+    private Handler handler;
+    private Context context;
+    private Boolean marked;
 
     //public WordDialog(@NonNull Context context) {
     public WordDialog(Context context, WordRosterInterface wordRosterInterface) {

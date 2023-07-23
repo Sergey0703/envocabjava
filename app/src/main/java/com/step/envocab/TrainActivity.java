@@ -84,7 +84,7 @@ public class TrainActivity extends BaseActivity {
     private TextView textNameTrain, wordTrain, wordTranscript;
     private ImageView countIm1, countIm2, countIm3, countIm4, countIm5, countIm6, countIm7, countIm8, countIm9, countIm10;
     private boolean checkOk;
-    Animation animAlpha;
+    private Animation animAlpha;
     private int offset=0;
     private String[] countries;
 
@@ -166,7 +166,8 @@ public class TrainActivity extends BaseActivity {
         spinner2 = findViewById(R.id.spinner_tr2);
         textSpinner2=findViewById(R.id.text_spinner2);
 
-        checkLastGroup();
+        id_group=checkLastGroup();
+        Log.d(TAG, "LastGrT3==" + id_group);
 
         spinner2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -341,10 +342,11 @@ public class TrainActivity extends BaseActivity {
             }
         });
         makeSpin();
-        //startTrain();
+        startTrain();
     }
 
-    public void checkLastGroup() {
+    public int checkLastGroup() {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -353,7 +355,7 @@ public class TrainActivity extends BaseActivity {
                         .countDao()
                         .lastGroup(id_exercise);
 
-                Log.d(TAG, "LastGr==" + id_group);
+                Log.d(TAG, "LastGrT==" + id_group);
 //                if(id_group==null){
 //                    id_group=0L;
 //                }
@@ -361,7 +363,8 @@ public class TrainActivity extends BaseActivity {
             }
 
         }).start();
-        //return lastGroup;
+        Log.d(TAG, "LastGrT2==" + id_group);
+        return id_group;
     }
     public void playSpeech(String txtSpeech) {
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
@@ -480,6 +483,7 @@ public class TrainActivity extends BaseActivity {
         } */
     }
     public void makeSpin(){
+        Log.d(TAG,"Make spin!");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -488,9 +492,9 @@ public class TrainActivity extends BaseActivity {
                         .groupDao()
                         .getGroupsForSpinner();
                 listGroups.add(0,"Without groups");
-            }
-        });
-        thread.start();
+                if(listGroups!=null) {
+                    Log.d(TAG, "Make spin!" + listGroups.size());
+                }
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -507,17 +511,30 @@ public class TrainActivity extends BaseActivity {
 //                }
                 //int id_gr=id_group.intValue();
                 //spinner2.setSelection(2);
-                spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+                //spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+                if(listGroups!=null && listGroups.size()>0) {
+                    spinner2.setText(listGroups.get(id_group), false);
+                }
                 spinner2.setTextColor(Color.rgb(255, 165, 0));
                 spinner2.setTextSize(22);
                 textSpinner2.setHint("Select Group");
+                if(listGroups!=null) {
+                    Log.d(TAG, "Make spin3!" + listGroups.size());
+                }else{
+                    Log.d(TAG, "Make spin3!=null");
+                }
+               // startTrain();
+            }
+        }, 0);
 
             }
-        }, 10);
-        startTrain();
+        });
+        thread.start();
+
     }
 
     public void startTrain(){
+        Log.d(TAG,"StartTrain===============================================================================");
         //if (listWords.size() != 0) {
             for(int i=0; i<limit; i++) {
                 setColorCounter(i, R.color.yellow);
@@ -556,37 +573,42 @@ public class TrainActivity extends BaseActivity {
                             .getWordsTrain2(id_exercise, id_group, limit, filterWord, false);
 
                 }
-               if(listWords.size()>0 & listWords.size()<limit){
 
-                    List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .getWordsTrainWithoutGroup2(id_exercise, limit-listWords.size(), filterWord, false);
-                   listWords.addAll(listWordsAdd);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listWords != null && listWords.size() > 0 && listWords.size() < limit) {
 
-               }
+                            List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .getWordsTrainWithoutGroup2(id_exercise, limit - listWords.size(), filterWord, false);
+                            listWords.addAll(listWordsAdd);
 
-                Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);
-                for(Dbwords w: listWords){
-                    Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate()+" train="+w.getTrain1());
-                }
-                markWords=new Boolean[listWords.size()];
+                        }
+                        if (listWords != null) {
+                            Log.d(TAG, "size=" + listWords.size() + " limit=" + limit + " offset=" + offset);
+                            for (Dbwords w : listWords) {
+                                Log.d(TAG, w.getWord() + " trainDateT=" + w.getTrainDate() + " train=" + w.getTrain1());
+                            }
+                        }
+                        //markWords=new Boolean[listWords.size()];
+                        markWords = new Boolean[limit];
+
+                        makeScreen();
+
+                    }
+                }, 0);
+
             }
         });
         thread.start();
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                   makeScreen();
-
-                }
-        }, 100);
     }
 
     public void makeScreen(){
 
-        if (listWords.size() != 0) {
+        if (listWords!=null && listWords.size() != 0) {
 
             btnSkip.setText("I don't know");
             btnSkip.setEnabled(true);

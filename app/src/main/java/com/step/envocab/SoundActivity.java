@@ -53,7 +53,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     private Long trainDateLong;
     private Integer filterWord=null;
 
-    TextInputLayout textSpinnerS;
+    private TextInputLayout textSpinnerS;
     private AutoCompleteTextView spinnerS;
     private List<String> listGroups;
     private ArrayAdapter<String> adapter;
@@ -71,10 +71,10 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     private RecyclerView wordsList;
     private WordsAdapter wordsAdapter;
     private List<Dbwords> listWords, listWordsForAdd;
-    LinearLayoutManager layoutManager;
-    Button btnPlaySound;
-    Button btnPrevDay;
-    Button btnNextDay;
+    private LinearLayoutManager layoutManager;
+    private Button btnPlaySound;
+    private Button btnPrevDay;
+    private Button btnNextDay;
     private int id_group;
     private int id_exercise=5;
 
@@ -274,7 +274,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnPlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listWords.size()==0) return;
+                if(listWords!=null && listWords.size()==0) return;
                 Log.d("testLogs", "Speech");
                 if (!playSoundOn) {
                     view.startAnimation(animAlpha);
@@ -325,7 +325,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             }
         });
         makeSpin();
-       // dataToList("");
+       dataToList("");
     }
     public void checkLastGroup() {
         new Thread(new Runnable() {
@@ -354,9 +354,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         .groupDao()
                         .getGroupsForSpinner();
                 listGroups.add(0,"Without groups");
-            }
-        });
-        thread.start();
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -367,14 +365,22 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinnerS.setAdapter(adapter);
+                //spinnerS.setText(spinnerS.getAdapter().getItem(id_group).toString(), false);
+                if(listGroups!=null && listGroups.size()>0) {
+                    spinnerS.setText(listGroups.get(id_group), false);
+                }
                 spinnerS.setTextColor(Color.rgb(255, 165, 0));
                 spinnerS.setTextSize(22);
-                spinnerS.setText(spinnerS.getAdapter().getItem(id_group).toString(), false);
+
                 textSpinnerS.setHint("Select Group");
 
             }
-        }, 100);
-        dataToList("");
+        }, 0);
+
+            }
+        });
+        thread.start();
+        //dataToList("");
     }
 
     public void setCount(){
@@ -439,7 +445,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                     }
                     listWordsForAdd = listWords;
-                    if (listWords.size() < 4) {
+                    if (listWords!=null && listWords.size() < 4) {
                         listWords.addAll(listWordsForAdd);
                     }
                 }
@@ -480,7 +486,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                       //  Collections.reverse(listWords);
                         Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
                         listWordsForAdd = listWords;
-                        if (listWords.size() < 4) {
+                        if (listWords!=null && listWords.size() < 4) {
                             listWords.addAll(listWordsForAdd);
                         }
                         offset=offset+limit;
@@ -517,7 +523,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     listWords = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
                             .getWordsTrain2(id_exercise,  id_group, limit, null, false);
-                    Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise+" filterWord="+filterWord);
+                    Log.d(TAG, "Sound " + id_group + " size=" +  " id_exercise=" + id_exercise+" filterWord="+filterWord);
 
                     for(Dbwords ww:listWords){
                         Log.d(TAG, "GET word="+ww.getWord()+" "+ ww.getTrainDate());
@@ -529,7 +535,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     }
                     listWordsForAdd = listWords;
 
-                    if (listWords.size() < 4) {
+                    if (listWords!=null && listWords.size() < 4) {
                         listWords.addAll(listWordsForAdd);
                     }
                 }
@@ -542,7 +548,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             @Override
             public void run() {
 
-                 if (listWords.size() != 0) {
+                 if (listWords!=null && listWords.size() != 0) {
 //                     LinearLayoutManager manager = new LinearLayoutManager(getParent());
 //                     wordsList.setLayoutManager(manager);
 //                     //listWords.add();

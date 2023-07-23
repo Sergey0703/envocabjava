@@ -15,7 +15,7 @@
 
         android:background="@color/main_green"
         android:padding="10dp"
-        android:text="You result: "
+        android:text="Your result: "
         android:maxLines="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

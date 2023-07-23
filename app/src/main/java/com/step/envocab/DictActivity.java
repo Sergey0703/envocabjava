@@ -181,12 +181,10 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                         .wordDao()
                         .getItemsFiltered(str);
                 Log.d("DICT", "dataToSearchList=" + str);
-                Log.d("DICT", "listSearchWords=" + listSearchWords.size());
+             //   Log.d("DICT", "listSearchWords=" + listSearchWords.size());
 
 
-            }
-        });
-        thread.start();
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
         //handler.postDelayed(new Runnable() {
@@ -223,7 +221,12 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
             }
 
-        }, 100);
+        }, 0);
+
+            }
+        });
+        thread.start();
+
     }
     public void playSpeech(String txtSpeech) {
         textToSpeech.speak((String) txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
@@ -270,9 +273,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 // alert.showDialog(DictActivity.this, "Window");
 
 
-            }
-        });
-        thread.start();
+
 
         if (handler == null) return;
         if(act.equals("sound")) {
@@ -302,6 +303,10 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 }
             }, 100);
         }
+
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -327,9 +332,7 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
 
                             Log.d("Dialog", String.valueOf(idup));
                         }
-                    }
-                });
-                thread.start();
+
         //dataToSearchList(wordFilter.getText().toString());
 
                 if (handler == null) return;
@@ -337,7 +340,10 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                     public void run() {
                         dataToSearchList(wordFilter.getText().toString());
                     }
-                }, 200);
+                }, 2);
+                    }
+                });
+        thread.start();
     }
 
 //    @Override

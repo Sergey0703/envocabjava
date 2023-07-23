@@ -53,7 +53,7 @@ public class TrainActivityL extends BaseActivity {
     private SwitchCompat onlyMarkedWords;
     private Integer filterWord=null;
     private ArrayAdapter<String> adapter;
-    TextInputLayout textSpinner2;
+    private TextInputLayout textSpinner2;
     private AutoCompleteTextView spinner2;
     private List<String> listGroups;
     private EditText textEditWord;
@@ -65,7 +65,7 @@ public class TrainActivityL extends BaseActivity {
 
     private LinearLayout layoutL, layoutW;
     private String theme = "";
-    private String TAG = "Train";
+    private String TAG = "TrainL";
     private String passedIdItem="", passedDestination = "", passedTechName = "", passedName = "";
     private int id_exercise;
     private TextView textNameTrain, wordTrain, wordTranscript;
@@ -82,7 +82,7 @@ public class TrainActivityL extends BaseActivity {
 
     private List<Button> lettersWord=new ArrayList<>();
     private List<Button> lettersButton=new ArrayList<>();
-    Animation animAlpha;
+    private Animation animAlpha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +126,7 @@ public class TrainActivityL extends BaseActivity {
             passedDestination = extras.getString("passedDestination");
 //            passedId=intent.getStringExtra("data");
 //            passedName=intent.getStringExtra("passedName");
-            Log.d(TAG, "pass=" + passedTechName + " " + passedDestination);
+            Log.d(TAG, "passL=" + passedTechName + " " + passedDestination);
         }
         id_exercise = Integer.parseInt(passedIdItem);
 
@@ -410,6 +410,7 @@ public class TrainActivityL extends BaseActivity {
         });
 
         makeSpin();
+       startTrain();
     }
     public void checkLastGroup() {
         new Thread(new Runnable() {
@@ -443,27 +444,33 @@ public class TrainActivityL extends BaseActivity {
                         .groupDao()
                         .getGroupsForSpinner();
                 listGroups.add(0,"Without groups");
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+                        adapter = new ArrayAdapter(TrainActivityL.this, R.layout.spinner_item_tr, listGroups);
+                        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        // Применяем адаптер к элементу spinner
+                        spinner2.setAdapter(adapter);
+                        if(listGroups!=null && listGroups.size()>0) {
+                            spinner2.setText(listGroups.get(id_group), false);
+                        }
+                        spinner2.setTextColor(Color.rgb(255, 165, 0));
+                        spinner2.setTextSize(22);
+
+                        textSpinner2.setHint("Select Group");
+
+                    }
+                }, 0);
+
+
             }
         });
         thread.start();
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                //String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
-                adapter = new ArrayAdapter(TrainActivityL.this, R.layout.spinner_item_tr, listGroups);
-                //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // Применяем адаптер к элементу spinner
-                spinner2.setAdapter(adapter);
-                spinner2.setTextColor(Color.rgb(255, 165, 0));
-                spinner2.setTextSize(22);
-                spinner2.setText(spinner2.getAdapter().getItem((int)id_group).toString(), false);
-                textSpinner2.setHint("Select Group");
-
-            }
-        }, 10);
-        startTrain();
+        //startTrain();
     }
 
     public void startTrain(){
@@ -489,7 +496,7 @@ public class TrainActivityL extends BaseActivity {
                             .wordDao()
                             .getWordsTrain2(id_exercise, id_group, limit, filterWord, false);
                 }
-                if(listWords.size()>0 & listWords.size()<limit){
+                if(listWords!=null && listWords.size()>0 & listWords.size()<limit){
 
                     List<Dbwords> listWordsAdd = AppDatabase.getInstance(getApplicationContext())
                             .wordDao()
@@ -497,33 +504,36 @@ public class TrainActivityL extends BaseActivity {
                     listWords.addAll(listWordsAdd);
 
                 }
-                Log.d(TAG, "size="+listWords.size()+" limit="+limit+" offset="+offset);
-                for(Dbwords w: listWords){
-                    Log.d(TAG, w.getWord()+" trainDate="+w.getTrainDate());
+                if(listWords!=null) {
+                    Log.d(TAG, "size=" + listWords.size() + " limit=" + limit + " offset=" + offset);
+                    for (Dbwords w : listWords) {
+                        Log.d(TAG, w.getWord() + " trainDate=" + w.getTrainDate());
+                    }
+                    markWords = new Boolean[listWords.size()];
                 }
-                markWords=new Boolean[listWords.size()];
 
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (listWords!=null && listWords.size() != 0) {
+                            for(int i=0; i<listWords.size(); i++) {
+                                setColorCounter(i, R.color.yellow);
+                            }}
+                        if(passedTechName.equals("collecttheword")) {
+                            makeScreenL();
+                        }else{
+                            makeScreenLW();
+                        }
+                    }
+                }, 0);
             }
         });
         thread.start();
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (listWords.size() != 0) {
-                    for(int i=0; i<listWords.size(); i++) {
-                        setColorCounter(i, R.color.yellow);
-                    }}
-                if(passedTechName.equals("collecttheword")) {
-                    makeScreenL();
-                }else{
-                    makeScreenLW();
-                }
-            }
-        }, 100);
+
     }
     public void makeScreenLW() {
-        if (listWords.size() != 0) {
+        if (listWords!=null && listWords.size() != 0) {
 
             wordTrain.setVisibility(View.INVISIBLE);
             wordTranscript.setVisibility(View.INVISIBLE);
@@ -565,7 +575,7 @@ public class TrainActivityL extends BaseActivity {
     }
 
     public void makeScreenL(){
-        if (listWords.size() != 0) {
+        if (listWords!=null && listWords.size() != 0) {
             //listCheckWords=listWords;
             //Collections.copy(listCheckWords, listWords);
 

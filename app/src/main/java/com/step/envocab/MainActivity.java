@@ -284,7 +284,7 @@ public class MainActivity extends BaseActivity {
         });
 
         makeSpin();
-       // takeWord("");
+        takeWord("");
     }
     public void makeSpin(){
         Thread thread = new Thread(new Runnable() {
@@ -295,9 +295,7 @@ public class MainActivity extends BaseActivity {
                         .groupDao()
                         .getGroupsForSpinner();
                 listGroups.add(0,"Without groups");
-            }
-        });
-        thread.start();
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -308,15 +306,21 @@ public class MainActivity extends BaseActivity {
                 //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // Применяем адаптер к элементу spinner
                 spinner2.setAdapter(adapter);
-
+                //spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+                if(listGroups!=null && listGroups.size()>0) {
+                    spinner2.setText(listGroups.get(id_group), false);
+                }
                 spinner2.setTextColor(Color.rgb(255, 165, 0));
                 spinner2.setTextSize(22);
-                spinner2.setText(spinner2.getAdapter().getItem(id_group).toString(), false);
+
                 textSpinner2.setHint("Select Group");
 
             }
-        }, 10);
-        takeWord("");
+        }, 0);
+            }
+        });
+        thread.start();
+        //takeWord("");
     }
 
     public void checkLastGroup() {
@@ -451,7 +455,7 @@ public class MainActivity extends BaseActivity {
                         List<Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .getWordsTrain2(id_exercise,  id_group, 1, null, false);
-                        if(listWords.size()>0){
+                        if(listWords!=null && listWords.size()>0){
                             word=listWords.get(0);
                         }
                         Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
@@ -483,7 +487,7 @@ public class MainActivity extends BaseActivity {
                         List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .getWordsTrainNext(id_exercise,  id_group,trainDateLong ,1,0, filterWord, false);
-                        if(listWords.size()>0){
+                        if(listWords!=null && listWords.size()>0){
                             word=listWords.get(0);
                         }
 
@@ -511,7 +515,7 @@ public class MainActivity extends BaseActivity {
                         List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,1,0,filterWord, false);
-                        if(listWords.size()>0){
+                        if(listWords!=null && listWords.size()>0){
                             word=listWords.get(0);
                         }
 

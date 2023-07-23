@@ -143,14 +143,14 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                         .groupDao()
                         .getGroupsFiltered3(str);
                 Log.d("DICT", "dataToSearchList=" + str);
-                Log.d("DICT", "listSearchGroups=" + listSearchGroups.size());
+                if(listSearchGroups!=null) {
+                    Log.d("DICT", "listSearchGroups=" + listSearchGroups.size());
+                }
 //            for(int i=0; listSearchGroups.size()>i; i++){
 //               Log.d(TAG,"i="+listSearchGroups.get(i));
 //            }
 
-            }
-        });
-        thread.start();
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             //handler.postDelayed(new Runnable() {
@@ -187,7 +187,11 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
 
             }
 
-        }, 100);
+        }, 0);
+
+            }
+        });
+        thread.start();
     }
 
     @Override
