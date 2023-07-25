@@ -356,27 +356,25 @@
         <!-- android:layout_marginBottom="20dp"-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_word_skip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="sans-serif"
-            android:text="I don't know"
-            android:textSize="20sp"
-            android:textStyle="bold"
-
-            android:textColor="@color/white"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/blue_color2_font2"
-            app:strokeColor="@color/blue_color2_font2"
-            app:strokeWidth="3dp"
-            app:cornerRadius="20dp"
+            android:fontFamily="sans-serif"
             android:padding="10dp"
 
-            android:layout_marginTop="30dp"
+            android:text="I don't know"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="0dp"
-            />
+            app:rippleColor="@color/black"
+            app:strokeColor="@color/blue_color2_font2"
+            app:strokeWidth="3dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

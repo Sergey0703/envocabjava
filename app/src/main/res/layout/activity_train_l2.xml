@@ -365,6 +365,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="0dp"
             android:visibility="invisible"
+            app:rippleColor="@color/black"
             />
 
             <com.google.android.material.button.MaterialButton
@@ -390,6 +391,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginBottom="0dp"
+                app:rippleColor="@color/black"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
