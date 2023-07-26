@@ -48,6 +48,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
     private Long trainDateLong;
@@ -717,70 +718,108 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String funct, String id_word_str, Boolean ch) {
         if (handler != null) return;
         //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         int top = position;
         Log.d(TAG, "position0=" + top);
         handler = new Handler();
-        Thread thread = new Thread(new Runnable() {
+        Log.d(TAG, "position=" + top);
+        View v = layoutManager.findViewByPosition(top);
+        //v.startAnimation(animAlpha);
+        CardView card = (CardView) v.findViewById(R.id.cardWord);
 
-            @Override
-            public void run() {
-                Log.d(TAG, "position=" + top);
-                View v = layoutManager.findViewByPosition(top);
-                //v.startAnimation(animAlpha);
-                CardView card = (CardView) v.findViewById(R.id.cardWord);
-                card.setCardElevation(100f);
-                TextView textViewName
-                        = (TextView) v.findViewById(R.id.tv_number_item);
+        TextView textViewName
+                = (TextView) v.findViewById(R.id.tv_number_item);
 
-                String selectedName = (String) textViewName.getText();
-                Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
+        String selectedName = (String) textViewName.getText();
+        Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
+        if(funct.equals("sound")) {
+            Thread thread = new Thread(new Runnable() {
 
-                //handler.postDelayed(new Runnable() {
-                if (handler == null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        Log.d(TAG, +top + "= Speech=" + selectedName);
+                @Override
+                public void run() {
 
-                        playSpeech(selectedName);
+
+                    //handler.postDelayed(new Runnable() {
+                    if (handler == null) return;
+                    card.setCardElevation(100f);
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Log.d(TAG, +top + "= Speech=" + selectedName);
+
+                            playSpeech(selectedName);
+                        }
+                    }, 1);
+
+                    if (speechTranslate.isChecked()) {
+                        TextView textViewTranslate
+                                = (TextView) v.findViewById(R.id.tv_holder_number);
+                        selectedTranslate = (String) textViewTranslate.getText();
+                        selectedTranslate = selectedTranslate.trim();
+                        if (selectedTranslate.length() > 32) {
+                            int endOfWord = selectedTranslate.indexOf(" ", 22);
+
+                            selectedTranslate = selectedTranslate.substring(0, endOfWord);
+                        }
+                        // Handler handler2 = new Handler();
+                        if (handler == null) return;
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                playSpeechTr(selectedTranslate);
+                            }
+                        }, 1500);
                     }
-                }, 1);
-
-                if (speechTranslate.isChecked()) {
-                    TextView textViewTranslate
-                            = (TextView) v.findViewById(R.id.tv_holder_number);
-                    selectedTranslate = (String) textViewTranslate.getText();
-                    selectedTranslate = selectedTranslate.trim();
-                    if (selectedTranslate.length() > 32) {
-                        int endOfWord = selectedTranslate.indexOf(" ", 22);
-
-                        selectedTranslate = selectedTranslate.substring(0, endOfWord);
-                    }
-                    // Handler handler2 = new Handler();
                     if (handler == null) return;
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            playSpeechTr(selectedTranslate);
+
+                            card.setCardElevation(17.5f);
+                            if (runnable != null) {
+                                handler.removeCallbacks(runnable);
+                            }
+                            handler = null;
                         }
-                    }, 1500);
+                    }, 2000);
                 }
-                if (handler == null) return;
-                handler.postDelayed(new Runnable() {
-                    public void run() {
 
-                        card.setCardElevation(17.5f);
-                        if (runnable != null) {
-                            handler.removeCallbacks(runnable);
-                        }
-                        handler = null;
+            });
+            thread.start();
+        }else{
+            new Thread(new Runnable() {
+            @Override
+            public void run() {
+               // for(Dbwords word: listWords) {
+                    int ind=Integer.parseInt(id_word_str);
+                    Date currentTimeUp = Calendar.getInstance().getTime();
+                    AppDatabase.getInstance(getApplicationContext())
+                            .countDao()
+                            .insertOrUpdate(id_exercise, ind, id_group, ch, currentTimeUp);
+                  //  lastTrain=currentTimeUp;
+                    Log.d(TAG, "Update count=" + ind + " word=" + ind);
+//                List<Dbwords> l = listWords.stream()
+//                        .filter(s -> ind==s.getId())
+//                        .collect(Collectors.toList());
+//                Dbwords word = listWords.stream()
+//                        .filter(s -> ind==s.getId())
+//                        .findAny()
+//                        .orElse(null);
+//                if(word!=null) {
+//                    Log.d(TAG, "Find word=" + word.getWord());
+//                }
+                for (Dbwords word : listWords) {
+                    if (word.getId()==ind) {
+                        word.setTrain1(ch);
+
+                        //listWords.set()
                     }
-                }, 2000);
-            }
+                }
 
-        });
-        thread.start();
+                }
+            //}
+
+        }).start();
+        }
     }
 
 //    @Override
