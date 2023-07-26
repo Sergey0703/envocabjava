@@ -31,6 +31,12 @@ public interface WordDao {
             "WHERE :isnull IS NULL OR sel2.train1 LIKE :train1 ORDER BY sel2.trainDate ASC Limit :limit   ")
     List<Dbwords> getWordsTrain2(int id_exercise, int id_group, int limit, Integer isnull, boolean train1);
 
+//    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate, sel2.trainDate, sel2.train1 from dbwords " +
+//            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+//            "LEFT JOIN (SELECT id_word, id_group, trainDate, train AS train1 FROM dbcounts WHERE id_exercice=:id_exercise AND id_group=:id_group  ) AS sel2 ON dbwords.id=sel2.id_word " +
+//            "WHERE :isnull IS NULL OR sel2.train1 LIKE :train1 ORDER BY sel2.trainDate ASC Limit :limit   ")
+//    List<Dbwords> getWordsTrain3(int id_exercise, int id_group, int limit, Integer isnull, boolean train1);
+
     @Query("SELECT id, word, translate, transcript, sel.trainDate, sel.train1 from dbwords INNER JOIN " +
             "(SELECT train AS train1, trainDate, id_word FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND dbcounts.id_exercice=:id_exercise AND dbcounts.id_group=:id_group AND dbcounts.trainDate<:trainDate ORDER BY dbcounts.trainDate DESC LIMIT :limit Offset :offset )" +
             " AS sel ON dbwords.id =sel.id_word  ")

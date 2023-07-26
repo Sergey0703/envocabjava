@@ -84,6 +84,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     SwitchCompat speechTranslate;
     SwitchCompat speechCategory;
     SwitchCompat allStudyWords;
+
     String selectedTranslate;
     TextView textCaution;
     int speedScroll = 4000;
@@ -157,6 +158,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         allStudyWords = findViewById(R.id.allStudyWords);
         textCaution=findViewById(R.id.caution);
 
+
+
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
 
         spinnerS = findViewById(R.id.spinner_s);
@@ -189,6 +192,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 allStudyWords.setChecked(false);
                 filterWord=null;
                 makeSpin();
+                dataToList("");
 
             }
         });
@@ -199,11 +203,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                 onStop();
                 if (allStudyWords.isChecked()) {
-                    speechCategory.setVisibility(View.INVISIBLE);
+                 //   speechCategory.setVisibility(View.INVISIBLE);
                     filterWord=1;
                     Log.d(TAG, "Words only by date");
                 } else {
-                    speechCategory.setVisibility(View.VISIBLE);
+                 //   speechCategory.setVisibility(View.VISIBLE);
                     Log.d(TAG, "All words for study");
                     filterWord=null;
                 }
@@ -385,30 +389,30 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         //dataToList("");
     }
 
-    public void setCount(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(Dbwords word: listWords) {
-                    int ind=word.getId();
-                    Date currentTimeUp = Calendar.getInstance().getTime();
-                    AppDatabase.getInstance(getApplicationContext())
-                            .countDao()
-                            .insertOrUpdate(id_exercise, ind, id_group, true, currentTimeUp);
-                  //  lastTrain=currentTimeUp;
-                    Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
-                }
-            }
-
-        }).start();
-       // dataToList("");
-    }
+//    public void setCount(){
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for(Dbwords word: listWords) {
+//                    int ind=word.getId();
+//                    Date currentTimeUp = Calendar.getInstance().getTime();
+//                    AppDatabase.getInstance(getApplicationContext())
+//                            .countDao()
+//                            .insertOrUpdate(id_exercise, ind, id_group, true, currentTimeUp);
+//                  //  lastTrain=currentTimeUp;
+//                    Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
+//                }
+//            }
+//
+//        }).start();
+//       // dataToList("");
+//    }
 
 
 
 
     public void dataToList(String nav) {
-        if(id_group==0) {
+        if(id_group==-5) {
             Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
             if (nav == "prev") {
                 dateList = dateList.minusDays(1);
@@ -522,18 +526,23 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                    listWords = AppDatabase.getInstance(getApplicationContext())
 //                            .wordDao()
 //                            .getWordsSound(id_group, limit, offset);
-                    listWords = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .getWordsTrain2(id_exercise,  id_group, limit, null, false);
+                    if(id_group==0) {
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
+                    }else {
+
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .getWordsTrain2(id_exercise, id_group, limit, filterWord, false);
+                    }
                     Log.d(TAG, "Sound " + id_group + " size=" +  " id_exercise=" + id_exercise+" filterWord="+filterWord);
 
-                    for(Dbwords ww:listWords){
-                        Log.d(TAG, "GET word="+ww.getWord()+" "+ ww.getTrainDate());
-                    }
+
                     if(listWords!=null) {
-                        //  lastTrain = listWords.get(listWords.size() - 1).getTrainDate();
-                       // lastTrain = listWords.get(0).getTrainDate();
-                       // Log.d(TAG,"lastTrain0="+lastTrain);
+                        for(Dbwords ww:listWords){
+                            Log.d(TAG, "GET word="+ww.getWord()+" "+ ww.getTrainDate());
+                        }
                     }
                     listWordsForAdd = listWords;
 

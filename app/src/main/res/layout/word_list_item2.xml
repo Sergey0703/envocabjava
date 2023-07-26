@@ -27,16 +27,44 @@
         android:orientation="vertical"
         android:background="@color/pink_color_light2"
         >
+
         <ImageButton
             android:id="@+id/btnSoundItem"
             android:layout_width="60dp"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:contentDescription="Speech word"
             android:background="@drawable/sound_br22"
+            android:layout_marginRight="5dp"
 
             ></ImageButton>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mark word:"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_below="@id/btnSoundItem"
+            >
+
+        </TextView>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/simpleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text=""
+            android:theme="@style/SwitchThemeOverlay2"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:layout_marginRight="10dp"
+
+
+            />
 
         <TextView
             android:id="@+id/tv_number_item"

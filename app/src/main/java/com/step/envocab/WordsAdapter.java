@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -66,6 +68,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         TextView listItemNumberView;
         TextView viewHolderIndex;
         TextView viewHolderTranscription;
+        SwitchCompat simpleSwitch;
 
 
         public WordViewHolder(@NonNull View itemView, WordListInterface wordListInterface) {
@@ -74,6 +77,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
             viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);
+            simpleSwitch = (SwitchCompat)itemView.findViewById(R.id.simpleSwitch);
+//            simpleSwitch.setTextOn("On");
+//            simpleSwitch.setTextOff("Off");
 
             itemView.findViewById(R.id.btnSoundItem).setOnClickListener(new View.OnClickListener() {
                 @Override
