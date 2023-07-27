@@ -162,6 +162,7 @@ public class TrainActivity extends BaseActivity {
 
         onlyMarkedWords = findViewById(R.id.only_marked_words);
 
+
        // spinner = findViewById(R.id.spinner_tr);
         spinner2 = findViewById(R.id.spinner_tr2);
         textSpinner2=findViewById(R.id.text_spinner2);
