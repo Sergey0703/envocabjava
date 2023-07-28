@@ -63,6 +63,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     private int limit = 10;
     private int offset = 0;
     private Handler handler = null;
+    private Handler handlerC = null;
     private Handler ihandler = null;
     private Handler mHandler = new Handler();
     private Runnable runnable;
@@ -515,7 +516,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
                             AppDatabase.getInstance(getApplicationContext())
                                     .countDao()
-                                    .insertOrUpdate(id_exercise, ind, id_group, true, currentTimeUp);
+                                    .insertOrUpdate(id_exercise, ind, id_group, word.getTrain1(), currentTimeUp);
 
                             Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
                         }
@@ -531,6 +532,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
+                                //.getWordsTrain2(id_exercise, limit, filterWord, false);
                     }else {
 
                         listWords = AppDatabase.getInstance(getApplicationContext())
@@ -723,7 +725,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         int top = position;
         Log.d(TAG, "position0=" + top);
-        handler = new Handler();
+
         Log.d(TAG, "position=" + top);
         View v = layoutManager.findViewByPosition(top);
         //v.startAnimation(animAlpha);
@@ -732,9 +734,11 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         TextView textViewName
                 = (TextView) v.findViewById(R.id.tv_number_item);
 
+
         String selectedName = (String) textViewName.getText();
         Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
         if(funct.equals("sound")) {
+            handler = new Handler();
             Thread thread = new Thread(new Runnable() {
 
                 @Override
@@ -786,7 +790,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             });
             thread.start();
         }else{
-            new Thread(new Runnable() {
+
+            handlerC = new Handler();
+            Thread threadC = new Thread(new Runnable() {
             @Override
             public void run() {
                // for(Dbwords word: listWords) {
@@ -815,10 +821,28 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                     }
                 }
 
+                for (Dbwords word : listWords) {
+                    Log.d(TAG,"w="+word.getId()+" id="+word.getId()+" tr="+word.getTrain1());
+                }
+                handlerC.postDelayed(new Runnable() {
+                    public void run() {
+            if (ch == true) {
+                Log.d(TAG," GREEEEEEEEEEEEEEEEEEN"+Calendar.getInstance().getTime());
+                // holder.simpleSwitch.setChecked(true);
+                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+            } else {
+                Log.d(TAG," REDDDDDDDDDDDDDDDDDD"+Calendar.getInstance().getTime());
+                //holder.simpleSwitch.setChecked(false);
+                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+            }
+                    }
+                }, 1);
+
                 }
             //}
 
-        }).start();
+        });
+        threadC.start();
         }
     }
 

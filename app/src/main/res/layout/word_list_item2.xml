@@ -36,13 +36,13 @@
             android:layout_alignParentRight="true"
             android:contentDescription="Speech word"
             android:background="@drawable/sound_br22"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
 
             ></ImageButton>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mark word:"
+            android:text="I know:"
             android:layout_alignParentRight="true"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:text=""
-            android:theme="@style/SwitchThemeOverlay2"
+            android:theme="@style/SwitchThemeOverlay"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:scaleX="1.2"

@@ -32,6 +32,7 @@
         <item name="android:textColor">@color/black</item>
 
     </style>
+
     <style name="SwitchThemeOverlay" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/green</item>
@@ -42,5 +43,41 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">@color/white
         </item>
+    </style>
+    <style name="SwitchThemeOverlayR" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#CC0000</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/green</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/yellow
+        </item>
+    </style>
+
+    <style name="SwitchThemeOverlay2" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/red_color_font2</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/blue_color2_font2</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/blue_color2_font2
+        </item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="hintTextAppearance">@style/TextAppearance.AppCompat</item>
+    <item name="boxStrokeColor">@color/colors_border</item>
+    <item name="android:paddingBottom">0dp</item>
+    </style>
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+    <item name="android:textSize">16sp</item>
+    </style>
+    <!--<item name="hintTextAppearance">@style/TextAppearance.AppCompat</item>-->
+    <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+    <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>

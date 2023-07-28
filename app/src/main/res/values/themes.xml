@@ -39,6 +39,18 @@
         <item name="android:colorForeground">@color/yellow
         </item>
     </style>
+    <style name="SwitchThemeOverlayR" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#CC0000</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/green</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/yellow
+        </item>
+    </style>
+
     <style name="SwitchThemeOverlay2" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/red_color_font2</item>

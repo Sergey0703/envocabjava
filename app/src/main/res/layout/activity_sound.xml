@@ -96,7 +96,7 @@
             android:textStyle="bold|italic"
             android:thumbTint="@color/yellow"
             android:trackTint="@color/red"
-            android:theme="@style/SwitchThemeOverlay"
+            android:theme="@style/SwitchThemeOverlayR"
             />
 
 

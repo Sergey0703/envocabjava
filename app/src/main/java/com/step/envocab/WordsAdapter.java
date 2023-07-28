@@ -2,6 +2,7 @@ package com.step.envocab;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -48,15 +49,19 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         Dbwords word = wordsList.get(position);
         holder.listItemNumberView.setText(word.getWord());
         holder.id_word_item.setText(String.valueOf(word.getId()));
+
         if (word.getTrain1() != null && word.getTrain1() == true) {
+            holder.simpleSwitch.setChecked(true);
             holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
         } else {
+            holder.simpleSwitch.setChecked(false);
             holder.listItemNumberView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
         }
         holder.viewHolderIndex.setText(word.getTranslate());
         if (word.getTranslate().trim().length() > 0) {
             holder.viewHolderTranscription.setText("[" + word.getTranscript() + "]");
         }
+
     }
 
     @Override
@@ -72,7 +77,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         TextView viewHolderTranscription;
         SwitchCompat simpleSwitch;
         TextView id_word_item;
-
+        Boolean isTouched=false;
 
         public WordViewHolder(@NonNull View itemView, WordListInterface wordListInterface) {
             super(itemView);
@@ -81,6 +86,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
             viewHolderIndex = itemView.findViewById(R.id.tv_holder_number);
             viewHolderTranscription = itemView.findViewById(R.id.tv_transcription);
             simpleSwitch = (SwitchCompat)itemView.findViewById(R.id.simpleSwitch);
+
             id_word_item=itemView.findViewById(R.id.id_word_item);
 //            simpleSwitch.setTextOn("On");
 //            simpleSwitch.setTextOff("Off");
@@ -98,20 +104,29 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
                     }
                 }
             });
+            simpleSwitch.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    isTouched = true;
+                    return false;
+                }
+            });
             simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isTouched) {
+                        isTouched = false;
 
-                    if (wordListInterface != null) {
-                        int pos = getAdapterPosition();
-                        if (pos != RecyclerView.NO_POSITION) {
+                        if (wordListInterface != null) {
+                            int pos = getAdapterPosition();
+                            if (pos != RecyclerView.NO_POSITION) {
 
-                            wordListInterface.onItemClick(pos,"switch",String.valueOf(id_word_item.getText()),isChecked);
+                                wordListInterface.onItemClick(pos, "switch", String.valueOf(id_word_item.getText()), isChecked);
+                            }
                         }
+
                     }
-
                 }
-
 
             });
 
