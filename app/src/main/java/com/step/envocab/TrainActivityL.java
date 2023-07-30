@@ -605,7 +605,7 @@ public class TrainActivityL extends BaseActivity {
             int longLetters=letters.size();
             int rowX=0;
             double rowY=0;
-            double inRow=10;
+            double inRow=7;
             if(longLetters<=inRow){
                rowX= longLetters;
                rowY=1;
@@ -702,13 +702,17 @@ public class TrainActivityL extends BaseActivity {
                     100,100
             );
             params.setMargins(0, 5, 10, 5);
+
             btnTag.setLayoutParams(params);
+            //btnTag.getPaint().setStrokeWidth(5);
+            //btnTag.getPaint().strokeC
             btnTag.setTextColor(Color.BLACK);
             btnTag.setTextSize(20);
             btnTag.setTypeface(btnTag.getTypeface(), Typeface.BOLD);
             btnTag.setText(letters.get(lett));
             btnTag.setPadding(0,0,0,10);
-            btnTag.setBackground(getResources().getDrawable(R.drawable.letter_circle));
+            //btnTag.setBackground(getResources().getDrawable(R.drawable.letter_circle));
+            btnTag.setBackgroundResource(R.drawable.letter_circle);
             btnTag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
