@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -629,7 +630,7 @@ public class TrainActivityL extends BaseActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                             100,100
                     );
-                    params.setMargins(0, 5, 5, 5);
+                    params.setMargins(0, 10, 8, 5);
                     btnW.setLayoutParams(params);
                     //btnW.setLayoutParams(new LinearLayout.LayoutParams
                            // (150, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -639,6 +640,7 @@ public class TrainActivityL extends BaseActivity {
                     // LinearLayout.LayoutParams.MATCH_PARENT));
                     btnW.setTextColor(Color.BLACK);
                     btnW.setTextSize(20);
+                    btnW.setTypeface(btnW.getTypeface(), Typeface.BOLD);
                     btnW.setBackgroundColor(Color.WHITE);
 
                     btnW.setPadding(0,0,0,10);
@@ -699,10 +701,11 @@ public class TrainActivityL extends BaseActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     100,100
             );
-            params.setMargins(0, 5, 5, 5);
+            params.setMargins(0, 5, 8, 5);
             btnTag.setLayoutParams(params);
             btnTag.setTextColor(Color.BLACK);
             btnTag.setTextSize(20);
+            btnTag.setTypeface(btnTag.getTypeface(), Typeface.BOLD);
             btnTag.setText(letters.get(lett));
             btnTag.setPadding(0,0,0,10);
             btnTag.setBackground(getResources().getDrawable(R.drawable.letter_circle));
@@ -769,7 +772,7 @@ public class TrainActivityL extends BaseActivity {
                   setCount(id_word,true);
                   markWords[checkCounter]=true;
                   textMess.setText("Word spelled correctly!");
-                  textMess.setTextColor(color);
+                  textMess.setTextColor(getResources().getColor(R.color.green));
                   textMess.setVisibility(View.VISIBLE);
                   btnSkip.setText("NEXT");
 //                  checkCounter++;
