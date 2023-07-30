@@ -186,9 +186,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 Long id_group0 = parent.getItemIdAtPosition(position);
                 id_group=id_group0==null?0:id_group0.intValue();
 
-                if(id_group==0){
-                    allStudyWords.setVisibility(View.INVISIBLE);
-                }
+               // if(id_group==0){
+               //     allStudyWords.setVisibility(View.INVISIBLE);
+               // }
                 //int id_gr=id_group.intValue();
                 Log.d(TAG, "item2="+item2+" id_item="+String.valueOf(id_group));
                 allStudyWords.setChecked(false);
@@ -513,12 +513,16 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         Date currentTimeUp = Calendar.getInstance().getTime();
                         for (Dbwords word : listWords) {
                             int ind = word.getId();
+//                            int id_grList =0;
+//                            if(word.getDescription()!=null) {
+//                                id_grList = Integer.parseInt(word.getDescription());
+//                            }
 
                             AppDatabase.getInstance(getApplicationContext())
                                     .countDao()
                                     .insertOrUpdate(id_exercise, ind, id_group, word.getTrain1(), currentTimeUp);
 
-                            Log.d(TAG, "Update count=" + ind + " word=" + word.getWord());
+                            Log.d(TAG, "Update count=" + ind + " word=" + word.getWord()+" descr="+word.getDescription()+" id_grList ="+id_group);
                         }
                         lastTrain=Calendar.getInstance().getTime();
                         offset=0;
@@ -529,10 +533,16 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //                            .wordDao()
 //                            .getWordsSound(id_group, limit, offset);
                     if(id_group==0) {
-                        listWords = AppDatabase.getInstance(getApplicationContext())
-                                .wordDao()
-                                .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
-                                //.getWordsTrain2(id_exercise, limit, filterWord, false);
+                        if(filterWord==null) {
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .getWordsTrainWithoutGroup(id_exercise, limit);
+
+                        }else{
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .getWordsTrainWithoutGroupMarked(id_exercise, limit, filterWord, false);
+                        }
                     }else {
 
                         listWords = AppDatabase.getInstance(getApplicationContext())
@@ -720,7 +730,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
-    public void onItemClick(int position, String funct, String id_word_str, Boolean ch) {
+    public void onItemClick(int position, String funct, String id_word_str, Boolean ch, String id_group_str) {
         if (handler != null) return;
         //animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
         int top = position;
@@ -796,13 +806,20 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             @Override
             public void run() {
                // for(Dbwords word: listWords) {
-                    int ind=Integer.parseInt(id_word_str);
+                    int ind=0;
+                    if(id_word_str!=null) {
+                        ind=Integer.parseInt(id_word_str);
+                    }
+//                    int id_group_i=0;
+//                    if(id_group_str!=null){
+//                        id_group_i=Integer.parseInt(id_group_str);
+//                    }
                     Date currentTimeUp = Calendar.getInstance().getTime();
                     AppDatabase.getInstance(getApplicationContext())
                             .countDao()
                             .insertOrUpdate(id_exercise, ind, id_group, ch, currentTimeUp);
                   //  lastTrain=currentTimeUp;
-                    Log.d(TAG, "Update count=" + ind + " word=" + ind);
+                    Log.d(TAG, "Update count=" + ind + " word=" + ind+" id_group="+id_group);
 //                List<Dbwords> l = listWords.stream()
 //                        .filter(s -> ind==s.getId())
 //                        .collect(Collectors.toList());

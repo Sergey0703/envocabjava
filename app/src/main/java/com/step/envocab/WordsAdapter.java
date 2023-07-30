@@ -49,6 +49,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         Dbwords word = wordsList.get(position);
         holder.listItemNumberView.setText(word.getWord());
         holder.id_word_item.setText(String.valueOf(word.getId()));
+        holder.id_group_item.setText(String.valueOf(word.getDescription()));
 
         if (word.getTrain1() != null && word.getTrain1() == true) {
             holder.simpleSwitch.setChecked(true);
@@ -77,6 +78,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
         TextView viewHolderTranscription;
         SwitchCompat simpleSwitch;
         TextView id_word_item;
+        TextView id_group_item;
         Boolean isTouched=false;
 
         public WordViewHolder(@NonNull View itemView, WordListInterface wordListInterface) {
@@ -88,6 +90,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
             simpleSwitch = (SwitchCompat)itemView.findViewById(R.id.simpleSwitch);
 
             id_word_item=itemView.findViewById(R.id.id_word_item);
+            id_group_item=itemView.findViewById(R.id.id_group_item);
 //            simpleSwitch.setTextOn("On");
 //            simpleSwitch.setTextOff("Off");
 
@@ -99,7 +102,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
                         if (pos != RecyclerView.NO_POSITION) {
 
                             v.startAnimation(animAlpha);
-                            wordListInterface.onItemClick(pos,"sound",String.valueOf(id_word_item.getText()),false);
+                            wordListInterface.onItemClick(pos,"sound",String.valueOf(id_word_item.getText()),false, String.valueOf(id_group_item.getText()));
                         }
                     }
                 }
@@ -121,7 +124,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
                             int pos = getAdapterPosition();
                             if (pos != RecyclerView.NO_POSITION) {
 
-                                wordListInterface.onItemClick(pos, "switch", String.valueOf(id_word_item.getText()), isChecked);
+                                wordListInterface.onItemClick(pos, "switch", String.valueOf(id_word_item.getText()), isChecked, String.valueOf(id_group_item.getText()));
                             }
                         }
 

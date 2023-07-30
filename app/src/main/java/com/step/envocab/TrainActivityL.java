@@ -604,7 +604,7 @@ public class TrainActivityL extends BaseActivity {
             int longLetters=letters.size();
             int rowX=0;
             double rowY=0;
-            double inRow=7;
+            double inRow=10;
             if(longLetters<=inRow){
                rowX= longLetters;
                rowY=1;
@@ -626,12 +626,24 @@ public class TrainActivityL extends BaseActivity {
                 // row.setMa
                 for (int j = 0; j < rowX; j++) {
                     Button btnW = new Button(this);
-                    btnW.setLayoutParams(new LinearLayout.LayoutParams
-                            (150, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            100,100
+                    );
+                    params.setMargins(0, 5, 5, 5);
+                    btnW.setLayoutParams(params);
+                    //btnW.setLayoutParams(new LinearLayout.LayoutParams
+                           // (150, ViewGroup.LayoutParams.WRAP_CONTENT));
+                           // (100, 100));
+
 
                     // LinearLayout.LayoutParams.MATCH_PARENT));
                     btnW.setTextColor(Color.BLACK);
                     btnW.setTextSize(20);
+                    btnW.setBackgroundColor(Color.WHITE);
+
+                    btnW.setPadding(0,0,0,10);
+                    btnW.setBackground(getResources().getDrawable(R.drawable.letter_circle));
+
                     //btnTag.setText( letters.get(lett));
 
                     btnW.setOnClickListener(new View.OnClickListener() {
@@ -680,13 +692,20 @@ public class TrainActivityL extends BaseActivity {
         // row.setMa
         for (int j = 0; j < rowX; j++) {
             Button btnTag = new Button(this);
-            btnTag.setLayoutParams(new LinearLayout.LayoutParams
-                    (150, ViewGroup.LayoutParams.WRAP_CONTENT));
-
+            //btnTag.setLayoutParams(new LinearLayout.LayoutParams
+                    //(150, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //        (100, 100));
             // LinearLayout.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    100,100
+            );
+            params.setMargins(0, 5, 5, 5);
+            btnTag.setLayoutParams(params);
             btnTag.setTextColor(Color.BLACK);
             btnTag.setTextSize(20);
             btnTag.setText(letters.get(lett));
+            btnTag.setPadding(0,0,0,10);
+            btnTag.setBackground(getResources().getDrawable(R.drawable.letter_circle));
             btnTag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

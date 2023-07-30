@@ -299,7 +299,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="2dp"
             android:hint="Input word"
-            android:visibility="visible"
+
             app:boxBackgroundColor="@color/white"
 
             app:boxBackgroundMode="outline"
@@ -313,6 +313,7 @@
             app:hintTextAppearance="@style/TextLabel"
             app:hintTextColor="@color/orange"
             app:layout_constraintBottom_toTopOf="@id/btn_word_check"
+            android:visibility="invisible"
             >
             <!--android:textColorHint="@color/black" @+id/word_dialog-->
             <!-- app:boxBackgroundColor="@color/green"-->
