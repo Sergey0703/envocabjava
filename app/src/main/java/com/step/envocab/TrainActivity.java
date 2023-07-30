@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
@@ -69,7 +71,7 @@ public class TrainActivity extends BaseActivity {
     private String TAG = "Train";
     private String passedDestination, passedIdItem;
     private String id_word = "", id_word1, id_word2, id_word3, id_word4;
-    private Button btnWord1, btnWord2, btnWord3, btnWord4, btnOk, btnSkip;
+    private MaterialButton btnWord1, btnWord2, btnWord3, btnWord4, btnOk, btnSkip;
     private String  passedTechName = "", passedName = "";
     private int id_exercise;
     private LocalDate today, dateList;
@@ -423,7 +425,7 @@ public class TrainActivity extends BaseActivity {
     }
 
 }
-    public void checkTrain(String id,Button btn){
+    public void checkTrain(String id, MaterialButton btn){
         btnWord1.setEnabled(false);
         btnWord2.setEnabled(false);
         btnWord3.setEnabled(false);
@@ -442,14 +444,23 @@ public class TrainActivity extends BaseActivity {
 
         if(id_word.equals(id)){
             Log.d(TAG,"Win!!");
-            btn.setBackgroundColor(Color.GREEN);
+           // btn.setBackgroundColor(Color.GREEN);
+           //btn.setBackgroundResource(R.drawable.green_stroke);
+           // GradientDrawable drawable = (GradientDrawable)btn.getBackground();
+           // drawable.setStroke(3, Color.GREEN);
+           // btn.setStrokeWidth(10);
+            btn.setStrokeColor(ColorStateList.valueOf(Color.GREEN));
+
             color=R.color.green;
             checkOk=true;
 
         }else{
             Log.d(TAG,"Lost!!!");
-            btn.setBackgroundColor(Color.RED);
-            btnOk.setBackgroundColor(Color.GREEN);
+           // btn.setBackgroundColor(Color.RED);
+           // btn.setStrokeWidth(10);
+            btn.setStrokeColor(ColorStateList.valueOf(Color.RED));
+           // btnOk.setBackgroundColor(Color.GREEN);
+            btnOk.setStrokeColor(ColorStateList.valueOf(Color.GREEN));
             color=R.color.red;
             checkOk=false;
 
@@ -659,18 +670,23 @@ public class TrainActivity extends BaseActivity {
 //            ShapeDrawable gradientDrawable = (ShapeDrawable)btnWord1.getBackground();
 //            gradientDrawable.setStroke(2, your_color);
             btnWord1.setBackgroundColor(Color.WHITE);
+            btnWord1.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
+
             id_word1=String.valueOf(listCheckWords.get(0).getId());
 
             btnWord2.setText(listCheckWords.get(1).getTranslate());
             btnWord2.setBackgroundColor(Color.WHITE);
+            btnWord2.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
             id_word2=String.valueOf(listCheckWords.get(1).getId());
 
             btnWord3.setText(listCheckWords.get(2).getTranslate());
             btnWord3.setBackgroundColor(Color.WHITE);
+            btnWord3.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
             id_word3=String.valueOf(listCheckWords.get(2).getId());
 
             btnWord4.setText(listCheckWords.get(3).getTranslate());
             btnWord4.setBackgroundColor(Color.WHITE);
+            btnWord4.setStrokeColor(ColorStateList.valueOf(Color.WHITE));
             id_word4=String.valueOf(listCheckWords.get(3).getId());
 
             btnSoundTr.performClick();
