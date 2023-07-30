@@ -701,7 +701,7 @@ public class TrainActivityL extends BaseActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     100,100
             );
-            params.setMargins(0, 5, 8, 5);
+            params.setMargins(0, 5, 10, 5);
             btnTag.setLayoutParams(params);
             btnTag.setTextColor(Color.BLACK);
             btnTag.setTextSize(20);
