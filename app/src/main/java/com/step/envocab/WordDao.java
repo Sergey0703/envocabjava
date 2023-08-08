@@ -33,9 +33,14 @@ public interface WordDao {
 
     @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate, sel2.trainDate, sel2.id_group AS description from dbwords " +
             //"LEFT JOIN (SELECT id, id_group from dbgroupsandwords  ) AS sel ON dbwords.id = sel.id " +
-            "LEFT JOIN (SELECT id_word, id_group, trainDate, train AS train1 FROM dbcounts WHERE id_exercice=:id_exercise ) AS sel2 ON dbwords.id=sel2.id_word " +
+            " LEFT JOIN (SELECT id_word, id_group, trainDate, train AS train1 FROM dbcounts WHERE id_exercice=:id_exercise ) AS sel2 ON dbwords.id=sel2.id_word " +
             " ORDER BY sel2.trainDate ASC Limit :limit   ")
     List<Dbwords> getWordsTrainWithoutGroup(int id_exercise,  int limit);
+
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords" +
+            " LEFT JOIN (SELECT id_word, trainDate FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND id_exercice=:id_exercise)" +
+            " AS sel ON dbwords.id=sel.id_word ORDER BY sel.trainDate ASC Limit :limit  ")
+    List<Dbwords> getWordsTrainWithoutGroup2(int id_exercise, int limit,Integer isnull, boolean train1);
 
     @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate,sel2.id_group, sel2.trainDate, sel2.train1 AS description from dbwords " +
             //"LEFT JOIN (SELECT id, id_group from dbgroupsandwords  ) AS sel ON dbwords.id = sel.id " +
@@ -63,24 +68,23 @@ public interface WordDao {
 
 //    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords WHERE dbwords.id NOT IN (SELECT id_word FROM dbcounts WHERE id_exercice=:id_exercise AND id_word IS NOT NULL ) Limit :limit  ")
 //    List<Dbwords> getWordsTrainWithoutGroup(int id_exercise, int limit);
-    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.translate from dbwords LEFT JOIN (SELECT id_word, trainDate FROM dbcounts WHERE (:isnull IS NULL OR (dbcounts.train LIKE :train1)) AND id_exercice=:id_exercise) AS sel ON dbwords.id=sel.id_word ORDER BY sel.trainDate ASC Limit :limit  ")
-    List<Dbwords> getWordsTrainWithoutGroup2(int id_exercise, int limit,Integer isnull, boolean train1);
+
     @Query("SELECT * FROM Dbwords Limit :limit OFFSET :offset")
     List<Dbwords> wordsForListLimit( int limit, int offset);
     @Query("Select * FROM Dbwords WHERE id LIKE :id")
     Dbwords findById(int id);
 
-    @Query("Select * FROM Dbwords ORDER BY trainDate ASC Limit 1")
-    Dbwords findLast();
+    @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate ASC Limit 1")
+    Dbwords findLast(Integer isnull, boolean train1);
 
-    @Query("Select * FROM Dbwords WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
-    Dbwords findNext(Long trainDate);
+    @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
+    Dbwords findNext(Long trainDate, Integer isnull, boolean train1);
 
-    @Query("Select * FROM Dbwords WHERE trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
-    Dbwords findPrev(Long trainDate);
+    @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrev(Long trainDate, Integer isnull, boolean train1);
 
-    @Query("Select * FROM Dbwords ORDER BY trainDate DESC Limit 1")  //
-    Dbwords findPrevAdd();
+    @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevAdd(Integer isnull, boolean train1);
     @Update
     void updateWord(Dbwords word);
 

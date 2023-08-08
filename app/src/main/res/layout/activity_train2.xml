@@ -373,8 +373,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
 
             app:layout_constraintRight_toRightOf="parent"
-            app:rippleColor="@color/black"
+
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp" />
+        <!-- app:rippleColor="@color/black" -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

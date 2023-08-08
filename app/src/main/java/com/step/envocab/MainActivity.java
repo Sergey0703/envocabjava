@@ -402,7 +402,7 @@ public class MainActivity extends BaseActivity {
                             .wordDao()
                             .updateWord(word);
                         Log.d(TAG, "Update word=" + word.getWord());
-                }else {
+                    }else {
                         AppDatabase.getInstance(getApplicationContext())
                                 .countDao()
                                 .insertOrUpdate(id_exercise, word.getId(), id_group, up, currentTime);
@@ -454,7 +454,7 @@ public class MainActivity extends BaseActivity {
 //                                .getWords7();
                         List<Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrain2(id_exercise,  id_group, 1, null, false);
+                                .getWordsTrain2(id_exercise,  id_group, 1, filterWord, false);
                         if(listWords!=null && listWords.size()>0){
                             word=listWords.get(0);
                         }
@@ -462,20 +462,20 @@ public class MainActivity extends BaseActivity {
                     }else{
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findLast();
+                                .findLast(filterWord, false);
 
                     }
                 } else if (nav == "Next") {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findPrev(trainDateLong);
-                        if (word == null) {
-                            word = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .findPrevAdd();
-                            Log.d(TAG, "nav=");
-                        }
+                                .findNext(trainDateLong, filterWord, false );
+//                        if (word == null) {
+//                            word = AppDatabase.getInstance(getApplicationContext())
+//                                    .wordDao()
+//                                    .findNextAdd();
+//                            Log.d(TAG, "nav=");
+//                        }
                     }else {
                         Date currentTimeW=word.getTrainDate();
                         Log.d(TAG,"currentTimeW="+currentTimeW );
@@ -496,11 +496,11 @@ public class MainActivity extends BaseActivity {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findPrev(trainDateLong);
+                                .findPrev(trainDateLong, filterWord, false);
                         if (word == null) {
                             word = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .findPrevAdd();
+                                    .findPrevAdd(filterWord, false);
                             Log.d(TAG, "nav=");
                         }
                     }else{

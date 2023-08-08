@@ -269,6 +269,7 @@ public class TrainActivityL extends BaseActivity {
         btnCheck.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            view.startAnimation(animAlpha);
             Log.d(TAG, "Checkkkk="+wordTrain.getText()+" textEditWord.getText()="+textEditWord.getText());
             String strWordTrain=String.valueOf(wordTrain.getText()).trim().toLowerCase();
             String strTextEdit=String.valueOf(textEditWord.getText()).trim().toLowerCase();
@@ -294,6 +295,7 @@ public class TrainActivityL extends BaseActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            view.startAnimation(animAlpha);
             if (passedTechName.equals("writeaword")) {
                 if (btnSkip.getText().equals("Next") || btnSkip.getText().equals("NEXT")) {
                     btnSkip.setText("I don't know");

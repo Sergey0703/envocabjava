@@ -246,7 +246,7 @@ public class TrainActivity extends BaseActivity {
         btnWord1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // view.startAnimation(animAlpha);
+                 view.startAnimation(animAlpha);
                 Log.d(TAG, "btn1");
                 checkTrain(id_word1, btnWord1);
             }
@@ -254,7 +254,7 @@ public class TrainActivity extends BaseActivity {
         btnWord2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // view.startAnimation(animAlpha);
+                 view.startAnimation(animAlpha);
                 Log.d(TAG, "btn2");
                 checkTrain(id_word2, btnWord2);
             }
@@ -262,7 +262,7 @@ public class TrainActivity extends BaseActivity {
         btnWord3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // view.startAnimation(animAlpha);
+                 view.startAnimation(animAlpha);
                 Log.d(TAG, "btn3");
                 checkTrain(id_word3, btnWord3);
             }
@@ -270,7 +270,7 @@ public class TrainActivity extends BaseActivity {
         btnWord4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // view.startAnimation(animAlpha);
+                 view.startAnimation(animAlpha);
                 Log.d(TAG, "btn4");
                 checkTrain(id_word4, btnWord4);
             }
@@ -278,7 +278,7 @@ public class TrainActivity extends BaseActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // view.startAnimation(animAlpha);
+                 view.startAnimation(animAlpha);
                 Log.d(TAG, "btnSkip!="+btnSkip.getText());
 
                 //checkTrain(id_word1, btnWord1);

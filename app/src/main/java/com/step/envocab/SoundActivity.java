@@ -536,12 +536,14 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         if(filterWord==null) {
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .getWordsTrainWithoutGroup(id_exercise, limit);
+                                    //.getWordsTrainWithoutGroup(id_exercise, limit);
+                                    .getWordsTrainWithoutGroup2(id_exercise, limit,filterWord, false );
 
                         }else{
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .getWordsTrainWithoutGroupMarked(id_exercise, limit, filterWord, false);
+                                    //.getWordsTrainWithoutGroupMarked(id_exercise, limit, filterWord, false);
+                                    .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
                         }
                     }else {
 

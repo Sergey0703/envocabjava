@@ -28,7 +28,7 @@
                 android:textStyle="bold"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:text="English Vocab"
+                android:text="EnVocab"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="0.1"
                 android:textColor="@color/red_color_font2"
