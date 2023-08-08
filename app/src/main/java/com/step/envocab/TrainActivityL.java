@@ -18,6 +18,7 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,7 +188,8 @@ public class TrainActivityL extends BaseActivity {
                         layout.removeView(b3);
                 }
                 lettersButton.clear();
-                if(lettersW!=null) {
+               // if(lettersW!=null) { 555
+                if(letters!=null) {
                     letters.clear();
                 }
                 if(lettersW!=null) {
@@ -225,7 +227,8 @@ public class TrainActivityL extends BaseActivity {
                         layout.removeView(b3);
                 }
                 lettersButton.clear();
-                if(lettersW!=null) {
+                //if(lettersW!=null) { 555
+                if(letters!=null) {
                     letters.clear();
                 }
                 if(lettersW!=null) {
@@ -623,9 +626,16 @@ public class TrainActivityL extends BaseActivity {
 
             for (int i = 0; i < rowY; i++) {
                 LinearLayout row = new LinearLayout(this);
-                row.setLayoutParams(new LinearLayout.LayoutParams
+
+                LinearLayout.LayoutParams paramsR =new LinearLayout.LayoutParams
                         (LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT));
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+                paramsR.gravity= Gravity.CENTER_HORIZONTAL;
+                row.setLayoutParams(paramsR);
+//                row.setLayoutParams(new LinearLayout.LayoutParams
+//                        (LinearLayout.LayoutParams.MATCH_PARENT,
+//                                LinearLayout.LayoutParams.WRAP_CONTENT));
+
                 // row.setMa
                 for (int j = 0; j < rowX; j++) {
                     Button btnW = new Button(this);
@@ -686,6 +696,9 @@ public class TrainActivityL extends BaseActivity {
     layoutL = findViewById(R.id.layout_letter);
     layoutL.setOrientation(LinearLayout.VERTICAL);
     Collections.shuffle(letters);
+    if(letters.equals(lettersW)){
+        Collections.reverse(letters);
+    }
     lett = 0;
     //layoutL.setMargins(20, 20, 30, 20);
     for (int i = 0; i < rowY; i++) {
