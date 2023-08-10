@@ -36,6 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
@@ -51,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainActivityL extends BaseActivity {
+    private AdView mAdView;
     private Boolean markWords[];
     private SwitchCompat onlyMarkedWords;
     private Integer filterWord=null;
@@ -417,6 +420,10 @@ public class TrainActivityL extends BaseActivity {
 
         makeSpin();
        startTrain();
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
     public void checkLastGroup() {
         new Thread(new Runnable() {

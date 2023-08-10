@@ -35,6 +35,8 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.time.LocalDate;
@@ -51,6 +53,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
+    private AdView mAdView;
     private Long trainDateLong;
     private Integer filterWord=null;
 
@@ -334,6 +337,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         });
         makeSpin();
        dataToList("");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
     public void checkLastGroup() {
         new Thread(new Runnable() {
@@ -479,7 +485,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         Log.d(TAG,"curr="+currentTime+" offset="+offset );
                         listWords = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset, null, false);
+                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,limit,offset, filterWord, false);
 
                         for(Dbwords ww:listWords){
                             Log.d(TAG, "GET prev="+ww.getWord()+" "+ ww.getTrainDate()+" offset="+offset);
@@ -536,14 +542,14 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                         if(filterWord==null) {
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    //.getWordsTrainWithoutGroup(id_exercise, limit);
-                                    .getWordsTrainWithoutGroup2(id_exercise, limit,filterWord, false );
+                                    .getWordsTrainWithoutGroup(id_exercise, limit);
+                                    //.getWordsTrainWithoutGroup2(id_exercise, limit,filterWord, false );
 
                         }else{
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    //.getWordsTrainWithoutGroupMarked(id_exercise, limit, filterWord, false);
-                                    .getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
+                                    .getWordsTrainWithoutGroupMarked(id_exercise, limit, filterWord, false);
+                                    //.getWordsTrainWithoutGroup2(id_exercise, limit, filterWord, false);
                         }
                     }else {
 

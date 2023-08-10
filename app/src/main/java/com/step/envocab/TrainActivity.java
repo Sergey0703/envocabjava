@@ -37,6 +37,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -55,6 +57,7 @@ import java.util.Locale;
 import java.util.Random;
 
 public class TrainActivity extends BaseActivity {
+    private AdView mAdView;
     private Boolean markWords[];
     private SwitchCompat onlyMarkedWords;
     private ArrayAdapter<String> adapter;
@@ -346,6 +349,10 @@ public class TrainActivity extends BaseActivity {
         });
         makeSpin();
         startTrain();
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public int checkLastGroup() {

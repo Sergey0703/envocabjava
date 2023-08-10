@@ -29,6 +29,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
@@ -47,6 +49,7 @@ import java.util.Locale;
 //my first Test version
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends BaseActivity {
+    private AdView mAdView;
     private int count, countB;
     private int id_exercise = 6;
     private SwitchCompat onlyMarkedWords;
@@ -285,6 +288,10 @@ public class MainActivity extends BaseActivity {
 
         makeSpin();
         takeWord("");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
     public void makeSpin(){
         Thread thread = new Thread(new Runnable() {

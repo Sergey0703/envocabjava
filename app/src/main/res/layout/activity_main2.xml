@@ -273,7 +273,7 @@
             app:layout_constraintTop_toBottomOf="@id/only_marked_words"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btnWordTranslate"
+            app:layout_constraintBottom_toTopOf="@id/adView"
             >
 
         <!--  app:constraint_referenced_ids="dashWord,btnSound, dashTranscript,dashTrainDate,dashTranslate"-->
@@ -399,7 +399,7 @@
 
         android:fontFamily="sans-serif"
         android:text="I know"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
 
         android:textColor="@color/blue_color2_font2"
@@ -423,7 +423,7 @@
 
         android:fontFamily="sans-serif"
         android:text="Show Translate"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
 
         android:textColor="@color/blue_color2_font2"
@@ -434,7 +434,7 @@
         app:cornerRadius="20dp"
         android:padding="10dp"
 
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toTopOf="@id/btnPrev"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -450,7 +450,7 @@
 
 
         android:text="STUDY"
-        android:textSize="20sp"
+        android:textSize="16sp"
 
         android:textColor="@color/red_color_font2"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -470,7 +470,7 @@
     <Button
         android:id="@+id/btnNext"
         android:layout_width="46dp"
-        android:layout_height="49dp"
+        android:layout_height="42dp"
 
         android:background="@drawable/next_arrow"
         app:backgroundTint="@color/blue_color2_font2"
@@ -485,7 +485,7 @@
     <Button
         android:id="@+id/btnPrev"
         android:layout_width="46dp"
-        android:layout_height="49dp"
+        android:layout_height="42dp"
 
 
         android:background="@drawable/back_arrow"
@@ -495,6 +495,21 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="5dp"
         ></Button>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:adSize="SMART_BANNER"
+            app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            app:layout_constraintBottom_toTopOf="@id/btnWordTranslate"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent">
+
+        </com.google.android.gms.ads.AdView>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressCircleInd"

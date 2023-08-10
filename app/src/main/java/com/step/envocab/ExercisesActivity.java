@@ -16,9 +16,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 
 public class ExercisesActivity extends BaseActivity implements ExerciseRosterInterface{
+    private AdView mAdView;
     private String theme="";
     private Handler handler;
     private String TAG="Exercises";
@@ -69,6 +73,10 @@ public class ExercisesActivity extends BaseActivity implements ExerciseRosterInt
 
         searchExercisesRecycler.setLayoutManager(layoutManager);
         dataToSearchListExercises();
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 
