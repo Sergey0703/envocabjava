@@ -28,10 +28,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Calendar;
 import java.util.List;
 
 public class GroupWordsActivity extends BaseActivity implements GroupWordsRosterInterface{
+    private AdView mAdView;
     private Handler handler = null;
     private String TAG="GroupWords";
     private List<GroupWithWords2> listSearchGroupWords;
@@ -189,6 +193,9 @@ public class GroupWordsActivity extends BaseActivity implements GroupWordsRoster
         });
 
         dataToSearchListGroupWords("");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
     public void useGroup(int ch){

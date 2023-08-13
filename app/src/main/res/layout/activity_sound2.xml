@@ -11,7 +11,7 @@
     <!-- android:keepScreenOn="true" -->
     <!--<include layout="@layout/appbar"/>-->
     <include layout="@layout/toolbar2"/>
-
+    <include layout="@layout/add_layout"/>
     <RelativeLayout
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
@@ -162,27 +162,15 @@ android:background="@drawable/green_background2"-->
     <RelativeLayout
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
-        android:layout_height="143dp"
-        android:maxHeight="143dp"
+        android:layout_height="100dp"
+        android:maxHeight="100dp"
         android:layout_weight="1"
 
         android:padding="0dp"
         android:elevation="2dp"
 
         >
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
 
-            android:layout_centerHorizontal="true"
-            app:adSize="SMART_BANNER"
-            app:adUnitId="ca-app-pub-3940256099942544/6300978111"
-            android:layout_alignParentTop="true"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            app:layout_constraintStart_toStartOf="parent">
-        </com.google.android.gms.ads.AdView>
         <!--android:background="@drawable/green_background2"-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPlaySound"

@@ -9,7 +9,8 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class, Dbexercises.class, Dbcounts.class}, version = 10)
+@Database(entities = {Dbwords.class, Dbgroups.class, Dbgroupsandwords.class, Dbexercises.class, Dbcounts.class, Dbsample.class},
+        version = 11)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract WordDao wordDao();
@@ -18,6 +19,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ExerciseDao exerciseDao();
 
     public abstract CountDao countDao();
+    public abstract SampleDao sampleDao();
     private static volatile AppDatabase INSTANCE;
 //    public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
 //        @Override

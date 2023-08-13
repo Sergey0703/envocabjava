@@ -29,10 +29,14 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 import java.util.Locale;
 
 public class DictActivity extends BaseActivity implements WordRosterInterface {
+    private AdView mAdView;
     TextToSpeech textToSpeech;
     private Runnable runnable;
     private String theme="light";
@@ -136,6 +140,9 @@ public class DictActivity extends BaseActivity implements WordRosterInterface {
                 }
             }
         });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public void onResume() {

@@ -22,9 +22,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 
 public class GroupActivity extends BaseActivity implements GroupRosterInterface{
+    private AdView mAdView;
     private EditText groupFilter;
     private Handler handler;
     private String TAG="Group";
@@ -94,6 +98,10 @@ public class GroupActivity extends BaseActivity implements GroupRosterInterface{
                         ,null );
             }
         });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 
