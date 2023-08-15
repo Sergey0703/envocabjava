@@ -400,7 +400,7 @@ public class MainActivity extends BaseActivity {
                 if (word != null) {
                     currentTime = Calendar.getInstance().getTime();
                     Log.d(TAG, "currentTime=" + currentTime);
-                    if (id_group == 0){
+//                    if (id_group == 0){
                         Log.d(TAG, "findBy=" + uid + " word=" + word.getWord());
 
                     word.setTrain1(up);
@@ -409,12 +409,12 @@ public class MainActivity extends BaseActivity {
                             .wordDao()
                             .updateWord(word);
                         Log.d(TAG, "Update word=" + word.getWord());
-                    }else {
-                        AppDatabase.getInstance(getApplicationContext())
-                                .countDao()
-                                .insertOrUpdate(id_exercise, word.getId(), id_group, up, currentTime);
-                        Log.d(TAG, "Update Group word=" + word.getWord());
-                }
+//                    }else {
+//                        AppDatabase.getInstance(getApplicationContext())
+//                                .countDao()
+//                                .insertOrUpdate(id_exercise, word.getId(), id_group, up, currentTime);
+//                        Log.d(TAG, "Update Group word=" + word.getWord());
+//                }
 
                 takeWord("");
                 }
@@ -455,28 +455,32 @@ public class MainActivity extends BaseActivity {
                 Log.d(TAG, "trainDateLong=" + trainDateLong);
                 if (nav == "") {
                     //if(listGroup.size()>0) {
+//                    if(id_group>0) {
+////                        word = AppDatabase.getInstance(getApplicationContext())
+////                                .groupsAndWordsDao()
+////                                .getWords7();
+//                        List<Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+//                                .wordDao()
+//                                .getWordsTrain2(id_exercise,  id_group, 1, filterWord, false);
+//                        if(listWords!=null && listWords.size()>0){
+//                            word=listWords.get(0);
+//                        }
+//                        Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
                     if(id_group>0) {
-//                        word = AppDatabase.getInstance(getApplicationContext())
-//                                .groupsAndWordsDao()
-//                                .getWords7();
-                        List<Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+                        word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrain2(id_exercise,  id_group, 1, filterWord, false);
-                        if(listWords!=null && listWords.size()>0){
-                            word=listWords.get(0);
-                        }
-                        Log.d(TAG, "Sound " + id_group + " size=" + listWords.size() + " id_exercise=" + id_exercise);
-                    }else{
+                                .findLastGr(id_group);
+                    }else {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
                                 .findLast(filterWord, false);
-
                     }
+
                 } else if (nav == "Next") {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findNext(trainDateLong, filterWord, false );
+                                .findNext(trainDateLong);
 //                        if (word == null) {
 //                            word = AppDatabase.getInstance(getApplicationContext())
 //                                    .wordDao()
@@ -484,21 +488,25 @@ public class MainActivity extends BaseActivity {
 //                            Log.d(TAG, "nav=");
 //                        }
                     }else {
-                        Date currentTimeW=word.getTrainDate();
-                        Log.d(TAG,"currentTimeW="+currentTimeW );
-                        if(currentTimeW==null){
-                            currentTimeW=Calendar.getInstance().getTime();
-                        }
-                        long trainDateLong = Converters.dateToTimestamp(currentTimeW);
-                        Log.d(TAG,"curr="+currentTimeW+" filterWord="+filterWord );
-                        List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+                        word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainNext(id_exercise,  id_group,trainDateLong ,1,0, filterWord, false);
-                        if(listWords!=null && listWords.size()>0){
-                            word=listWords.get(0);
-                        }
-
+                                .findNextGr(trainDateLong, id_group );
                     }
+//                        Date currentTimeW=word.getTrainDate();
+//                        Log.d(TAG,"currentTimeW="+currentTimeW );
+//                        if(currentTimeW==null){
+//                            currentTimeW=Calendar.getInstance().getTime();
+//                        }
+//                        long trainDateLong = Converters.dateToTimestamp(currentTimeW);
+//                        Log.d(TAG,"curr="+currentTimeW+" filterWord="+filterWord );
+//                        List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+//                                .wordDao()
+//                                .getWordsTrainNext(id_exercise,  id_group,trainDateLong ,1,0, filterWord, false);
+//                        if(listWords!=null && listWords.size()>0){
+//                            word=listWords.get(0);
+//                        }
+//
+//                    }
                 } else if (nav == "Prev") {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
@@ -511,22 +519,33 @@ public class MainActivity extends BaseActivity {
                             Log.d(TAG, "nav=");
                         }
                     }else{
-                        //Date currentTime = Calendar.getInstance().getTime();
-                        Date currentTimeW=word.getTrainDate();
-                        Log.d(TAG,"currentTimeW="+currentTimeW );
-                        if(currentTimeW==null){
-                            currentTimeW=Calendar.getInstance().getTime();
-                        }
-                        long trainDateLong = Converters.dateToTimestamp(currentTimeW);
-                        Log.d(TAG,"curr="+currentTimeW+" offset=" );
-                        List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+                        word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,1,0,filterWord, false);
-                        if(listWords!=null && listWords.size()>0){
-                            word=listWords.get(0);
+                                .findPrevGr(trainDateLong, filterWord, false, id_group);
+                        if (word == null) {
+                            word = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .findPrevAddGr(filterWord, false, id_group);
+                            Log.d(TAG, "prev=");
                         }
 
                     }
+//                        //Date currentTime = Calendar.getInstance().getTime();
+//                        Date currentTimeW=word.getTrainDate();
+//                        Log.d(TAG,"currentTimeW="+currentTimeW );
+//                        if(currentTimeW==null){
+//                            currentTimeW=Calendar.getInstance().getTime();
+//                        }
+//                        long trainDateLong = Converters.dateToTimestamp(currentTimeW);
+//                        Log.d(TAG,"curr="+currentTimeW+" offset=" );
+//                        List <Dbwords> listWords = AppDatabase.getInstance(getApplicationContext())
+//                                .wordDao()
+//                                .getWordsTrainPrev(id_exercise,  id_group,trainDateLong ,1,0,filterWord, false);
+//                        if(listWords!=null && listWords.size()>0){
+//                            word=listWords.get(0);
+//                        }
+//
+//                    }
                     Log.d(TAG, "nav=" + nav);
                 }
 
@@ -578,8 +597,8 @@ public class MainActivity extends BaseActivity {
 
                 countWordsToday(0);
                 countWordsToday(1);
-                countWordsTodayGroup(0);
-                countWordsTodayGroup(1);
+               // countWordsTodayGroup(0);
+               // countWordsTodayGroup(1);
 
             }
         });

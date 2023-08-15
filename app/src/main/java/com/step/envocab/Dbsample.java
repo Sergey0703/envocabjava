@@ -23,12 +23,24 @@ public class Dbsample {
 
     private String clause;
 
-    public Dbsample(@NonNull Integer id_sample, @NonNull Integer id_word, String partOfSpeech, String clause, Integer priority) {
+    private String translate;
+
+    public String getTranslate() {
+        return translate;
+    }
+
+    public void setTranslate(String translate) {
+        this.translate = translate;
+    }
+
+    public Dbsample(@NonNull Integer id_sample, @NonNull Integer id_word, String partOfSpeech, String clause, Integer priority, String translate ) {
         this.id_sample = id_sample;
         this.id_word = id_word;
         this.priority = priority;
         this.partOfSpeech = partOfSpeech;
         this.clause = clause;
+        this.translate = translate;
+
     }
 
     @NonNull

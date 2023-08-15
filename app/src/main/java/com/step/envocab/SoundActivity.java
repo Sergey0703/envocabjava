@@ -420,7 +420,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
 
     public void dataToList(String nav) {
-        if(id_group==-5) {
+      //  if(id_group==-5) {
             Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
             if (nav == "prev") {
                 dateList = dateList.minusDays(1);
@@ -465,7 +465,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 }
             });
             thread.start();
+/*
         }else {
+  //old
             if (nav == "prev") {
 
                 Thread thread = new Thread(new Runnable() {
@@ -576,6 +578,8 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         }
         }
 
+ */
+//end old
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {

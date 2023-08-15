@@ -27,13 +27,23 @@ public class Dbwords {
     private Boolean train1;
     private String transcript;
     private String description;
+    private String sound;
 
-    public Dbwords(String word, String translate, String transcript, String description){
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
+    public Dbwords(String word, String translate, String transcript, String description, String sound){
         this.word=word;
         this.translate=translate;
         this.transcript=transcript;
         this.description=description;
         this.train1=false;
+        this.sound=sound;
     }
 
 

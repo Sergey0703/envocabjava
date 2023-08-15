@@ -77,14 +77,35 @@ public interface WordDao {
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate ASC Limit 1")
     Dbwords findLast(Integer isnull, boolean train1);
 
-    @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
-    Dbwords findNext(Long trainDate, Integer isnull, boolean train1);
+    @Query("SELECT * from dbwords " +
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id "+
+            " ORDER BY trainDate ASC Limit 1")
+    Dbwords findLastGr(int id_group);
+
+    @Query("Select * FROM Dbwords " +
+            "WHERE  trainDate > :trainDate" +
+            " ORDER BY trainDate ASC Limit 1")
+    Dbwords findNext(Long trainDate);
+
+    @Query("Select * FROM Dbwords" +
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            " WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
+    Dbwords findNextGr(Long trainDate, int id_group);
 
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrev(Long trainDate, Integer isnull, boolean train1);
 
+    @Query("Select * FROM Dbwords " +
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            "WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevGr(Long trainDate, Integer isnull, boolean train1, int id_group);
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrevAdd(Integer isnull, boolean train1);
+
+    @Query("Select * FROM Dbwords " +
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            "WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevAddGr(Integer isnull, boolean train1, int id_group);
     @Update
     void updateWord(Dbwords word);
 
