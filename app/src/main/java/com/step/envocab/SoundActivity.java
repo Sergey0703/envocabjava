@@ -23,6 +23,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +56,9 @@ import java.util.stream.Collectors;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
     private AdView mAdView;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    RadioButton radioButton1, radioButton2, radioButton3;
     private Long trainDateLong;
     private Integer filterWord=null;
 
@@ -162,7 +167,23 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnNextDay = findViewById(R.id.btnNextDay);
         allStudyWords = findViewById(R.id.allStudyWords);
         textCaution=findViewById(R.id.caution);
+        radioGroup = (RadioGroup)findViewById(R.id.radio_group);
+        radioButton1 = (RadioButton)findViewById(R.id.radio_button_1);
+        radioButton2 = (RadioButton)findViewById(R.id.radio_button_2);
+        radioButton3 = (RadioButton)findViewById(R.id.radio_button_3);
 
+        radioGroup.setOnCheckedChangeListener(new RadioGroup
+                .OnCheckedChangeListener() {
+                    @Override
+                    // Check which radio button has been clicked
+                    public void onCheckedChanged(RadioGroup group, int checkedId)
+                    {
+                        // Get the selected Radio Button
+                        radioButton= (RadioButton)group.findViewById(checkedId);
+                        Log.d(TAG,String.valueOf(radioButton.getText()));
+                        dataToList("");
+                    }
+                });
 
 
         animAlpha= AnimationUtils.loadAnimation(this, R.anim.alpha);
@@ -420,6 +441,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
 
     public void dataToList(String nav) {
+       // result+= (radioButton1.isChecked())?"Android":(radioButton2.isChecked())?"AngularJS":(java.isChecked())?"Java":(python.isChecked())?"Python":"";
       //  if(id_group==-5) {
             Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
             if (nav == "prev") {
@@ -439,13 +461,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                 @Override
                 public void run() {
                     if (id_group > 0) {
-                        if (allStudyWords.isChecked()) {
+                        if (radioButton1.isChecked()) {
                             Log.d(TAG, "All BAD GR!!!!");
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
                                     .wordsForListAllGr(0,id_group);
                             //System.out.println("Size=" + listWords.size());
-                        } else if (speechCategory.isChecked()) {
+                        } else if (radioButton2.isChecked()) {
                             Log.d(TAG, "All word GR!!!!");
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
@@ -464,13 +486,13 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                             listWords.addAll(listWordsForAdd);
                         }
                     } else {
-                        if (allStudyWords.isChecked()) {
+                        if (radioButton1.isChecked()) {
                             Log.d(TAG, "All BAD!!!!");
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
                                     .wordsForListAll(0);
                             //System.out.println("Size=" + listWords.size());
-                        } else if (speechCategory.isChecked()) {
+                        } else if (radioButton2.isChecked()) {
                             Log.d(TAG, "All word!!!!");
                             listWords = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
