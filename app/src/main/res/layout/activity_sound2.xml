@@ -94,9 +94,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/speechTranslate"
             android:layout_centerHorizontal="true"
-            android:checked="false"
+            android:checked="true"
             android:fadeScrollbars="true"
-            android:text="Repeat marked words "
+            android:text="Repeat only marked words "
             android:textColor="@color/blue_color2_font2"
 
             android:fontFamily="sans-serif"

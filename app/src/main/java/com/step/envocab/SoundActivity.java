@@ -438,30 +438,57 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (allStudyWords.isChecked()) {
-                        Log.d(TAG, "All BAD!!!!");
-                        listWords = AppDatabase.getInstance(getApplicationContext())
-                                .wordDao()
-                                .wordsForListAll(0);
-                        //System.out.println("Size=" + listWords.size());
-                    } else if (speechCategory.isChecked()) {
-                        Log.d(TAG, "All word!!!!");
-                        listWords = AppDatabase.getInstance(getApplicationContext())
-                                .wordDao()
-                                .wordsForListAll(startOfDay, endOfDay);
+                    if (id_group > 0) {
+                        if (allStudyWords.isChecked()) {
+                            Log.d(TAG, "All BAD GR!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForListAllGr(0,id_group);
+                            //System.out.println("Size=" + listWords.size());
+                        } else if (speechCategory.isChecked()) {
+                            Log.d(TAG, "All word GR!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForListAllGr(startOfDay, endOfDay,id_group);
 
+                        } else {
+                            Log.d(TAG, "Only BAD Grrr!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForListGr(startOfDay, endOfDay, 0, id_group);
+                            //.wordsForListAllTest();
+
+                        }
+                        listWordsForAdd = listWords;
+                        if (listWords != null && listWords.size() < 4) {
+                            listWords.addAll(listWordsForAdd);
+                        }
                     } else {
-                        Log.d(TAG, "Only BAD!!!!");
-                        listWords = AppDatabase.getInstance(getApplicationContext())
-                                .wordDao()
-                                .wordsForList(startOfDay, endOfDay, 0);
-                        //.wordsForListAllTest();
+                        if (allStudyWords.isChecked()) {
+                            Log.d(TAG, "All BAD!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForListAll(0);
+                            //System.out.println("Size=" + listWords.size());
+                        } else if (speechCategory.isChecked()) {
+                            Log.d(TAG, "All word!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForListAll(startOfDay, endOfDay);
 
-                    }
-                    listWordsForAdd = listWords;
-                    if (listWords!=null && listWords.size() < 4) {
-                        listWords.addAll(listWordsForAdd);
-                    }
+                        } else {
+                            Log.d(TAG, "Only BAD!!!!");
+                            listWords = AppDatabase.getInstance(getApplicationContext())
+                                    .wordDao()
+                                    .wordsForList(startOfDay, endOfDay, 0);
+                            //.wordsForListAllTest();
+
+                        }
+                        listWordsForAdd = listWords;
+                        if (listWords != null && listWords.size() < 4) {
+                            listWords.addAll(listWordsForAdd);
+                        }
+                    } //else
                 }
             });
             thread.start();

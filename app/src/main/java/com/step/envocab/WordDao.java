@@ -124,11 +124,26 @@ public interface WordDao {
     @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
     List<Dbwords> wordsForList(Long startDate, Long endDate, int train);
 
+    @Query("SELECT * FROM Dbwords " +
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            " WHERE train1 LIKE :train AND trainDate BETWEEN :startDate AND :endDate")
+    List<Dbwords> wordsForListGr(Long startDate, Long endDate, int train, int id_group);
+
     @Query("SELECT * FROM Dbwords WHERE  trainDate BETWEEN :startDate AND :endDate")
     List<Dbwords> wordsForListAll(Long startDate, Long endDate);
 
+    @Query("SELECT * FROM Dbwords" +
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            " WHERE  trainDate BETWEEN :startDate AND :endDate")
+    List<Dbwords> wordsForListAllGr(Long startDate, Long endDate, int id_group);
+
     @Query("SELECT * FROM Dbwords WHERE train1 LIKE :train")
     List<Dbwords> wordsForListAll(int train);
+
+    @Query("SELECT * FROM Dbwords " +
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
+            " WHERE train1 LIKE :train")
+    List<Dbwords> wordsForListAllGr(int train, int id_group);
 
     // Dao query with filter
     @Query("SELECT * from Dbwords WHERE word LIKE :filter ORDER BY word")
