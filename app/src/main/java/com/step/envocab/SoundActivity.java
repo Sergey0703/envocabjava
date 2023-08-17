@@ -46,6 +46,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,6 +57,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SoundActivity extends BaseActivity implements WordListInterface {
+    DateTimeFormatter dateTimeFormatter;
     private AdView mAdView;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
@@ -96,7 +99,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
     SwitchCompat allStudyWords;
 
     String selectedTranslate;
-    TextView textCaution;
+    TextView textCaution, textMess;
     int speedScroll = 4000;
     LocalDate today, dateList;
     LocalDateTime startOfDate;
@@ -167,6 +170,9 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         btnNextDay = findViewById(R.id.btnNextDay);
         allStudyWords = findViewById(R.id.allStudyWords);
         textCaution=findViewById(R.id.caution);
+        textMess=findViewById(R.id.text_mess);
+        dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         radioGroup = (RadioGroup)findViewById(R.id.radio_group);
         radioButton1 = (RadioButton)findViewById(R.id.radio_button_1);
         radioButton2 = (RadioButton)findViewById(R.id.radio_button_2);
@@ -441,6 +447,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
 
     public void dataToList(String nav) {
+
        // result+= (radioButton1.isChecked())?"Android":(radioButton2.isChecked())?"AngularJS":(java.isChecked())?"Java":(python.isChecked())?"Python":"";
       //  if(id_group==-5) {
             Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
@@ -457,6 +464,16 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
             ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
             startOfDay = zdtStart.toInstant().toEpochMilli();
             endOfDay = zdtEnd.toInstant().toEpochMilli();
+
+        String txtMess;
+        if(radioButton1.isChecked()) {
+            txtMess ="All marked words for all time ";
+        }else if(radioButton2.isChecked()){
+            txtMess ="Words that were repeated on a date "+String.valueOf(dateList.format(dateTimeFormatter));
+        }else{
+            txtMess ="Words that were marked on the date "+String.valueOf(dateList.format(dateTimeFormatter));
+        }
+        textMess.setText(txtMess);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
