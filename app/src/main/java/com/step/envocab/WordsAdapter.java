@@ -107,31 +107,44 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordViewHold
                     }
                 }
             });
-            simpleSwitch.setOnTouchListener(new View.OnTouchListener() {
+            itemView.findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    isTouched = true;
-                    return false;
-                }
-            });
-            simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isTouched) {
-                        isTouched = false;
+                public void onClick(View v) {
+                    if (wordListInterface != null) {
+                        int pos = getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION) {
 
-                        if (wordListInterface != null) {
-                            int pos = getAdapterPosition();
-                            if (pos != RecyclerView.NO_POSITION) {
-
-                                wordListInterface.onItemClick(pos, "switch", String.valueOf(id_word_item.getText()), isChecked, String.valueOf(id_group_item.getText()));
-                            }
+                            v.startAnimation(animAlpha);
+                            wordListInterface.onItemClick(pos,"del",String.valueOf(id_word_item.getText()),false, String.valueOf(id_group_item.getText()));
                         }
-
                     }
                 }
-
             });
+//            simpleSwitch.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View view, MotionEvent motionEvent) {
+//                    isTouched = true;
+//                    return false;
+//                }
+//            });
+//            simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if (isTouched) {
+//                        isTouched = false;
+//
+//                        if (wordListInterface != null) {
+//                            int pos = getAdapterPosition();
+//                            if (pos != RecyclerView.NO_POSITION) {
+//
+//                                wordListInterface.onItemClick(pos, "switch", String.valueOf(id_word_item.getText()), isChecked, String.valueOf(id_group_item.getText()));
+//                            }
+//                        }
+//
+//                    }
+//                }
+//
+//            });
 
         }
 

@@ -448,89 +448,91 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
     public void dataToList(String nav) {
 
-       // result+= (radioButton1.isChecked())?"Android":(radioButton2.isChecked())?"AngularJS":(java.isChecked())?"Java":(python.isChecked())?"Python":"";
-      //  if(id_group==-5) {
-            Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
-            if (nav == "prev") {
-                dateList = dateList.minusDays(1);
-            } else if (nav == "next") {
-                if (!dateList.isEqual(today)) dateList = dateList.plusDays(1);
-            }
-            Log.d(TAG, "dateList=" + String.valueOf(dateList));
-            startOfDate = dateList.atStartOfDay();
-            endOfDate = LocalTime.MAX.atDate(dateList);
+        // result+= (radioButton1.isChecked())?"Android":(radioButton2.isChecked())?"AngularJS":(java.isChecked())?"Java":(python.isChecked())?"Python":"";
+        //  if(id_group==-5) {
+        Log.d(TAG, "today=" + String.valueOf(today) + " dateList=" + String.valueOf(dateList));
+        if (nav == "prev") {
+            dateList = dateList.minusDays(1);
+        } else if (nav == "next") {
+            if (!dateList.isEqual(today)) dateList = dateList.plusDays(1);
+        }
+        Log.d(TAG, "dateList=" + String.valueOf(dateList));
+        startOfDate = dateList.atStartOfDay();
+        endOfDate = LocalTime.MAX.atDate(dateList);
 
-            ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
-            ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
-            startOfDay = zdtStart.toInstant().toEpochMilli();
-            endOfDay = zdtEnd.toInstant().toEpochMilli();
+        ZonedDateTime zdtStart = ZonedDateTime.of(startOfDate, ZoneId.systemDefault());
+        ZonedDateTime zdtEnd = ZonedDateTime.of(endOfDate, ZoneId.systemDefault());
+        startOfDay = zdtStart.toInstant().toEpochMilli();
+        endOfDay = zdtEnd.toInstant().toEpochMilli();
 
         String txtMess;
-        if(radioButton1.isChecked()) {
-            txtMess ="All marked words for all time ";
-        }else if(radioButton2.isChecked()){
-            txtMess ="Words that were repeated on a date "+String.valueOf(dateList.format(dateTimeFormatter));
-        }else{
-            txtMess ="Words that were marked on the date "+String.valueOf(dateList.format(dateTimeFormatter));
+        if (radioButton1.isChecked()) {
+            txtMess = "All marked words for all time ";
+        } else if (radioButton2.isChecked()) {
+            txtMess = "Words that were repeated on a date " + String.valueOf(dateList.format(dateTimeFormatter));
+        } else {
+            txtMess = "Words that were marked on the date " + String.valueOf(dateList.format(dateTimeFormatter));
         }
         textMess.setText(txtMess);
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (id_group > 0) {
-                        if (radioButton1.isChecked()) {
-                            Log.d(TAG, "All BAD GR!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForListAllGr(0,id_group);
-                            //System.out.println("Size=" + listWords.size());
-                        } else if (radioButton2.isChecked()) {
-                            Log.d(TAG, "All word GR!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForListAllGr(startOfDay, endOfDay,id_group);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (id_group > 0) {
+                    if (radioButton1.isChecked()) {
+                        Log.d(TAG, "All BAD GR!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAllGr(0, id_group);
+                        //System.out.println("Size=" + listWords.size());
+                    } else if (radioButton2.isChecked()) {
+                        Log.d(TAG, "All word GR!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAllGr(startOfDay, endOfDay, id_group);
 
-                        } else {
-                            Log.d(TAG, "Only BAD Grrr!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForListGr(startOfDay, endOfDay, 0, id_group);
-                            //.wordsForListAllTest();
-
-                        }
-                        listWordsForAdd = listWords;
-                        if (listWords != null && listWords.size() < 4) {
-                            listWords.addAll(listWordsForAdd);
-                        }
                     } else {
-                        if (radioButton1.isChecked()) {
-                            Log.d(TAG, "All BAD!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForListAll(0);
-                            //System.out.println("Size=" + listWords.size());
-                        } else if (radioButton2.isChecked()) {
-                            Log.d(TAG, "All word!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForListAll(startOfDay, endOfDay);
+                        Log.d(TAG, "Only BAD Grrr!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListGr(startOfDay, endOfDay, 0, id_group);
+                        //.wordsForListAllTest();
 
-                        } else {
-                            Log.d(TAG, "Only BAD!!!!");
-                            listWords = AppDatabase.getInstance(getApplicationContext())
-                                    .wordDao()
-                                    .wordsForList(startOfDay, endOfDay, 0);
-                            //.wordsForListAllTest();
+                    }
+                    listWordsForAdd = listWords;
+                    if (listWords != null && listWords.size() < 4) {
+                        listWords.addAll(listWordsForAdd);
+                    }
+                } else {
+                    if (radioButton1.isChecked()) {
+                        Log.d(TAG, "All BAD!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAll(0);
+                        //System.out.println("Size=" + listWords.size());
+                    } else if (radioButton2.isChecked()) {
+                        Log.d(TAG, "All word!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForListAll(startOfDay, endOfDay);
 
-                        }
-                        listWordsForAdd = listWords;
-                        if (listWords != null && listWords.size() < 4) {
-                            listWords.addAll(listWordsForAdd);
-                        }
-                    } //else
-                }
-            });
-            thread.start();
+                    } else {
+                        Log.d(TAG, "Only BAD!!!!");
+                        listWords = AppDatabase.getInstance(getApplicationContext())
+                                .wordDao()
+                                .wordsForList(startOfDay, endOfDay, 0);
+                        //.wordsForListAllTest();
+
+                    }
+                    listWordsForAdd = listWords;
+                    if (listWords != null && listWords.size() < 4) {
+                        listWords.addAll(listWordsForAdd);
+                    }
+                } //else
+            }
+        });
+        thread.start();
+        makeRecycler(500);
+    }
 /*
         }else {
   //old
@@ -646,6 +648,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
  */
 //end old
+public void makeRecycler(int lag) {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -668,7 +671,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
                      textCaution.setVisibility(View.VISIBLE);
                  }
             }
-        }, 500);
+        }, lag);
     }
 
     public void playSpeech(String txtSpeech) {
@@ -814,7 +817,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
         int top = position;
         Log.d(TAG, "position0=" + top);
 
-        Log.d(TAG, "position=" + top);
+
         View v = layoutManager.findViewByPosition(top);
         //v.startAnimation(animAlpha);
         CardView card = (CardView) v.findViewById(R.id.cardWord);
@@ -825,7 +828,7 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
         String selectedName = (String) textViewName.getText();
         Log.d(TAG, top + "= onScrollStateChanged=" + selectedName);
-        if(funct.equals("sound")) {
+        if (funct.equals("sound")) {
             handler = new Handler();
             Thread thread = new Thread(new Runnable() {
 
@@ -877,69 +880,103 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 
             });
             thread.start();
-        }else{
-
-            handlerC = new Handler();
-            Thread threadC = new Thread(new Runnable() {
-            @Override
-            public void run() {
-               // for(Dbwords word: listWords) {
-                    int ind=0;
-                    if(id_word_str!=null) {
-                        ind=Integer.parseInt(id_word_str);
-                    }
-//                    int id_group_i=0;
-//                    if(id_group_str!=null){
-//                        id_group_i=Integer.parseInt(id_group_str);
-//                    }
-                    Date currentTimeUp = Calendar.getInstance().getTime();
-                    AppDatabase.getInstance(getApplicationContext())
-                            .countDao()
-                            .insertOrUpdate(id_exercise, ind, id_group, ch, currentTimeUp);
-                  //  lastTrain=currentTimeUp;
-                    Log.d(TAG, "Update count=" + ind + " word=" + ind+" id_group="+id_group);
-//                List<Dbwords> l = listWords.stream()
-//                        .filter(s -> ind==s.getId())
-//                        .collect(Collectors.toList());
+        } else {
+            //final int ind = 0;
+            if (id_word_str != null) {
+                final int ind = Integer.parseInt(id_word_str);
+                List<Dbwords> l = listWords.stream()
+                        .filter(s -> ind==s.getId())
+                        .collect(Collectors.toList());
 //                Dbwords word = listWords.stream()
 //                        .filter(s -> ind==s.getId())
 //                        .findAny()
 //                        .orElse(null);
-//                if(word!=null) {
-//                    Log.d(TAG, "Find word=" + word.getWord());
+                if(l.size()>0) {
+                    //Log.d(TAG, "Find word=" + word.getWord());
+                    listWords.removeAll(l);
+                    makeRecycler(100);
+                }
+
+                Dbwords wordAd=listWordsForAdd.stream()
+                        .filter(s -> ind==s.getId())
+                        .findAny()
+                        .orElse(null);
+                if(wordAd!=null) {
+                    Log.d(TAG, "Find word=" + wordAd.getWord());
+                    listWordsForAdd.remove(wordAd);
+                   // makeRecycler(100);
+                }
+
+//                for (Dbwords word : listWords) {
+//                    if (word.getId() == ind) {
+//                        listWords.remove(word);
+//
+//                        //listWords.set()
+//                    }
+//
 //                }
-                for (Dbwords word : listWords) {
-                    if (word.getId()==ind) {
-                        word.setTrain1(ch);
 
-                        //listWords.set()
-                    }
-                }
-
-                for (Dbwords word : listWords) {
-                    Log.d(TAG,"w="+word.getId()+" id="+word.getId()+" tr="+word.getTrain1());
-                }
-                handlerC.postDelayed(new Runnable() {
-                    public void run() {
-            if (ch == true) {
-                Log.d(TAG," GREEEEEEEEEEEEEEEEEEN"+Calendar.getInstance().getTime());
-                // holder.simpleSwitch.setChecked(true);
-                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
-            } else {
-                Log.d(TAG," REDDDDDDDDDDDDDDDDDD"+Calendar.getInstance().getTime());
-                //holder.simpleSwitch.setChecked(false);
-                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+//            handlerC = new Handler();
+//            Thread threadC = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//               // for(Dbwords word: listWords) {
+//                    int ind=0;
+//                    if(id_word_str!=null) {
+//                        ind=Integer.parseInt(id_word_str);
+//                    }
+////                    int id_group_i=0;
+////                    if(id_group_str!=null){
+////                        id_group_i=Integer.parseInt(id_group_str);
+////                    }
+//                    Date currentTimeUp = Calendar.getInstance().getTime();
+//                    AppDatabase.getInstance(getApplicationContext())
+//                            .countDao()
+//                            .insertOrUpdate(id_exercise, ind, id_group, ch, currentTimeUp);
+//                  //  lastTrain=currentTimeUp;
+//                    Log.d(TAG, "Update count=" + ind + " word=" + ind+" id_group="+id_group);
+////                List<Dbwords> l = listWords.stream()
+////                        .filter(s -> ind==s.getId())
+////                        .collect(Collectors.toList());
+////                Dbwords word = listWords.stream()
+////                        .filter(s -> ind==s.getId())
+////                        .findAny()
+////                        .orElse(null);
+////                if(word!=null) {
+////                    Log.d(TAG, "Find word=" + word.getWord());
+////                }
+//                for (Dbwords word : listWords) {
+//                    if (word.getId()==ind) {
+//                        word.setTrain1(ch);
+//
+//                        //listWords.set()
+//                    }
+//                }
+//
+//                for (Dbwords word : listWords) {
+//                    Log.d(TAG,"w="+word.getId()+" id="+word.getId()+" tr="+word.getTrain1());
+//                }
+//                handlerC.postDelayed(new Runnable() {
+//                    public void run() {
+//            if (ch == true) {
+//                Log.d(TAG," GREEEEEEEEEEEEEEEEEEN"+Calendar.getInstance().getTime());
+//                // holder.simpleSwitch.setChecked(true);
+//                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
+//            } else {
+//                Log.d(TAG," REDDDDDDDDDDDDDDDDDD"+Calendar.getInstance().getTime());
+//                //holder.simpleSwitch.setChecked(false);
+//                textViewName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
+//            }
+//                    }
+//                }, 1);
+//
+//                }
+//            //}
+//
+//        });
+//        threadC.start();
+//        }
             }
-                    }
-                }, 1);
-
-                }
-            //}
-
-        });
-        threadC.start();
-        }
-    }
 
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -971,6 +1008,6 @@ public class SoundActivity extends BaseActivity implements WordListInterface {
 //            return super.onOptionsItemSelected(item);
 //    }
 //
-//}
-
+        }
+    }
 }
