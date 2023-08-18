@@ -361,6 +361,7 @@
         android:thumbTint="@color/yellow"
         android:trackTint="@color/red"
         android:theme="@style/SwitchThemeOverlay"
+        android:visibility="gone"
         />
 
     <ImageButton

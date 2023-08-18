@@ -183,7 +183,6 @@ android:background="@drawable/green_background2"-->
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
 
-
             android:checkedButton="@+id/radio_button_3"
             android:orientation="horizontal">
 
