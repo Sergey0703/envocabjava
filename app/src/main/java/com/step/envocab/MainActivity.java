@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
     Button btnNext;
     Button btnPrev;
 
-    TextView dashWord;
+    TextView dashWord, dashSample;
     TextView dashTranscript;
     TextView dashTrainDate;
     TextView translate;
@@ -166,6 +166,7 @@ public class MainActivity extends BaseActivity {
         btnPrev = findViewById(R.id.btnPrev);
         btnSound = findViewById(R.id.btnSound);
         dashWord = findViewById(R.id.dashWord);
+        dashSample = findViewById(R.id.dash_sample);
         dashTranscript = findViewById(R.id.dashTranscript);
         dashTrainDate = findViewById(R.id.dashTrainDate);
         translate = findViewById(R.id.dashTranslate);
@@ -232,7 +233,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 view.startAnimation(animAlpha);
-                translate.setVisibility(translate.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                translate.setVisibility(translate.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
                 btnWordTranslate.setText(translate.getVisibility() == View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
 
             }
@@ -559,12 +560,17 @@ public class MainActivity extends BaseActivity {
 
                 if (word != null) {
                     Log.d(TAG, "Take Word=" + word.getWord());
+                    String sample_txt = AppDatabase.getInstance(getApplicationContext())
+                            .wordDao()
+                            .selectSample(word.getId());
+
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
                             uid = word.getId();
                             trainDateLong = Long.valueOf(0);
                             dashWord.setText(word.getWord());
+                            dashSample.setText(sample_txt);
                             if (word.getTrain1() != null && word.getTrain1() == true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
                             } else {
@@ -583,7 +589,7 @@ public class MainActivity extends BaseActivity {
                                 dashTrainDate.setText("");
 
                             }
-                            translate.setVisibility(View.GONE);
+                            translate.setVisibility(View.INVISIBLE);
                             btnWordTranslate.setText("SHOW TRANSLATE");
                             translate.setText(word.getTranslate());
 

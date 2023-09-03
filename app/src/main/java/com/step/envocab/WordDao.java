@@ -12,8 +12,13 @@ import java.util.List;
 
 @Dao
 public interface WordDao {
+    //SELECT word, COUNT(*) AS CNT FROM dbwords GROUP BY word  HAVING COUNT(*) > 1
     @Insert
     void insertWord(Dbwords word);
+
+    @Query("SELECT clause FROM dbsample " +
+            "WHERE id_word=:id ORDER BY priority ASC Limit 1 ")
+    String selectSample(Integer id);
 
     //@Modifying
     @Query("update Dbwords set word=:word, translate = :trans, transcript =:transcript, train1 =:train where id = :id")

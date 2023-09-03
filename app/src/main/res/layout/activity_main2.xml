@@ -290,7 +290,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:padding="10dp"
+          android:padding="5dp"
           android:orientation="vertical"
 
           >
@@ -298,7 +298,7 @@
     <TextView
         android:id="@+id/dashWord"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:text="word"
 
@@ -322,9 +322,9 @@
         <TextView
             android:id="@+id/dashTranscript"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
 
-            android:layout_below="@+id/dashWord"
+            android:layout_below="@id/dashWord"
             android:layout_alignParentLeft="true"
             android:layout_marginStart="0dp"
 
@@ -343,7 +343,7 @@
         <TextView
             android:id="@+id/dashTrainDate"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
@@ -352,17 +352,20 @@
             android:text="date"
             android:textColor="@color/blue_color2_font2"
             android:textSize="20sp"
-            android:layout_below="@+id/dashTranscript"
+            android:layout_below="@id/dashTranscript"
             ></TextView>
+
+
       <!--
        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTranscript"
         -->
+
         <TextView
             android:id="@+id/dashTranslate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dashTrainDate"
+            android:layout_below="@id/dashTrainDate"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
@@ -373,12 +376,32 @@
             android:text="translate"
             android:textColor="@color/red_color_font2"
             android:textSize="26sp"
-            android:textStyle="bold">
+            android:textStyle="bold"
+            android:visibility="invisible"
+            />
+
+            <TextView
+                android:id="@+id/dash_sample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dashTranslate"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="sans-serif"
+
+                android:letterSpacing="0"
+                android:text="sample"
+                android:textColor="@color/blue_color2_font2"
+                android:textSize="20sp"
+                android:textStyle="normal"/>
             <!--
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTrainDate"
         -->
-        </TextView>
+
+
         <ImageButton
             android:id="@+id/btnSound"
             android:layout_width="100dp"

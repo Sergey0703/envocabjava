@@ -124,7 +124,7 @@
         android:letterSpacing="0"
         android:textStyle="normal"
         android:textSize="34sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="1dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/only_marked_words"
 
@@ -144,7 +144,7 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashWord"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         >
     </TextView>
     <TextView
@@ -157,7 +157,7 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTranscript"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         >
     </TextView>
 
@@ -174,10 +174,26 @@
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dashTrainDate"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         >
     </TextView>
+    <TextView
+        android:id="@+id/dash_sample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dashTranslate"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:fontFamily="sans-serif"
 
+        android:letterSpacing="0"
+        android:text="sample"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="normal"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWordOk"
@@ -186,7 +202,7 @@
 
         android:text="I know"
         android:textColor="@color/green"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="16sp"
 
         app:strokeColor="@color/white"
         app:strokeWidth="3dp"
@@ -211,7 +227,7 @@
         android:onClick="onHelloBtnClick"
         android:text="Show Translate"
         android:textColor="@color/orange"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="16sp"
 
         app:strokeColor="@color/white"
         app:strokeWidth="3dp"
@@ -239,7 +255,7 @@
 
         android:text=" STUDY "
         android:textColor="@color/red"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="16sp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@id/btnNext"
         app:layout_constraintRight_toRightOf="parent">
@@ -255,7 +271,7 @@
 
         android:text="Next"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="16sp"
 
         app:strokeColor="@color/white"
         app:strokeWidth="3dp"
@@ -283,7 +299,7 @@
 
         android:text="Prev"
         android:textColor="@color/white"
-        android:textSize="@dimen/buttonTextSize"
+        android:textSize="16sp"
 
         app:strokeColor="@color/white"
         app:strokeWidth="3dp"
