@@ -52,6 +52,7 @@ import java.util.Locale;
 //my first Test version
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends BaseActivity {
+    private int id_lang=2;
     private AdView mAdView;
     private int count, countB;
     private int id_exercise = 6;
@@ -235,7 +236,9 @@ public class MainActivity extends BaseActivity {
                 view.startAnimation(animAlpha);
                 translate.setVisibility(translate.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
                 btnWordTranslate.setText(translate.getVisibility() == View.VISIBLE ? "HIDE TRANSLATE" : "SHOW TRANSLATE");
-
+                if(word!=null) {
+                    dashSample.setText(translate.getVisibility() == View.VISIBLE ? word.getDescription() : word.getClause());
+                }
             }
         });
 
@@ -478,18 +481,19 @@ public class MainActivity extends BaseActivity {
                     if(id_group>0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findLastGr(id_group);
+                                .findLastGrS(id_group,id_lang);
                     }else {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findLast(filterWord, false);
+                                .findLastS(filterWord, false, id_lang);
+                        Log.d(TAG,"==================LastS");
                     }
 
                 } else if (nav == "Next") {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findNext(trainDateLong);
+                                .findNextS(trainDateLong, id_lang);
 //                        if (word == null) {
 //                            word = AppDatabase.getInstance(getApplicationContext())
 //                                    .wordDao()
@@ -499,7 +503,7 @@ public class MainActivity extends BaseActivity {
                     }else {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findNextGr(trainDateLong, id_group );
+                                .findNextGrS(trainDateLong, id_group, id_lang );
                     }
 //                        Date currentTimeW=word.getTrainDate();
 //                        Log.d(TAG,"currentTimeW="+currentTimeW );
@@ -520,21 +524,21 @@ public class MainActivity extends BaseActivity {
                     if(id_group==0) {
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findPrev(trainDateLong, filterWord, false);
+                                .findPrevS(trainDateLong, filterWord, false, id_lang);
                         if (word == null) {
                             word = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .findPrevAdd(filterWord, false);
+                                    .findPrevAddS(filterWord, false, id_lang);
                             Log.d(TAG, "nav=");
                         }
                     }else{
                         word = AppDatabase.getInstance(getApplicationContext())
                                 .wordDao()
-                                .findPrevGr(trainDateLong, filterWord, false, id_group);
+                                .findPrevGrS(trainDateLong, filterWord, false, id_group, id_lang);
                         if (word == null) {
                             word = AppDatabase.getInstance(getApplicationContext())
                                     .wordDao()
-                                    .findPrevAddGr(filterWord, false, id_group);
+                                    .findPrevAddGrS(filterWord, false, id_group, id_lang);
                             Log.d(TAG, "prev=");
                         }
 
@@ -560,9 +564,9 @@ public class MainActivity extends BaseActivity {
 
                 if (word != null) {
                     Log.d(TAG, "Take Word=" + word.getWord());
-                    String sample_txt = AppDatabase.getInstance(getApplicationContext())
-                            .wordDao()
-                            .selectSample(word.getId());
+//                    String sample_txt = AppDatabase.getInstance(getApplicationContext())
+//                            .wordDao()
+//                            .selectSample(word.getId());
 
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
@@ -570,7 +574,7 @@ public class MainActivity extends BaseActivity {
                             uid = word.getId();
                             trainDateLong = Long.valueOf(0);
                             dashWord.setText(word.getWord());
-                            dashSample.setText(sample_txt);
+                            dashSample.setText(word.getClause());
                             if (word.getTrain1() != null && word.getTrain1() == true) {
                                 dashWord.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle, 0, 0, 0);
                             } else {

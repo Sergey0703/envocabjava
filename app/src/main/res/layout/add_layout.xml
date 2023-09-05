@@ -13,12 +13,14 @@
 
     android:layout_centerHorizontal="true"
     app:adSize="SMART_BANNER"
-    app:adUnitId="ca-app-pub-2578865993622713/2798341814"
+    app:adUnitId="ca-app-pub-2578865993622713/5532507281"
     android:padding="0dp"
     app:layout_constraintEnd_toEndOf="parent"
 
     app:layout_constraintStart_toStartOf="parent">
 
 </com.google.android.gms.ads.AdView>
-<!--app:adUnitId="ca-app-pub-3940256099942544/6300978111" -->
+<!--app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+ca-app-pub-2578865993622713/2798341814
+-->
 </RelativeLayout>

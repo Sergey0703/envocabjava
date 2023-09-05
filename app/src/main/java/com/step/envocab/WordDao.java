@@ -82,35 +82,79 @@ public interface WordDao {
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate ASC Limit 1")
     Dbwords findLast(Integer isnull, boolean train1);
 
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords " +
+            "INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            "WHERE (:isnull IS NULL OR dbwords.train1 LIKE :train1) ORDER BY trainDate ASC Limit 1")
+    Dbwords findLastS(Integer isnull, boolean train1, int id_lang);
+
     @Query("SELECT * from dbwords " +
             "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id "+
             " ORDER BY trainDate ASC Limit 1")
     Dbwords findLastGr(int id_group);
+
+    @Query("SELECT dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description from dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel0 ON dbwords.id = sel0.id "+
+            " ORDER BY trainDate ASC Limit 1")
+    Dbwords findLastGrS(int id_group, int id_lang);
 
     @Query("Select * FROM Dbwords " +
             "WHERE  trainDate > :trainDate" +
             " ORDER BY trainDate ASC Limit 1")
     Dbwords findNext(Long trainDate);
 
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            " WHERE  trainDate > :trainDate" +
+            " ORDER BY trainDate ASC Limit 1")
+    Dbwords findNextS(Long trainDate, int id_lang);
     @Query("Select * FROM Dbwords" +
             " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
             " WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
     Dbwords findNextGr(Long trainDate, int id_group);
 
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords" +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            " INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel0 ON dbwords.id = sel0.id " +
+            " WHERE trainDate > :trainDate ORDER BY trainDate ASC Limit 1")
+    Dbwords findNextGrS(Long trainDate, int id_group, int id_lang);
+
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrev(Long trainDate, Integer isnull, boolean train1);
+
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            "WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevS(Long trainDate, Integer isnull, boolean train1, int id_lang);
 
     @Query("Select * FROM Dbwords " +
             "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
             "WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrevGr(Long trainDate, Integer isnull, boolean train1, int id_group);
+
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description  FROM Dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel0 ON dbwords.id = sel0.id " +
+            "WHERE (:isnull IS NULL OR train1 LIKE :train1) AND trainDate < :trainDate ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevGrS(Long trainDate, Integer isnull, boolean train1, int id_group, int id_lang);
     @Query("Select * FROM Dbwords WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrevAdd(Integer isnull, boolean train1);
+
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            " WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevAddS(Integer isnull, boolean train1, int id_lang);
 
     @Query("Select * FROM Dbwords " +
             "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel ON dbwords.id = sel.id " +
             "WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
     Dbwords findPrevAddGr(Integer isnull, boolean train1, int id_group);
+
+    @Query("Select dbwords.id, dbwords.word, dbwords.transcript, dbwords.train1, dbwords.trainDate, sel.translate AS translate, sel.clause AS clause, sel.clause_trans AS description FROM Dbwords " +
+            " INNER JOIN (SELECT translate, clause, clause_trans, id_word from dbsample WHERE dbsample.id_lang =:id_lang ) AS sel ON dbwords.id=sel.id_word "+
+            "INNER JOIN (SELECT id from dbgroupsandwords WHERE dbgroupsandwords.`id_group` =:id_group ) AS sel0 ON dbwords.id = sel0.id " +
+            "WHERE (:isnull IS NULL OR train1 LIKE :train1) ORDER BY trainDate DESC Limit 1")  //
+    Dbwords findPrevAddGrS(Integer isnull, boolean train1, int id_group, int id_lang);
     @Update
     void updateWord(Dbwords word);
 

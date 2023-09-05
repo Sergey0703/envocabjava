@@ -27,6 +27,7 @@ public class Dbwords {
     private Boolean train1;
     private String transcript;
     private String description;
+    private String clause;
     private String sound;
 
     public String getSound() {
@@ -37,13 +38,14 @@ public class Dbwords {
         this.sound = sound;
     }
 
-    public Dbwords(String word, String translate, String transcript, String description, String sound){
+    public Dbwords(String word, String translate, String transcript, String description, String sound, String clause){
         this.word=word;
         this.translate=translate;
         this.transcript=transcript;
         this.description=description;
         this.train1=false;
         this.sound=sound;
+        this.clause=clause;
     }
 
 
@@ -81,6 +83,14 @@ public class Dbwords {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getClause() {
+        return clause;
+    }
+
+    public void setClause(String clause) {
+        this.clause = clause;
     }
 
     public void setId(Integer id) {
