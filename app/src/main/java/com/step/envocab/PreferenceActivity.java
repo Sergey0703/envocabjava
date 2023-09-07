@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TimePicker;
 
 public class PreferenceActivity extends BaseActivity {
     SwitchCompat switchPref;
+    TimePicker simpleTimePicker;
 
+    private String TAG="Preferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,15 @@ public class PreferenceActivity extends BaseActivity {
             }
         });
 
+    simpleTimePicker= (TimePicker)findViewById(R.id.time_picker); // initiate a time picker
+    simpleTimePicker.setIs24HourView(true);
 
+    simpleTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+               Log.d(TAG,"Time");
+            }
+        });
 
     }
 }
