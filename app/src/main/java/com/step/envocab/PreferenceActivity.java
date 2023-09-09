@@ -1,6 +1,7 @@
 package com.step.envocab;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
+import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -22,7 +23,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class PreferenceActivity extends BaseActivity {
     SwitchCompat switchPref;
@@ -94,6 +101,7 @@ public class PreferenceActivity extends BaseActivity {
         Intent intent = new Intent(this, AlarmReceiver.class);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        //PendingIntent alarmIntent2 = PendingIntent.getBroadcast(this, 2, intent, PendingIntent.FLAG_MUTABLE);
 
         btnSetTimer.setOnClickListener(v->{
             MaterialTimePicker materialTimePicker=new MaterialTimePicker.Builder()
@@ -103,62 +111,34 @@ public class PreferenceActivity extends BaseActivity {
                     .setTitleText("Set Time")
                     .build();
 
-            materialTimePicker.addOnPositiveButtonClickListener(view->{
-                Calendar calendar=Calendar.getInstance();
+                materialTimePicker.addOnPositiveButtonClickListener(view->{
+                GregorianCalendar calendar= (GregorianCalendar) GregorianCalendar.getInstance();
                 calendar.set(Calendar.SECOND,0);
                 calendar.set(Calendar.MILLISECOND,0);
                 calendar.set(Calendar.MINUTE,materialTimePicker.getMinute());
-                calendar.set(Calendar.HOUR,materialTimePicker.getHour());
+                calendar.set(Calendar.HOUR_OF_DAY,materialTimePicker.getHour());
 
                 textTime.setText(materialTimePicker.getHour()+" : "+materialTimePicker.getMinute());
-                //Context context;
-//                alarmManager.setExact(AlarmManager.RTC_WAKEUP,
-//                        calendar.getTimeInMillis(),
-//                        alarmIntent);
 
-//                alarmManager.set(AlarmManager.RTC_WAKEUP,
-//                        calendar.getTimeInMillis(),
-//
-               System.out.println("      time="+calendar.getTimeInMillis());
-               System.out.println("timeSystem="+System.currentTimeMillis());
+                System.out.println("timeSystem="+System.currentTimeMillis());
+                System.out.println("      time="+calendar.getTimeInMillis());
 
-                //AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-// Создать Intent, который будет запущен
-               // Intent intent = new Intent(this, MyBroadcastReceiver.class);
-
-// Создать PendingIntent, который будет запущен Alarm Manager
-             //   PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-// Настроить Alarm Manager для запуска PendingIntent через 10 секунд
+                // Настроить Alarm Manager для запуска PendingIntent через 10 секунд
                 //alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000), alarmIntent);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , alarmIntent);
+               //!!!Work alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000) , alarmIntent);
 
-//                alarmManager.setInexactRepeating(
-//                        AlarmManager.RTC_WAKEUP,
-//                        calendar.getTimeInMillis(),
-//                        AlarmManager.INTERVAL_DAY,
-//                         alarmIntent
-//                );
-                System.out.println("Next="+alarmManager.getNextAlarmClock());
-                String nextAlarm = Settings.System.getString(getContentResolver(),
-                        Settings.System.NEXT_ALARM_FORMATTED);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
+                        INTERVAL_FIFTEEN_MINUTES,
+                        alarmIntent
+                );
 
-                System.out.println("Next2="+nextAlarm);
             });
             materialTimePicker.show(getSupportFragmentManager(),"tag_picker");
         });
 
-//    simpleTimePicker= (TimePicker)findViewById(R.id.time_picker); // initiate a time picker
-//    simpleTimePicker.setIs24HourView(true);
-//    textTime.setText(simpleTimePicker.getHour()+" : "+simpleTimePicker.getMinute());
-//
-//    simpleTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//            @Override
-//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-//               Log.d(TAG,"Time");
-//            }
-//        });
+
 
     }
 }
