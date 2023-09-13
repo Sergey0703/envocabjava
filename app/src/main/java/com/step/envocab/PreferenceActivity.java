@@ -22,6 +22,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -43,13 +45,16 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class PreferenceActivity extends BaseActivity {
-    AlarmManager alarmManager;
-    SwitchCompat switchPref;
-    TimePicker simpleTimePicker;
-    TextView textTime;
-    Context context;
-    MaterialButton btnSetTimer;
-    MaterialButton btnNotify;
+    private Integer tHours,tMinutes;
+    private DbPref pref;
+    private AlarmManager alarmManager;
+    private SwitchCompat switchPref;
+    private TimePicker simpleTimePicker;
+    private String  timeWithoutDate;
+    private TextView textTime;
+    //Context context;
+    private MaterialButton btnSetTimer;
+    private MaterialButton btnNotify;
     private PendingIntent pendingIntent;
 
     private String TAG = "Preferences";
@@ -84,6 +89,18 @@ public class PreferenceActivity extends BaseActivity {
         btnSetTimer = findViewById(R.id.btn_set_timer);
         btnNotify = findViewById(R.id.btn_set_notify);
 
+        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        Boolean s1 = sh.getBoolean("themeApp", true);
+        if(s1) {
+            switchPref.setChecked(true);
+            switchPref.setText("Light theme");
+        }else{
+            switchPref.setChecked(false);
+            switchPref.setText("Dark theme");
+        }
+
+
+
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,15 +134,7 @@ public class PreferenceActivity extends BaseActivity {
             }
         });
 
-        SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
-        Boolean s1 = sh.getBoolean("themeApp", true);
-        if(s1) {
-            switchPref.setChecked(true);
-            switchPref.setText("Light theme");
-        }else{
-            switchPref.setChecked(false);
-            switchPref.setText("Dark theme");
-        }
+
 
         switchPref.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -178,10 +187,11 @@ public class PreferenceActivity extends BaseActivity {
                 Toast.makeText(PreferenceActivity.this, "Reminder cancelled!", Toast.LENGTH_SHORT).show();
 
             }else {
+
                 MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                         .setTimeFormat(TimeFormat.CLOCK_24H)
-                        .setHour(12)
-                        .setMinute(0)
+                        .setHour(tHours)
+                        .setMinute(tMinutes)
                         .setTitleText("Set Time")
                         .build();
 
@@ -216,9 +226,60 @@ public class PreferenceActivity extends BaseActivity {
         }
         });
 
-
+        dataToPreferences();
 
     }
+    public void dataToPreferences() {
+
+        //handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pref  = AppDatabase.getInstance(getApplicationContext())
+                        .PrefDao()
+                        .findById(1);
+
+                if(pref!=null) {
+                    Log.d(TAG, "prefFound" );
+                }
+
+            }
+        });
+        thread.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            //handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                //Log.d("DICT","listSearchWords2="+ listSearchWords);
+                if (pref != null ) {
+                    if (pref.getReminderDate() != null) {
+                        DateFormat sdf = new SimpleDateFormat("HH:mm");
+                        timeWithoutDate = sdf.format(pref.getReminderDate());
+
+                        tHours=Integer.parseInt(timeWithoutDate.substring(0,2));
+                        tMinutes=Integer.parseInt(timeWithoutDate.substring(3));
+                        Log.d(TAG, "timeWithoutDate=" + timeWithoutDate+" h="+tHours+" m="+tMinutes);
+                        textTime.setText(timeWithoutDate);
+                        //trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
+
+                    } else {
+                        textTime.setText(" - : - ");
+
+                    }
+
+                } else {
+                    Log.d(TAG, "Pref=NULLLLL");
+
+                }
+
+            }
+
+        }, 100);
+    }
+
 
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
