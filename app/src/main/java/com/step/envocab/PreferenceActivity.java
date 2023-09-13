@@ -2,15 +2,25 @@ package com.step.envocab;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 import static android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+import android.Manifest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -18,6 +28,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -32,14 +43,21 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class PreferenceActivity extends BaseActivity {
+    AlarmManager alarmManager;
     SwitchCompat switchPref;
     TimePicker simpleTimePicker;
     TextView textTime;
     Context context;
     MaterialButton btnSetTimer;
-    private PendingIntent alarmIntent;
+    MaterialButton btnNotify;
+    private PendingIntent pendingIntent;
 
-    private String TAG="Preferences";
+    private String TAG = "Preferences";
+    private static final int NOTIFY_ID = 100;
+    private static final int NOTIFICATION_PERMISSION = 100;
+
+    // Идентификатор канала
+    private static String CHANNEL_ID = "timerChannel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +69,8 @@ public class PreferenceActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        createNotificationChannel();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,9 +79,43 @@ public class PreferenceActivity extends BaseActivity {
             }
         });
 
-        textTime=findViewById(R.id.text_time);
-        switchPref=findViewById(R.id.switch_preference);
-        btnSetTimer=findViewById(R.id.btn_set_timer);
+        textTime = findViewById(R.id.text_time);
+        switchPref = findViewById(R.id.switch_preference);
+        btnSetTimer = findViewById(R.id.btn_set_timer);
+        btnNotify = findViewById(R.id.btn_set_notify);
+
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(PreferenceActivity.this, CHANNEL_ID)
+                                .setSmallIcon(R.drawable.title_pink7)
+                                .setColor(Color.rgb(217,126,121))
+                                .setContentTitle("Reminder from EnVocab")
+                                .setContentText("Study English every day!")
+                                .setAutoCancel(true)
+                                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+                NotificationManagerCompat notificationManager =
+                        NotificationManagerCompat.from(PreferenceActivity.this);
+                if (ActivityCompat.checkSelfPermission(PreferenceActivity.this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //  public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                         int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    ActivityCompat.requestPermissions(PreferenceActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION);
+                    Log.d("Alarm","Return Notify!");
+                   // return;
+                }
+                Log.d("Alarm","Send Notify!");
+                notificationManager.notify(NOTIFY_ID, builder.build());
+            }
+        });
 
         SharedPreferences sh = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
         Boolean s1 = sh.getBoolean("themeApp", true);
@@ -97,48 +151,86 @@ public class PreferenceActivity extends BaseActivity {
             }
         });
 
-        AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+         alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         //PendingIntent alarmIntent2 = PendingIntent.getBroadcast(this, 2, intent, PendingIntent.FLAG_MUTABLE);
 
-        btnSetTimer.setOnClickListener(v->{
-            MaterialTimePicker materialTimePicker=new MaterialTimePicker.Builder()
-                    .setTimeFormat(TimeFormat.CLOCK_24H)
-                    .setHour(12)
-                    .setMinute(0)
-                    .setTitleText("Set Time")
-                    .build();
+        //Intent i=new Intent(this, AlarmReceiver.class);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+       // PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
 
-                materialTimePicker.addOnPositiveButtonClickListener(view->{
-                GregorianCalendar calendar= (GregorianCalendar) GregorianCalendar.getInstance();
-                calendar.set(Calendar.SECOND,0);
-                calendar.set(Calendar.MILLISECOND,0);
-                calendar.set(Calendar.MINUTE,materialTimePicker.getMinute());
-                calendar.set(Calendar.HOUR_OF_DAY,materialTimePicker.getHour());
+        btnSetTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(btnSetTimer.getText().equals("CLEAR TIME")){
 
-                textTime.setText(materialTimePicker.getHour()+" : "+materialTimePicker.getMinute());
+                    if(alarmManager==null){
+                        Log.d(TAG,"alarmManager==null");
+                        alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Log.d(TAG,"alarmManager==null2222222");
+                    }
+                    alarmManager.cancel(pendingIntent);
+                Log.d(TAG,"alarmManager==Cancel");
+                    textTime.setText(" - : - ");
+                btnSetTimer.setText("SET TIME");
+                Toast.makeText(PreferenceActivity.this, "Reminder cancelled!", Toast.LENGTH_SHORT).show();
 
-                System.out.println("timeSystem="+System.currentTimeMillis());
-                System.out.println("      time="+calendar.getTimeInMillis());
+            }else {
+                MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                        .setHour(12)
+                        .setMinute(0)
+                        .setTitleText("Set Time")
+                        .build();
+
+                materialTimePicker.addOnPositiveButtonClickListener(viewT -> {
+                    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
+                    calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+
+                    textTime.setText(materialTimePicker.getHour() + " : " + materialTimePicker.getMinute());
+
+                    System.out.println("timeSystem=" + System.currentTimeMillis());
+                    System.out.println("      time=" + calendar.getTimeInMillis());
 
 
-                // Настроить Alarm Manager для запуска PendingIntent через 10 секунд
-                //alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000), alarmIntent);
-               //!!!Work alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000) , alarmIntent);
+                    // Настроить Alarm Manager для запуска PendingIntent через 10 секунд
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000), alarmIntent);
+                    //!!!Work alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000) , alarmIntent);
 
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
-                        INTERVAL_FIFTEEN_MINUTES,
-                        alarmIntent
-                );
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
+                            INTERVAL_FIFTEEN_MINUTES,
+                            pendingIntent
+                    );
 
-            });
-            materialTimePicker.show(getSupportFragmentManager(),"tag_picker");
+                    btnSetTimer.setText("CLEAR TIME");
+
+                });
+                materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
+            }
+        }
         });
 
 
 
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            CharSequence name="mainChannel";
+            String description="Channel for alarm";
+            int importance= NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel=new NotificationChannel("timerChannel",name,importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager=getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
     }
 }
