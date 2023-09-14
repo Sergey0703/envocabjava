@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="50dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="0dp"
@@ -12,7 +12,7 @@
     android:layout_alignParentTop="true"
 
     android:layout_centerHorizontal="true"
-    app:adSize="SMART_BANNER"
+    app:adSize="BANNER"
     app:adUnitId="ca-app-pub-2578865993622713/5532507281"
     android:padding="0dp"
     app:layout_constraintEnd_toEndOf="parent"

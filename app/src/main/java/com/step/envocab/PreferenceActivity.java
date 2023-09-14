@@ -48,7 +48,7 @@ public class PreferenceActivity extends BaseActivity {
     private Integer tHours,tMinutes;
     private DbPref pref;
     private AlarmManager alarmManager;
-    private SwitchCompat switchPref;
+    private SwitchCompat switchPref, switchTimer;
     private TimePicker simpleTimePicker;
     private String  timeWithoutDate;
     private TextView textTime;
@@ -86,6 +86,7 @@ public class PreferenceActivity extends BaseActivity {
 
         textTime = findViewById(R.id.text_time);
         switchPref = findViewById(R.id.switch_preference);
+        switchTimer = findViewById(R.id.switch_timer);
         btnSetTimer = findViewById(R.id.btn_set_timer);
         btnNotify = findViewById(R.id.btn_set_notify);
 
@@ -160,7 +161,7 @@ public class PreferenceActivity extends BaseActivity {
             }
         });
 
-         alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -168,25 +169,58 @@ public class PreferenceActivity extends BaseActivity {
 
         //Intent i=new Intent(this, AlarmReceiver.class);
         //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-       // PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
+        // PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
 
-        btnSetTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            if(btnSetTimer.getText().equals("CLEAR TIME")){
+        switchTimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+
+                if (switchTimer.isChecked()) {
+                    switchTimer.setText("Timer on");
+                    btnSetTimer.setVisibility(View.VISIBLE);
+                    textTime.setVisibility(View.VISIBLE);
+
+                    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    calendar.set(Calendar.MINUTE, tMinutes);
+                    calendar.set(Calendar.HOUR_OF_DAY, tHours);
+
+                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
+                            INTERVAL_FIFTEEN_MINUTES,
+                            pendingIntent
+                    );
+                    Log.d("TAG", "Timer on");
+
+                } else {
+                    switchTimer.setText("Timer off");
+                    Log.d("TAG", "Timer off");
                     if(alarmManager==null){
                         Log.d(TAG,"alarmManager==null");
                         alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
                         Log.d(TAG,"alarmManager==null2222222");
                     }
                     alarmManager.cancel(pendingIntent);
-                Log.d(TAG,"alarmManager==Cancel");
-                    textTime.setText(" - : - ");
-                btnSetTimer.setText("SET TIME");
-                Toast.makeText(PreferenceActivity.this, "Reminder cancelled!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"alarmManager==Cancel");
+                    //textTime.setText(" - : - ");
+                    textTime.setVisibility(View.INVISIBLE);
+                    btnSetTimer.setVisibility(View.INVISIBLE);
+                    Toast.makeText(PreferenceActivity.this, "Reminder cancelled!", Toast.LENGTH_SHORT).show();
 
-            }else {
+                }
+
+
+            }
+        });
+
+
+        btnSetTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//            if(btnSetTimer.getText().equals("CLEAR TIME")){
+//
+//            }else {
 
                 MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                         .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -202,12 +236,12 @@ public class PreferenceActivity extends BaseActivity {
                     calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
                     calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
 
-                    textTime.setText(materialTimePicker.getHour() + " : " + materialTimePicker.getMinute());
+                    textTime.setText(String.format("%02d",materialTimePicker.getHour()) + " : " + String.format("%02d",materialTimePicker.getMinute()));
 
                     System.out.println("timeSystem=" + System.currentTimeMillis());
                     System.out.println("      time=" + calendar.getTimeInMillis());
 
-
+                    preferencesToData(calendar.getTime());//Calendar.getInstance().getTime()
                     // Настроить Alarm Manager для запуска PendingIntent через 10 секунд
                     //alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000), alarmIntent);
                     //!!!Work alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000) , alarmIntent);
@@ -218,16 +252,39 @@ public class PreferenceActivity extends BaseActivity {
                             pendingIntent
                     );
 
-                    btnSetTimer.setText("CLEAR TIME");
+                    //btnSetTimer.setText("CLEAR TIME");
 
                 });
                 materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
             }
-        }
+        //}
         });
 
         dataToPreferences();
 
+    }
+
+    public void preferencesToData(Date tcalendar) {
+
+        //handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pref = AppDatabase.getInstance(getApplicationContext())
+                        .PrefDao()
+                        .findById(1);
+
+                if (pref != null) {
+                    Log.d(TAG, "prefFound");
+                    pref.setReminderDate(tcalendar);
+                    AppDatabase.getInstance(getApplicationContext())
+                            .PrefDao()
+                            .updatePref(pref);
+                }
+
+            }
+        });
+        thread.start();
     }
     public void dataToPreferences() {
 
@@ -262,11 +319,17 @@ public class PreferenceActivity extends BaseActivity {
                         tHours=Integer.parseInt(timeWithoutDate.substring(0,2));
                         tMinutes=Integer.parseInt(timeWithoutDate.substring(3));
                         Log.d(TAG, "timeWithoutDate=" + timeWithoutDate+" h="+tHours+" m="+tMinutes);
-                        textTime.setText(timeWithoutDate);
+                        if(switchTimer.isChecked()) {
+                            textTime.setText(timeWithoutDate);
+                            textTime.setVisibility(View.VISIBLE);
+                        }else{
+                            textTime.setVisibility(View.INVISIBLE);
+                        }
                         //trainDateLong = Converters.dateToTimestamp(word.getTrainDate());
 
                     } else {
-                        textTime.setText(" - : - ");
+                        //textTime.setText(" - : - ");
+                        textTime.setVisibility(View.INVISIBLE);
 
                     }
 

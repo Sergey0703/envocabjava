@@ -279,7 +279,7 @@
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word2"
@@ -302,7 +302,7 @@
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word3"
@@ -325,9 +325,9 @@
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -349,7 +349,7 @@
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
@@ -366,7 +366,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue_color2_font2"
             android:fontFamily="sans-serif"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:text="I don't know"
             android:textColor="@color/white"

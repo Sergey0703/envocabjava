@@ -358,7 +358,7 @@
             app:strokeColor="@color/blue_color2_font2"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
@@ -385,7 +385,7 @@
                 app:strokeColor="@color/blue_color2_font2"
                 app:strokeWidth="3dp"
                 app:cornerRadius="20dp"
-                android:padding="10dp"
+                android:padding="7dp"
 
                 android:layout_marginTop="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"

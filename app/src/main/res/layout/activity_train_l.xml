@@ -378,7 +378,7 @@
             app:strokeColor="@color/yellow"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"

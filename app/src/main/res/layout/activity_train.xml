@@ -265,7 +265,7 @@
 
             app:strokeWidth="5dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             app:strokeColor="@color/white"
             android:backgroundTint="@color/white"
@@ -296,7 +296,7 @@
             app:strokeColor="@color/white"
             app:strokeWidth="5dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word3"
@@ -320,7 +320,7 @@
             app:strokeColor="@color/white"
             app:strokeWidth="5dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word4"
@@ -345,7 +345,7 @@
             app:strokeColor="@color/white"
             app:strokeWidth="5dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toTopOf="@id/btn_word_skip"
@@ -370,7 +370,7 @@
             app:strokeColor="@color/yellow"
             app:strokeWidth="3dp"
             app:cornerRadius="20dp"
-            android:padding="10dp"
+            android:padding="7dp"
 
             android:layout_marginTop="30dp"
             app:layout_constraintBottom_toBottomOf="parent"

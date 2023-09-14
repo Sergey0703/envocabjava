@@ -2,9 +2,12 @@ package com.step.envocab;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface PrefDao {
+    @Update
+    void updatePref(DbPref pref);
 
 //    @Query("update Dbwords set word=:word, translate = :trans, transcript =:transcript, train1 =:train where id = :id")
 //    int upWord(Integer id, String word, String trans, String transcript, Boolean train);
