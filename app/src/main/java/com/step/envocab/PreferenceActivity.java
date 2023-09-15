@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -45,7 +47,9 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class PreferenceActivity extends BaseActivity {
+    private AdView mAdView;
     private Integer tHours,tMinutes;
+    private Date tReminder;
     private DbPref pref;
     private AlarmManager alarmManager;
     private SwitchCompat switchPref, switchTimer;
@@ -180,17 +184,13 @@ public class PreferenceActivity extends BaseActivity {
                     btnSetTimer.setVisibility(View.VISIBLE);
                     textTime.setVisibility(View.VISIBLE);
 
-                    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-                    calendar.set(Calendar.MINUTE, tMinutes);
-                    calendar.set(Calendar.HOUR_OF_DAY, tHours);
+//                    GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+//                    calendar.set(Calendar.SECOND, 0);
+//                    calendar.set(Calendar.MILLISECOND, 0);
+//                    calendar.set(Calendar.MINUTE, tMinutes);
+//                    calendar.set(Calendar.HOUR_OF_DAY, tHours);
+                    setAlarm(tReminder.getTime());
 
-                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
-                            INTERVAL_FIFTEEN_MINUTES,
-                            pendingIntent
-                    );
                     Log.d("TAG", "Timer on");
 
                 } else {
@@ -245,12 +245,12 @@ public class PreferenceActivity extends BaseActivity {
                     // Настроить Alarm Manager для запуска PendingIntent через 10 секунд
                     //alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000), alarmIntent);
                     //!!!Work alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (2 * 1000) , alarmIntent);
-
-                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
-                            INTERVAL_FIFTEEN_MINUTES,
-                            pendingIntent
-                    );
+                    setAlarm(calendar.getTimeInMillis());
+//                    alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+//                            calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
+//                            INTERVAL_FIFTEEN_MINUTES,
+//                            pendingIntent
+//                    );
 
                     //btnSetTimer.setText("CLEAR TIME");
 
@@ -261,6 +261,10 @@ public class PreferenceActivity extends BaseActivity {
         });
 
         dataToPreferences();
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 
@@ -314,6 +318,7 @@ public class PreferenceActivity extends BaseActivity {
                 if (pref != null ) {
                     if (pref.getReminderDate() != null) {
                         DateFormat sdf = new SimpleDateFormat("HH:mm");
+                        tReminder=pref.getReminderDate();
                         timeWithoutDate = sdf.format(pref.getReminderDate());
 
                         tHours=Integer.parseInt(timeWithoutDate.substring(0,2));
@@ -343,7 +348,13 @@ public class PreferenceActivity extends BaseActivity {
         }, 100);
     }
 
-
+    private void setAlarm(Long millSec){
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                millSec,  //tReminder.getTime(), //calendar.getTimeInMillis(), //System.currentTimeMillis() + (2 * 1000),
+                INTERVAL_FIFTEEN_MINUTES,
+                pendingIntent
+        );
+    }
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             CharSequence name="mainChannel";
